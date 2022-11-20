@@ -10,6 +10,8 @@
 //	draw_set_halign(fa_left)
 //}
 
+draw_text( 128, 128, string(zoom))
+
 if province_overview_id != -1 {
 	draw_menu(0, 792, 28, 9)
 	draw_header(64, 792, 192, global.provinces[province_overview_id][0])
@@ -24,6 +26,8 @@ if province_overview_id != -1 {
 	draw_text(32, 920, "Manpower: " + string(global.provinces[province_overview_id][2]))
 	draw_text(32, 952, "Production: " + string(global.provinces[province_overview_id][3]))
 	draw_text(32, 984, "Trade Good: " + string(global.trade_goods[global.provinces[province_overview_id][4]][0]))
+	
+	
 	
 	//draw_sprite(spr_bottom_panel, 0, 0, 536)
 }

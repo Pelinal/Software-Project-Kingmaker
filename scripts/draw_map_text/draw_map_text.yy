@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "create_menu",
+  "name": "draw_map_text",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {

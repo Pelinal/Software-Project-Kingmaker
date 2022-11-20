@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "create_menu",
+  "name": "map_main",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "UI",
-    "path": "folders/Scripts/UI.yy",
+    "name": "Scripts",
+    "path": "folders/Scripts.yy",
   },
 }

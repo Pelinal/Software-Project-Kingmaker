@@ -15,14 +15,17 @@ if mouse_check_button(mb_middle) {
 
 if mouse_check_button(mb_right) {
 	province_overview_id = -1
+	instance_destroy(obj_button)
 }
 
 
 if mouse_wheel_up() {
 	camera_set_view_size(view_camera, camera_get_view_width(view_camera) - 64, camera_get_view_height(view_camera) - 36)
+	zoom += 1
 }
 if camera_get_view_width(view_camera) < room_width && camera_get_view_height(view_camera) < room_height {
 	if mouse_wheel_down() {
 		camera_set_view_size(view_camera, camera_get_view_width(view_camera) + 64, camera_get_view_height(view_camera) + 36)
+		zoom -= 1
 	}
 }
