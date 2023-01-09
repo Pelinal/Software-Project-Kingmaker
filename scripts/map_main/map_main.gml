@@ -557,8 +557,11 @@ function map_province_is_adjacent(prov1, prov2) {
 		case 0:
 			adj_list = [1, 2]
 			break
+		case 1:
+			adj_list = [0, 2, 3]
+			break
 		case 2:
-			adj_list = [0, 1, 3, 4]
+			adj_list = [0, 1, 3, 4, 5, 14, 16]
 			break
 		case 3:
 			adj_list = [1, 2, 4]
@@ -798,4 +801,9 @@ function map_province_is_adjacent(prov1, prov2) {
 	}
 	
 	return false
+}
+
+function map_province_own(prov, tag) {
+	// changes the owner of a province
+	global.provinces[prov][6] = tag
 }

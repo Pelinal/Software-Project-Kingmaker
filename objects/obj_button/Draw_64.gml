@@ -21,17 +21,20 @@ if type == "Build Units" {
 	draw_text(x + 96, y + 24, dropdown_type)
 } else if diplo_action == true || type == "End Turn" {
 	draw_set_colour(c_grey)
-	draw_text(x + 12, y + 24, type)
-	
+	if type == "Delcare War" && tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
+		draw_text(x + 12, y + 24, "Offer Peace")
+	} else if type == "Form Alliance" && tag_is_ally(obj_control.player_tag, obj_control.tag_overview_id) {
+		draw_text(x + 12, y + 24, "Break Alliance")
+	} else {
+		draw_text(x + 12, y + 24, type)
+	}
 	if opinion_req != 0 {
-		if type == "Form Alliance" {
+		if type == "Form Alliance" && !tag_is_ally(obj_control.player_tag, obj_control.tag_overview_id) {
 			if tag_opinion_of(obj_control.tag_overview_id, obj_control.player_tag) >= 25 {
 				draw_sprite(sprite_index, 2, x, y)
 			} else {
 				draw_sprite(sprite_index, 3, x, y)
 			}
-			
-			
 		} else if type == "Arrange Marriage" {
 			if tag_opinion_of(obj_control.tag_overview_id, obj_control.player_tag) >= 0 {
 				draw_sprite(sprite_index, 2, x, y)
@@ -103,6 +106,14 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 																"to open up new diplomatic\n" +
 																"options or prevent them from\n" +
 																"declaring war on you.")
+	} else if type == "Declare War" && !tag_has_claim(obj_control.player_tag, obj_control.tag_overview_id) {
+		draw_tooltip(x, y + 68, 256, 96, "Must Have Claim",		"Declare war on them! Take\n" + 
+																"their land by force and\n" +
+																"increase your own domain.\n")
+	} else if type == "Declare War" && tag_has_claim(obj_control.player_tag, obj_control.tag_overview_id) {
+		draw_tooltip(x, y + 68, 256, 96, "Claim On Them",		"Declare war on them! Take\n" + 
+																"their land by force and\n" +
+																"increase your own domain.\n")
 	}
 }
 

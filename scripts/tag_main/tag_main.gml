@@ -339,6 +339,29 @@ function tag_is_ally(tag1, tag2) {
 				return true
 			}
 		}
+	} else if array_length(allies) == 1 {
+		if allies[0] == tag2 { return true }
+	} else {
+		return false
+	}
+	
+	return false
+}
+
+function tag_is_enemy(tag1, tag2) {
+	// Checks if one tag is in a war with the other
+	var enemies = global.wars[tag_fetch_id(tag1)]
+	
+	if array_length(enemies) > 1 {
+		for (var i = 0; i < array_length(enemies); i ++) {
+			if enemies[i] == tag2 {
+				return true
+			}
+		}
+	} else if array_length(enemies) == 1 {
+		if enemies[0] == tag2 { return true }
+	} else {
+		return false
 	}
 	
 	return false
@@ -452,12 +475,51 @@ function tag_remove_ally(tag1, tag2) {
 	}
 }
 
+function tag_declare_peace(tag1, tag2) {
+	// Removes Tag1 + Tag2 as enemies
+	var tag1_id = tag_fetch_id(tag1)
+	var tag2_id = tag_fetch_id(tag2)
+	
+	for (var i = 0; i < array_length(global.wars[tag1_id]); i ++) {
+		if global.wars[tag1_id][i] == tag2 {
+			array_delete(global.wars[tag1_id], i, 1)
+		}
+	}
+	
+	for (var ii = 0; ii < array_length(global.wars[tag2_id]); ii ++) {
+		if global.wars[tag2_id][ii] == tag1 {
+			array_delete(global.wars[tag2_id], ii, 1)
+		}
+	}
+	
+	if array_length(global.allies[tag1_id]) > 0 {
+		// Peaces out allies too
+		for (var iii = 0; iii < array_length(global.allies[tag1_id]); iii ++) {
+			var ally_tag_id = tag_fetch_id(global.allies[tag1_id][iii])
+			for (var jjj = 0; jjj < array_length(global.wars[ally_tag_id]); jjj ++) {
+				array_delete(global.wars[ally_tag_id], jjj, 1)
+			}
+		}
+	}
+}
+
+
 function tag_add_claim(tag1, tag2) {
 	// Tag1 gets a claim on tag2
 	var tag1_id = tag_fetch_id(tag1)
 	// var tag2_id = tag_fetch_id(tag2)
 	
 	array_push(global.claims[tag1_id], tag2)
+}
+function tag_remove_claim(tag1, tag2) {
+	// Tag1 loses a claim on tag2
+	var tag1_id = tag_fetch_id(tag1)
+	// var tag2_id = tag_fetch_id(tag2)
+	
+	for (var i = 0; i < array_length(global.claims[tag1_id]); i ++)
+		if global.claims[tag1_id][i] == tag2 {
+			array_delete(global.claims[tag1_id], i, 1)
+		}
 }
 
 function tag_has_claim(tag1, tag2) {

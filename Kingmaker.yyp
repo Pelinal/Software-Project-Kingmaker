@@ -67,6 +67,7 @@
     {"id":{"name":"spr_c_marsan","path":"sprites/spr_c_marsan/spr_c_marsan.yy",},"order":1,},
     {"id":{"name":"spr_coas","path":"sprites/spr_coas/spr_coas.yy",},"order":2,},
     {"id":{"name":"spr_c_bourbonais","path":"sprites/spr_c_bourbonais/spr_c_bourbonais.yy",},"order":2,},
+    {"id":{"name":"spr_seasons101","path":"sprites/spr_seasons101/spr_seasons101.yy",},"order":12,},
     {"id":{"name":"spr_c_auxois","path":"sprites/spr_c_auxois/spr_c_auxois.yy",},"order":0,},
     {"id":{"name":"spr_rectangle_button","path":"sprites/spr_rectangle_button/spr_rectangle_button.yy",},"order":9,},
     {"id":{"name":"spr_c_cahorsin","path":"sprites/spr_c_cahorsin/spr_c_cahorsin.yy",},"order":2,},

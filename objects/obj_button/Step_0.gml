@@ -79,9 +79,18 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					obj_control.player_fabricating = 1
 					obj_control.player_fabricate_target = obj_control.tag_overview_id
 				}
-			} else if type == "Declare War" && tag_has_claim(obj_control.player_tag, obj_control.tag_overview_id) {
+			} else if type == "Declare War" && tag_has_claim(obj_control.player_tag, obj_control.tag_overview_id) && !tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
 				tag_add_opinion(obj_control.tag_overview_id, obj_control.player_tag, -50)
 				tag_declare_war(obj_control.player_tag, obj_control.tag_overview_id)
+			} else if type == "Declare War" && tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
+				tag_declare_peace(obj_control.player_tag, obj_control.tag_overview_id)
+				with obj_province {
+					if prov_occupied_by == obj_control.player_tag {
+						map_province_own(prov_id, obj_control.player_tag)
+						tag = obj_control.player_tag
+						prov_occupied_by = noone
+					}
+				}
 			} else if type == "End Turn" {
 				obj_control.turn_stage = "AI"
 			}

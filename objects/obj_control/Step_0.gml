@@ -95,24 +95,24 @@ if turn_stage == "AI" {
 	economy_update()
 	
 	// Update the Date
+	// Seasons: 0 - Spring, 1 - Summer, 2 - Autumn, 3 - Winter
 	if obj_control.date[0] == "January"			{ obj_control.date[0] = "February"	}
-	else if obj_control.date[0] == "February"	{ obj_control.date[0] = "March"		}
+	else if obj_control.date[0] == "February"	{ obj_control.date[0] = "March"			season = 0 }
 	else if obj_control.date[0] == "March"		{ obj_control.date[0] = "April"		}
 	else if obj_control.date[0] == "April"		{ obj_control.date[0] = "May"		}
-	else if obj_control.date[0] == "May"		{ obj_control.date[0] = "June"		}
+	else if obj_control.date[0] == "May"		{ obj_control.date[0] = "June"			season = 1 }
 	else if obj_control.date[0] == "June"		{ obj_control.date[0] = "July"		}
 	else if obj_control.date[0] == "July"		{ obj_control.date[0] = "August"	}
-	else if obj_control.date[0] == "August"		{ obj_control.date[0] = "September" }
+	else if obj_control.date[0] == "August"		{ obj_control.date[0] = "September"		season = 2 }
 	else if obj_control.date[0] == "September"	{ obj_control.date[0] = "October"	}
 	else if obj_control.date[0] == "October"	{ obj_control.date[0] = "November"	}
 	else if obj_control.date[0] == "November"	{ obj_control.date[0] = "December"	}
-	else if obj_control.date[0] == "December"	{ obj_control.date[0] = "January" 
-												  obj_control.date[1] += 1			}
+	else if obj_control.date[0] == "December"	{ obj_control.date[0] = "January" 		season = 3			obj_control.date[1] += 1 }
 	
 	if player_fabricating > 0 && player_fabricating < 3 { player_fabricating += 1 }
 	if player_fabricating >= 3 { tag_add_claim(player_tag, player_fabricate_target) player_fabricate_target = noone player_fabricating = 0 }
 	
-	
+	diplo_moves = 3
 	turn_no += 1
 	turn_stage = "Player"
 }

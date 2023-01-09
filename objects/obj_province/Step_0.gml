@@ -2,12 +2,20 @@
 
 tag = global.provinces[prov_id][6]
 
-image_colour = tag_fetch_colour(global.provinces[prov_id][6])
+if prov_occupied_by == noone {
+	image_colour = tag_fetch_colour(global.provinces[prov_id][6])
+} else {
+	image_colour = tag_fetch_colour(prov_occupied_by) - make_color_rgb(20, 20, 20)
+}
 
 if position_meeting(mouse_x, mouse_y, id) {
 	/// @description Show
-	if !position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), obj_button) && !position_meeting(mouse_x, mouse_y, obj_army) { 
-		image_colour = tag_fetch_colour(global.provinces[prov_id][6]) + make_colour_rgb(20, 20, 20)
+	if !position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), obj_button) && !position_meeting(mouse_x, mouse_y, obj_army) {
+		if prov_occupied_by == noone {
+			image_colour = tag_fetch_colour(global.provinces[prov_id][6]) + make_colour_rgb(20, 20, 20)
+		} else {
+			image_colour = tag_fetch_colour(prov_occupied_by) - make_color_rgb(10, 10, 10)
+		}
 		obj_control.province_popup_id = prov_id
 	}
 
@@ -55,17 +63,28 @@ if position_meeting(mouse_x, mouse_y, id) {
 			}
 		}
 	} else if mouse_check_button_pressed(mb_right) {
-		if obj_control.selected_army != noone && map_province_is_adjacent(prov_id, obj_control.selected_army.location) {
+		if obj_control.selected_army != noone && map_province_is_adjacent(prov_id, obj_control.selected_army.location) 
+		&& (map_province_owner(prov_id) == obj_control.player_tag || tag_is_ally(obj_control.player_tag, map_province_owner(prov_id)) || tag_is_enemy(obj_control.player_tag, map_province_owner(prov_id)) ) {
 			if obj_control.selected_army.moves_remaining > 0 {	
 				obj_control.selected_army.x = x
 				obj_control.selected_army.y = y
 				obj_control.selected_army.location = prov_id
 				obj_control.selected_army.moves_remaining -= 1
+				
+				// If Entering Enemy Province
+				if tag_is_enemy(obj_control.player_tag, map_province_owner(prov_id)) {
+					prov_occupied_by = obj_control.player_tag
+				}
+				
 				obj_control.selected_army = noone
 			}
 		}
 	}
 } else {
 	/// @description Hide
-	image_colour = tag_fetch_colour(global.provinces[prov_id][6])
+	if prov_occupied_by == noone {
+		image_colour = tag_fetch_colour(global.provinces[prov_id][6])
+	} else {
+		image_colour = tag_fetch_colour(prov_occupied_by) - make_color_rgb(10, 10, 10)
+	}
 }
