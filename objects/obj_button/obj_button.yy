@@ -2,7 +2,10 @@
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
   "name": "obj_button",
-  "spriteId": null,
+  "spriteId": {
+    "name": "spr_square_button",
+    "path": "sprites/spr_square_button/spr_square_button.yy",
+  },
   "solid": false,
   "visible": true,
   "managed": true,
@@ -30,7 +33,7 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Buttons",
-    "path": "folders/Objects/Buttons.yy",
+    "name": "Objects",
+    "path": "folders/Objects.yy",
   },
 }

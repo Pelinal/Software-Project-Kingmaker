@@ -2,7 +2,8 @@
 function map_init(){
 	
 	// All Provinces in the Game
-	// Index 0: Name, Index 1: Base Tax, Index 2: Manpower, Index 3: Base Production, Index 4: Trade Good, Index 5: Capital, Index 6: Owned By
+	// Index 0: Name, Index 1: Base Tax, Index 2: Manpower, Index 3: Base Production, Index 4: Trade Good, Index 5: Capital, Index 6: Owned By,
+	// Index 7: Unit X Pos, Index 8: Unit Y Pos ( These are set in the creation event of each province )
 	// Bretagne - Brittany
 	global.provinces[0] = ["Léon", 2, 1, 1, 0, "Brest", "BRE"]
 	global.provinces[1] = ["Cornuaille", 2, 1, 2, 0, "Quimper", "BRE"]
@@ -16,7 +17,7 @@ function map_init(){
 	global.provinces[8] = ["Ébroïcien", 3, 2, 3, 2, "Evreux", "NOR"]
 	global.provinces[9] = ["Rouennais", 2, 3, 4, 0, "Rouen", "NOR"]
 	// Picardie - Picardy
-	global.provinces[10] = ["Pays de Calais", 3, 4, 2, 0, "Calais", "PIC"]
+	global.provinces[10] = ["Calais", 3, 4, 2, 0, "Calais", "PIC"]
 	global.provinces[11] = ["Amienois", 5, 4, 2, 1, "Amiens", "PIC"]
 	global.provinces[12] = ["Santerre", 1, 1, 2, 8, "Montdidier", "PIC"]
 	global.provinces[13] = ["Vermandois", 3, 1, 3, 1, "St. Quentin", "PIC"]
@@ -34,7 +35,7 @@ function map_init(){
 	global.provinces[21] = ["Gatinois", 2, 2, 2, 4, "Montargis", "ORL"]
 	// Île de France - Isle of France
 	global.provinces[22] = ["Chartres", 2, 4, 4, 8, "Chartres", "FRA"]
-	global.provinces[23] = ["Versailles", 4, 2, 2, 1, "Versailles", "FRA"]
+	global.provinces[23] = ["Mantois", 4, 2, 2, 1, "Versailles", "FRA"]
 	global.provinces[24] = ["Paris", 12, 12, 16, 10, "Paris", "FRA"]
 	global.provinces[25] = ["Vexin", 3, 3, 2, 2, "Beauvais", "FRA"]
 	global.provinces[26] = ["Valois", 4, 4, 2, 2, "Senlis", "FRA"]
@@ -60,7 +61,7 @@ function map_init(){
 	// Saintonge - Saintonge
 	global.provinces[40] = ["Saintonge", 5, 2, 4, 11, "Saintes", "SAI"]
 	// Angoumois - Angoumois
-	global.provinces[41] = ["Angoumois", 5, 4, 3, 3, "Angoulême", "ANG"]
+	global.provinces[41] = ["Angoumois", 5, 4, 3, 3, "Angoulême", "SAI"]
 	// La Marche - The March
 	global.provinces[42] = ["La Marche", 4, 3, 2, 2, "Guéret", "MAR"]
 	// Limousin - Limousin
@@ -97,7 +98,7 @@ function map_init(){
 	global.provinces[65] = ["Briançon", 2, 3, 3, 10, "Briançon", "DAU"]
 	// Provence - Provence
 	global.provinces[66] = ["Camargue", 10, 3, 4, 10, "Arles", "PRO"]
-	global.provinces[67] = ["Aquisextain", 7, 3, 5, 8, "Aix", "PRO"]
+	global.provinces[67] = ["Aix", 7, 3, 5, 8, "Aix", "PRO"]
 	global.provinces[68] = ["Toulonnais", 2, 1, 4, 0, "Toulon", "PRO"]
 	// Foix - Foix
 	global.provinces[69] = ["Foix", 3, 3, 3, 0, "Foix", "FOI"]
@@ -111,13 +112,14 @@ function map_init(){
 	// Also Ile de France:
 	global.provinces[75] = ["Brie", 4, 3, 3, 5, "Nemours", "FRA"]
 	// Provence Again
-	global.provinces[76] = ["Forcalquieren", 2, 4, 3, 7, "Forcalquier", "PRO"]
+	global.provinces[76] = ["Forcalquier", 2, 4, 3, 7, "Forcalquier", "PRO"]
 	global.provinces[77] = ["Dignois", 2, 2, 2, 5, "Digne", "PRO"]
 	// Guyenne Again
 	global.provinces[78] = ["Gabardan", 4, 2, 3, 5, "Nerac", "GUY"]
 	
 	with instance_create_depth(180, 531, 0, obj_province) {
 		sprite_index = spr_c_leon
+		y_offset = -20
 		prov_id = 0
 	}
 	with instance_create_depth(207, 616, 0, obj_province) {
@@ -138,6 +140,8 @@ function map_init(){
 	}
 	with instance_create_depth(512, 454, 0, obj_province) {
 		sprite_index = spr_c_coutantin
+		angle = -80
+		x_offset = 16
 		prov_id = 5
 	}
 	with instance_create_depth(628, 450, 0, obj_province) {
@@ -146,18 +150,25 @@ function map_init(){
 	}
 	with instance_create_depth(662, 536, 0, obj_province) {
 		sprite_index = spr_c_alencon
+		y_offset = -12
 		prov_id = 7
 	}
 	with instance_create_depth(772, 474, 0, obj_province) {
 		sprite_index = spr_c_ebroicien
+		x_offset = 4
+		y_offset = -8
 		prov_id = 8
 	}
 	with instance_create_depth(785, 373, 0, obj_province) {
 		sprite_index = spr_c_rouennais
+		y_offset = -9
+		x_offset = 3
 		prov_id = 9
 	}
 	with instance_create_depth(888, 198, 0, obj_province) {
 		sprite_index = spr_c_calais
+		angle = 86
+		x_offset = -18
 		prov_id = 10
 	}
 	with instance_create_depth(929, 307, 0, obj_province) {
@@ -166,18 +177,24 @@ function map_init(){
 	}
 	with instance_create_depth(942, 382, 0, obj_province) {
 		sprite_index = spr_c_santerre
+		y_offset = -14
+		x_offset = 6
 		prov_id = 12
 	}
 	with instance_create_depth(1090, 354, 0, obj_province) {
 		sprite_index = spr_c_vermandois
+		y_offset = -14
 		prov_id = 13
 	}
 	with instance_create_depth(604, 623, 0, obj_province) {
 		sprite_index = spr_c_mayennais
+		y_offset = -20
+		x_offset = -5
 		prov_id = 14
 	}
 	with instance_create_depth(720, 633, 0, obj_province) {
 		sprite_index = spr_c_perche
+		x_offset = -15
 		prov_id = 15
 	}
 	with instance_create_depth(608, 764, 0, obj_province) {
@@ -186,6 +203,7 @@ function map_init(){
 	}
 	with instance_create_depth(751, 811, 0, obj_province) {
 		sprite_index = spr_c_touraine
+		y_offset = -10
 		prov_id = 17
 	}
 	with instance_create_depth(795, 686, 0, obj_province) {
@@ -194,6 +212,8 @@ function map_init(){
 	}
 	with instance_create_depth(891, 752, 0, obj_province) {
 		sprite_index = spr_c_sologne
+		y_offset = -10
+		x_offset = -6
 		prov_id = 19
 	}
 	with instance_create_depth(912, 648, 0, obj_province) {
@@ -202,6 +222,7 @@ function map_init(){
 	}
 	with instance_create_depth(1011, 692, 0, obj_province) {
 		sprite_index = spr_c_gatinois
+		angle = -50
 		prov_id = 21
 	}
 	with instance_create_depth(855, 583, 0, obj_province) {
@@ -210,10 +231,13 @@ function map_init(){
 	}
 	with instance_create_depth(850, 519, 0, obj_province) {
 		sprite_index = spr_c_versailles
+		angle = -85
+		x_offset = 17
 		prov_id = 23
 	}
 	with instance_create_depth(932, 522, 0, obj_province) {
 		sprite_index = spr_c_paris
+		y_offset = -24
 		prov_id = 24
 	}
 	with instance_create_depth(924, 426, 0, obj_province) {
@@ -222,10 +246,14 @@ function map_init(){
 	}
 	with instance_create_depth(1025, 422, 0, obj_province) {
 		sprite_index = spr_c_valois
+		y_offset = 15
+		angle = 25
 		prov_id = 26
 	}
 	with instance_create_depth(1080, 413, 0, obj_province) {
 		sprite_index = spr_c_soissons
+		y_offset = -18
+		
 		prov_id = 27
 	}
 	with instance_create_depth(999, 562, 0, obj_province) {
@@ -234,6 +262,7 @@ function map_init(){
 	}
 	with instance_create_depth(1204, 438, 0, obj_province) {
 		sprite_index = spr_c_remois
+		y_offset = -40
 		prov_id = 28
 	}
 	with instance_create_depth(1101, 517, 0, obj_province) {
@@ -242,14 +271,19 @@ function map_init(){
 	}
 	with instance_create_depth(1215, 605, 0, obj_province) {
 		sprite_index = spr_c_troyes
+		y_offset = -20
 		prov_id = 30
 	}
 	with instance_create_depth(1304, 623, 0, obj_province) {
 		sprite_index = spr_c_vallage
+		x_offset = 20
+		y_offset = 20
 		prov_id = 31
 	}
 	with instance_create_depth(1078, 644, 0, obj_province) {
 		sprite_index = spr_c_senonois
+		y_offset = -30
+		x_offset = 20
 		prov_id = 32
 	}
 	with instance_create_depth(867, 887, 0, obj_province) {
@@ -274,18 +308,28 @@ function map_init(){
 	}
 	with instance_create_depth(498, 884, 0, obj_province) {
 		sprite_index = spr_c_bas_poitou
+		x_offset = 10
 		prov_id = 38
 	}
 	with instance_create_depth(518, 988, 0, obj_province) {
 		sprite_index = spr_c_aunis
+		angle = -90
+		x_offset = 35
+		y_offset = -4
 		prov_id = 39
 	}
 	with instance_create_depth(565, 1065, 0, obj_province) {
 		sprite_index = spr_c_saintonge
+		angle = -50
+		x_offset = 20
+		y_offset = 8
 		prov_id = 40
 	}
 	with instance_create_depth(676, 1082, 0, obj_province) {
 		sprite_index = spr_c_angoumois
+		angle = 15
+		y_offset = -22
+		x_offset = -8
 		prov_id = 41
 	}
 	with instance_create_depth(861, 987, 0, obj_province) {
@@ -294,18 +338,27 @@ function map_init(){
 	}
 	with instance_create_depth(880, 1121, 0, obj_province) {
 		sprite_index = spr_c_limousin
+		y_offset = -25
+		x_offset = -10
 		prov_id = 43
 	}
 	with instance_create_depth(1044, 1077, 0, obj_province) {
 		sprite_index = spr_c_basse_auvergne
+		angle = -45
+		x_offset = 14
+		y_offset = -5
 		prov_id = 44
 	}
 	with instance_create_depth(998, 1199, 0, obj_province) {
 		sprite_index = spr_c_haute_auvergne
+		angle = 20
+		y_offset = -20
+		x_offset = -4
 		prov_id = 45
 	}
 	with instance_create_depth(1159, 723, 0, obj_province) {
 		sprite_index = spr_c_auxois
+		y_offset = -10
 		prov_id = 46
 	}
 	with instance_create_depth(1233, 790, 0, obj_province) {
@@ -314,14 +367,22 @@ function map_init(){
 	}
 	with instance_create_depth(1203, 911, 0, obj_province) {
 		sprite_index = spr_c_bourgogne_sud
+		y_offset = -50
+		x_offset = 27
+		angle = -14
 		prov_id = 48
 	}
 	with instance_create_depth(1173, 926, 0, obj_province) {
 		sprite_index = spr_c_charolais
+		angle = 68
+		y_offset = -5
+		x_offset = -10
 		prov_id = 49
 	}
 	with instance_create_depth(1212, 1060, 0, obj_province) {
 		sprite_index = spr_c_lyonnais
+		x_offset = -20
+		y_offset = -28
 		prov_id = 50
 	}
 	with instance_create_depth(557, 1165, 0, obj_province) {
@@ -330,22 +391,29 @@ function map_init(){
 	}
 	with instance_create_depth(552, 1274, 0, obj_province) {
 		sprite_index = spr_c_bazadois
+		y_offset = -20
 		prov_id = 52
 	}
 	with instance_create_depth(724, 1262, 0, obj_province) {
 		sprite_index = spr_c_cahorsin
+		y_offset = -20
 		prov_id = 53
 	}
 	with instance_create_depth(770, 1147, 0, obj_province) {
 		sprite_index = spr_c_perigord
+		x_offset = -20
 		prov_id = 54
 	}
 	with instance_create_depth(940, 1314, 0, obj_province) {
 		sprite_index = spr_c_villefranchois
+		y_offset = -26
 		prov_id = 55
 	}
 	with instance_create_depth(892, 1418, 0, obj_province) {
 		sprite_index = spr_c_toulousain
+		angle = 30
+		y_offset = -28
+		x_offset = -13
 		prov_id = 56
 	}
 	with instance_create_depth(951, 1513, 0, obj_province) {
@@ -354,30 +422,44 @@ function map_init(){
 	}
 	with instance_create_depth(1098, 1456, 0, obj_province) {
 		sprite_index = spr_c_montpellierain
+		angle = 29
+		x_offset = -8
+		y_offset = -8
 		prov_id = 58
 	}
 	with instance_create_depth(1157, 1388, 0, obj_province) {
 		sprite_index = spr_c_nimois
+		y_offset = -35
 		prov_id = 59
 	}
 	with instance_create_depth(1097, 1263, 0, obj_province) {
 		sprite_index = spr_c_gevaudan
+		x_offset = -8
+		y_offset = -14
 		prov_id = 60
 	}
 	with instance_create_depth(1177, 1220, 0, obj_province) {
 		sprite_index = spr_c_vivarais
+		x_offset = 25
+		y_offset = -20
 		prov_id = 61
 	}
 	with instance_create_depth(1291, 1348, 0, obj_province) {
 		sprite_index = spr_c_avignon
+		angle = -50
+		x_offset = 5
 		prov_id = 62
 	}
 	with instance_create_depth(856, 1549, 0, obj_province) {
 		sprite_index = spr_c_foix
+		angle = -70
+		x_offset = -6
 		prov_id = 69
 	}
 	with instance_create_depth(1323, 1272, 0, obj_province) {
 		sprite_index = spr_c_valentinois
+		angle = -60
+		x_offset = 16
 		prov_id = 63
 	}
 	with instance_create_depth(1345, 1132, 0, obj_province) {
@@ -386,34 +468,49 @@ function map_init(){
 	}
 	with instance_create_depth(1454, 1247, 0, obj_province) {
 		sprite_index = spr_c_brianconnais
+		y_offset = -15
 		prov_id = 65
 	}
 	with instance_create_depth(1265, 1444, 0, obj_province) {
 		sprite_index = spr_c_arles
+		y_offset = -10
+		x_offset = 5
+		angle = 10
 		prov_id = 66
 	}
 	with instance_create_depth(1367, 1480, 0, obj_province) {
 		sprite_index = spr_c_aix
+		y_offset = -22
 		prov_id = 67
 	}
 	with instance_create_depth(1493, 1471, 0, obj_province) {
 		sprite_index = spr_c_toulonnais
+		angle = 50
+		y_offset = -30
+		x_offset = 20
 		prov_id = 68
 	}
 	with instance_create_depth(1364, 1364, 0, obj_province) {
 		sprite_index = spr_c_forcalquieren
+		angle = 45
 		prov_id = 76
 	}
 	with instance_create_depth(1459, 1345, 0, obj_province) {
 		sprite_index = spr_c_dignois
+		y_offset = 10
+		x_offset = 5
 		prov_id = 77
 	}
 	with instance_create_depth(677, 1329, 0, obj_province) {
 		sprite_index = spr_c_gabardan
+		y_offset = 8
 		prov_id = 78
 	}
 	with instance_create_depth(474, 1429, 0, obj_province) {
 		sprite_index = spr_c_labourd
+		angle = 65
+		x_offset = -10
+		y_offset = -4
 		prov_id = 70
 	}
 	with instance_create_depth(553, 1362, 0, obj_province) {
@@ -430,6 +527,7 @@ function map_init(){
 	}
 	with instance_create_depth(542, 1492, 0, obj_province) {
 		sprite_index = spr_c_bearn
+		y_offset = -14
 		prov_id = 74
 	}
 
@@ -439,11 +537,265 @@ function map_init(){
 	}
 }
 
-function map_province_owner(province, tag) {
+function map_province_owner(province) {
 	// Finds the owning tag of the specified province
-	if global.provinces[province][6] == tag {
-		return true
-	} else {
-		return false
+	return global.provinces[province][6]
+}
+
+function map_province_development(province) {
+	// Totals the Tax, Production and Manpower of a provinvce and returns it
+	var dev = global.provinces[province][1] + global.provinces[province][2] + global.provinces[province][3]
+	return dev
+}
+
+function map_province_is_adjacent(prov1, prov2) {
+	// Determines whether or not two provinces are adjacent to each other
+	
+	var adj_list
+	
+	switch prov1 {
+		case 0:
+			adj_list = [1, 2]
+			break
+		case 2:
+			adj_list = [0, 1, 3, 4]
+			break
+		case 3:
+			adj_list = [1, 2, 4]
+			break
+		case 4:
+			adj_list = [2, 3, 16, 38]
+			break
+		case 5:
+			adj_list = [2, 7, 6, 14]
+			break
+		case 6:
+			adj_list = [5, 7, 8]
+			break
+		case 7:
+			adj_list = [5, 6, 8, 14, 15]
+			break
+		case 8:
+			adj_list = [6, 7, 9, 15, 22, 23]
+			break
+		case 9:
+			adj_list = [8, 11, 12, 25]
+			break
+		case 10:
+			adj_list = [11]
+			break
+		case 11:
+			adj_list = [9, 12, 13]
+			break
+		case 12:
+			adj_list = [9, 11, 13, 25, 26]
+			break
+		case 13:
+			adj_list = [11, 12, 26, 27, 28]
+			break
+		case 14:
+			adj_list = [2, 5, 7, 15, 16]
+			break
+		case 15:
+			adj_list = [7, 8, 14, 16, 17, 18, 22]
+			break
+		case 16:
+			adj_list = [2, 4, 14, 15, 17, 37, 38]
+			break
+		case 17:
+			adj_list = [15, 16, 18, 19, 33, 37]
+			break
+		case 18:
+			adj_list = [15, 17, 19, 20, 22]
+			break
+		case 19:
+			adj_list = [17, 18, 20, 21, 33, 34]
+			break
+		case 20:
+			adj_list = [18, 19, 21, 22, 24, 75]
+			break
+		case 21:
+			adj_list = [19, 20, 32, 34, 36, 46]
+			break
+		case 22:
+			adj_list = [8, 15, 18, 20, 23, 24]
+			break
+		case 23:
+			adj_list = [8, 15, 22, 24, 25]
+			break
+		case 24:
+			adj_list = [22, 23, 25, 26, 29, 75]
+			break
+		case 25:
+			adj_list = [9, 12, 23, 24, 26]
+			break
+		case 26:
+			adj_list = [12, 13, 24, 27, 29]
+			break
+		case 27:
+			adj_list = [13, 26, 28, 29]
+			break
+		case 28:
+			adj_list = [13, 27, 29, 30, 31]
+			break
+		case 29:
+			adj_list = [24, 26, 27, 28, 30, 32, 75]
+			break
+		case 30:
+			adj_list = [28, 29, 31, 32, 46]
+			break
+		case 31:
+			adj_list = [28, 30, 46, 47]
+			break
+		case 32:
+			adj_list = [21, 29, 30, 46, 75]
+			break
+		case 33:
+			adj_list = [17, 19, 34, 35, 42]
+			break
+		case 34:
+			adj_list = [19, 21, 33, 35, 36]
+			break
+		case 35:
+			adj_list = [33, 34, 36, 44, 48, 49, 50]
+			break
+		case 36:
+			adj_list = [21, 34, 35, 46, 47, 48]
+			break
+		case 37:
+			adj_list = [16, 17, 38, 40, 41, 42, 43]
+			break
+		case 38:
+			adj_list = [4, 16, 37, 39]
+			break
+		case 39:
+			adj_list = [38, 40]
+			break
+		case 40:
+			adj_list = [37, 38, 39, 41, 51, 53]
+			break
+		case 41:
+			adj_list = [37, 40, 43, 54, 53]
+			break
+		case 42:
+			adj_list = [17, 33, 37, 43, 44]
+			break
+		case 43:
+			adj_list = [37, 41, 42, 44, 45, 54, 55]
+			break
+		case 44:
+			adj_list = [33, 35, 42, 43, 45, 50, 61]
+			break
+		case 45:
+			adj_list = [43, 44, 50, 55, 60, 61]
+			break
+		case 46:
+			adj_list = [21, 32, 30, 31, 36, 47]
+			break
+		case 47:
+			adj_list = [36, 46, 48]
+			break
+		case 48:
+			adj_list = [35, 36, 49, 50]
+			break
+		case 49:
+			adj_list = [35, 48]
+			break
+		case 50:
+			adj_list = [35, 44, 48, 61, 64]
+			break
+		case 51:
+			adj_list = [40, 52, 53]
+			break
+		case 52:
+			adj_list = [51, 53, 71, 78]
+			break
+		case 53:
+			adj_list = [40, 41, 51, 52, 54, 55, 72, 78]
+			break
+		case 54:
+			adj_list = [41, 43, 53]
+			break
+		case 55:
+			adj_list = [43, 45, 56, 57, 58, 59, 60, 72]
+			break
+		case 56:
+			adj_list = [55, 57, 69, 72]
+			break
+		case 57:
+			adj_list = [55, 56, 58, 69]
+			break
+		case 58:
+			adj_list = [55, 57, 59]
+			break
+		case 59:
+			adj_list = [55, 58, 60, 61, 62, 66]
+			break
+		case 60:
+			adj_list = [45, 55, 59, 61]
+			break
+		case 61:
+			adj_list = [44, 50, 59, 60, 63, 64]
+			break
+		case 62:
+			adj_list = [59, 63, 66, 76]
+			break
+		case 63:
+			adj_list = [61, 62, 64, 65, 76]
+			break
+		case 64:
+			adj_list = [50, 61, 63, 65]
+			break
+		case 65:
+			adj_list = [63, 64, 76, 77]
+			break
+		case 66:
+			adj_list = [59, 62, 67, 76]
+			break
+		case 67:
+			adj_list = [66, 76, 77, 68]
+			break
+		case 68:
+			adj_list = [67, 77]
+			break
+		case 69:
+			adj_list = [56, 57, 69, 72]
+			break
+		case 70:
+			adj_list = [71, 74]
+			break
+		case 71:
+			adj_list = [52, 70, 72, 74, 78]
+			break
+		case 72:
+			adj_list = [53, 55, 56, 69, 71, 73, 78]
+			break
+		case 73:
+			adj_list = [69, 72, 74]
+			break
+		case 74:
+			adj_list = [70, 71, 72, 73]
+			break
+		case 75:
+			adj_list = [20, 24, 29, 32]
+			break
+		case 76:
+			adj_list = [62, 63, 65, 66, 67, 77]
+			break
+		case 77:
+			adj_list = [65, 67, 68, 76]
+			break
+		case 78:
+			adj_list = [52, 53, 71, 72]
+			break
 	}
+	
+	for (var i = 0; i < array_length(adj_list); i ++) {
+		if adj_list[i] == prov2 {
+			return true
+			break
+		}
+	}
+	
+	return false
 }

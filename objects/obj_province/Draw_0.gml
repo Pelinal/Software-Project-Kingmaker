@@ -1,7 +1,7 @@
 /// @description Draw self
-
+draw_set_alpha(1)
 //draw_self()
-if position_meeting(device_mouse_x(0), device_mouse_y(0), id) {
+if position_meeting(device_mouse_x(0), device_mouse_y(0), id)  && !obj_control.lock_ui {
 	depth = -1
 	draw_outline(2, c_black, 1)
 } else {
@@ -10,3 +10,4 @@ if position_meeting(device_mouse_x(0), device_mouse_y(0), id) {
 }
 
 draw_sprite_ext(sprite_index, 0, x, y, image_xscale, image_yscale, 0, image_colour, image_alpha)
+
