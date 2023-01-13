@@ -2,6 +2,18 @@
 
 tag = global.provinces[prov_id][6]
 
+global.provinces[prov_id][7] = x
+global.provinces[prov_id][8] = y
+
+var colliding_unit = instance_place(x, y, obj_army)
+if colliding_unit != noone {
+	if colliding_unit.location == prov_id {
+		unit_in_prov = colliding_unit
+	}
+} else {
+	unit_in_prov = noone
+}
+
 if prov_occupied_by == noone {
 	image_colour = tag_fetch_colour(global.provinces[prov_id][6])
 } else {
@@ -63,20 +75,38 @@ if position_meeting(mouse_x, mouse_y, id) {
 			}
 		}
 	} else if mouse_check_button_pressed(mb_right) {
-		if obj_control.selected_army != noone && map_province_is_adjacent(prov_id, obj_control.selected_army.location) 
-		&& (map_province_owner(prov_id) == obj_control.player_tag || tag_is_ally(obj_control.player_tag, map_province_owner(prov_id)) || tag_is_enemy(obj_control.player_tag, map_province_owner(prov_id)) ) {
-			if obj_control.selected_army.moves_remaining > 0 {	
-				obj_control.selected_army.x = x
-				obj_control.selected_army.y = y
-				obj_control.selected_army.location = prov_id
-				obj_control.selected_army.moves_remaining -= 1
+		if unit_in_prov == noone {
+			if obj_control.selected_army != noone && map_province_is_adjacent(prov_id, obj_control.selected_army.location) 
+			&& (map_province_owner(prov_id) == obj_control.player_tag || tag_is_ally(obj_control.player_tag, map_province_owner(prov_id)) || tag_is_enemy(obj_control.player_tag, map_province_owner(prov_id))) {
+				if obj_control.selected_army.moves_remaining > 0 {	
+					obj_control.selected_army.x = x
+					obj_control.selected_army.y = y
+					obj_control.selected_army.location = prov_id
+					obj_control.selected_army.moves_remaining -= 1
 				
-				// If Entering Enemy Province
-				if tag_is_enemy(obj_control.player_tag, map_province_owner(prov_id)) {
-					prov_occupied_by = obj_control.player_tag
+					// If Entering Enemy Province
+					if tag_is_enemy(obj_control.player_tag, map_province_owner(prov_id)) {
+						prov_occupied_by = obj_control.player_tag
+					}
+				
+					obj_control.selected_army = noone
 				}
-				
-				obj_control.selected_army = noone
+			}
+		} else {
+			if obj_control.selected_army.moves_remaining > 0 {
+				if tag_is_enemy(global.tags[unit_in_prov.tag_id][0], obj_control.player_tag) {
+					if unit_in_prov.total_mp > obj_control.selected_army.total_mp {
+						// If your army is weaker than the enemy
+						global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] -= global.army[unit_in_prov.tag_id][unit_in_prov.army_id] - global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id]
+						global.army[unit_in_prov.tag_id][unit_in_prov.army_id] -= (global.army[unit_in_prov.tag_id][unit_in_prov.army_id] - global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id]) / 2
+					} else {
+						// If your army is stronger than theirs
+						global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] -= (global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] - global.army[unit_in_prov.tag_id][unit_in_prov.army_id]) / 2
+						global.army[unit_in_prov.tag_id][unit_in_prov.army_id] -= global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] - global.army[unit_in_prov.tag_id][unit_in_prov.army_id]
+					}
+					
+					obj_control.selected_army.moves_remaining = 0
+				}
 			}
 		}
 	}

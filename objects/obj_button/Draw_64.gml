@@ -21,8 +21,10 @@ if type == "Build Units" {
 	draw_text(x + 96, y + 24, dropdown_type)
 } else if diplo_action == true || type == "End Turn" {
 	draw_set_colour(c_grey)
-	if type == "Delcare War" && tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
+	if type == "Declare War" && tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
 		draw_text(x + 12, y + 24, "Offer Peace")
+	} else if type == "Declare War" && !tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
+		draw_text(x + 12, y + 24, "Delcare War")
 	} else if type == "Form Alliance" && tag_is_ally(obj_control.player_tag, obj_control.tag_overview_id) {
 		draw_text(x + 12, y + 24, "Break Alliance")
 	} else {

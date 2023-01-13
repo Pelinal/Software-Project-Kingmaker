@@ -10,3 +10,6 @@ moves_remaining = 2 // How many times they can move this turn
 
 
 depth = -1000
+image_speed = 0
+image_index = 0
+image_alpha = 0.75

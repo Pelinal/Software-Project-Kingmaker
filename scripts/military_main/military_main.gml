@@ -55,7 +55,7 @@ function military_init() {
 	global.army[5] = [1000]
 	global.army[6] = [7000, 3000]
 	global.army[7] = [5000, 5000, 10000]
-	global.army[8] = [15000]
+	global.army[8] = [5000, 10000]
 	global.army[9] = [1000]
 	global.army[10] = [1000]
 	global.army[11] = [2000]

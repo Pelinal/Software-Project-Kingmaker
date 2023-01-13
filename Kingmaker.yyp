@@ -125,7 +125,7 @@
     {"id":{"name":"spr_bg_deet","path":"sprites/spr_bg_deet/spr_bg_deet.yy",},"order":3,},
     {"id":{"name":"spr_c_vivarais","path":"sprites/spr_c_vivarais/spr_c_vivarais.yy",},"order":5,},
     {"id":{"name":"menu_draw","path":"scripts/menu_draw/menu_draw.yy",},"order":0,},
-    {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":0,},
+    {"id":{"name":"rm_main","path":"rooms/rm_main/rm_main.yy",},"order":0,},
   ],
   "Options": [
     {"name":"Main","path":"options/main/options_main.yy",},
@@ -141,7 +141,7 @@
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"roomId":{"name":"rm_main","path":"rooms/rm_main/rm_main.yy",},},
   ],
   "Folders": [
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Animation Curves","folderPath":"folders/Animation Curves.yy","order":11,},

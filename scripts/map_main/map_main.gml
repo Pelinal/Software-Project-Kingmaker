@@ -5,117 +5,117 @@ function map_init(){
 	// Index 0: Name, Index 1: Base Tax, Index 2: Manpower, Index 3: Base Production, Index 4: Trade Good, Index 5: Capital, Index 6: Owned By,
 	// Index 7: Unit X Pos, Index 8: Unit Y Pos ( These are set in the creation event of each province )
 	// Bretagne - Brittany
-	global.provinces[0] = ["Léon", 2, 1, 1, 0, "Brest", "BRE"]
-	global.provinces[1] = ["Cornuaille", 2, 1, 2, 0, "Quimper", "BRE"]
-	global.provinces[2] = ["Rennais", 3, 3, 3, 1, "Rennes", "BRE"]
-	global.provinces[3] = ["Vannetais", 2, 1, 2, 0, "Vannes", "BRE"]
-	global.provinces[4] = ["Nantais", 4, 2, 3, 11, "Nantes", "BRE"]
+	global.provinces[0] = ["Léon", 2, 1, 1, 0, "Brest", "BRE", 0, 0]
+	global.provinces[1] = ["Cornuaille", 2, 1, 2, 0, "Quimper", "BRE", 0, 0]
+	global.provinces[2] = ["Rennais", 3, 3, 3, 1, "Rennes", "BRE", 0, 0]
+	global.provinces[3] = ["Vannetais", 2, 1, 2, 0, "Vannes", "BRE", 0, 0]
+	global.provinces[4] = ["Nantais", 4, 2, 3, 11, "Nantes", "BRE", 0, 0]
 	// Normandie - Normandy
-	global.provinces[5] = ["Coutantin", 2, 1, 1, 0, "Avranches", "NOR"]
-	global.provinces[6] = ["Caennais", 4, 2, 2, 1, "Caen", "NOR"]
-	global.provinces[7] = ["Alençon", 1, 1, 1, 5, "Alençon", "NOR"]
-	global.provinces[8] = ["Ébroïcien", 3, 2, 3, 2, "Evreux", "NOR"]
-	global.provinces[9] = ["Rouennais", 2, 3, 4, 0, "Rouen", "NOR"]
+	global.provinces[5] = ["Coutantin", 2, 1, 1, 0, "Avranches", "NOR", 0, 0]
+	global.provinces[6] = ["Caennais", 4, 2, 2, 1, "Caen", "NOR", 0, 0]
+	global.provinces[7] = ["Alençon", 1, 1, 1, 5, "Alençon", "NOR", 0, 0]
+	global.provinces[8] = ["Ébroïcien", 3, 2, 3, 2, "Evreux", "NOR", 0, 0]
+	global.provinces[9] = ["Rouennais", 2, 3, 4, 0, "Rouen", "NOR", 0, 0]
 	// Picardie - Picardy
-	global.provinces[10] = ["Calais", 3, 4, 2, 0, "Calais", "PIC"]
-	global.provinces[11] = ["Amienois", 5, 4, 2, 1, "Amiens", "PIC"]
-	global.provinces[12] = ["Santerre", 1, 1, 2, 8, "Montdidier", "PIC"]
-	global.provinces[13] = ["Vermandois", 3, 1, 3, 1, "St. Quentin", "PIC"]
+	global.provinces[10] = ["Calais", 3, 4, 2, 0, "Calais", "PIC", 0, 0]
+	global.provinces[11] = ["Amienois", 5, 4, 2, 1, "Amiens", "PIC", 0, 0]
+	global.provinces[12] = ["Santerre", 1, 1, 2, 8, "Montdidier", "PIC", 0, 0]
+	global.provinces[13] = ["Vermandois", 3, 1, 3, 1, "St. Quentin", "PIC", 0, 0]
 	// Maine - Maine
-	global.provinces[14] = ["Mayennais", 2, 2, 2, 1, "Mayenne", "MAI"]
-	global.provinces[15] = ["Perche", 3, 3, 3, 2, "Le Mans", "MAI"]
+	global.provinces[14] = ["Mayennais", 2, 2, 2, 1, "Mayenne", "MAI", 0, 0]
+	global.provinces[15] = ["Perche", 3, 3, 3, 2, "Le Mans", "MAI", 0, 0]
 	// Anjou - Anjou
-	global.provinces[16] = ["Anjou", 3, 3, 4, 1, "Angers", "ANJ"]
+	global.provinces[16] = ["Anjou", 3, 3, 4, 1, "Angers", "ANJ", 0, 0]
 	// Touraine - Touraine
-	global.provinces[17] = ["Touraine", 4, 2, 3, 2, "Tours", "TOU"]
+	global.provinces[17] = ["Touraine", 4, 2, 3, 2, "Tours", "TOU", 0, 0]
 	// Orléanais - Orleanais
-	global.provinces[18] = ["Vendomois", 3, 2, 3, 2, "Vendôme", "ORL"]
-	global.provinces[19] = ["Sologne", 2, 3, 3, 2, "Blois", "ORL"]
-	global.provinces[20] = ["Orléans", 7, 7, 6, 1, "Orleans", "ORL"]
-	global.provinces[21] = ["Gatinois", 2, 2, 2, 4, "Montargis", "ORL"]
+	global.provinces[18] = ["Vendomois", 3, 2, 3, 2, "Vendôme", "ORL", 0, 0]
+	global.provinces[19] = ["Sologne", 2, 3, 3, 2, "Blois", "ORL", 0, 0]
+	global.provinces[20] = ["Orléans", 7, 7, 6, 1, "Orleans", "ORL", 0, 0]
+	global.provinces[21] = ["Gatinois", 2, 2, 2, 4, "Montargis", "ORL", 0, 0]
 	// Île de France - Isle of France
-	global.provinces[22] = ["Chartres", 2, 4, 4, 8, "Chartres", "FRA"]
-	global.provinces[23] = ["Mantois", 4, 2, 2, 1, "Versailles", "FRA"]
-	global.provinces[24] = ["Paris", 12, 12, 16, 10, "Paris", "FRA"]
-	global.provinces[25] = ["Vexin", 3, 3, 2, 2, "Beauvais", "FRA"]
-	global.provinces[26] = ["Valois", 4, 4, 2, 2, "Senlis", "FRA"]
-	global.provinces[27] = ["Soissons", 4, 2, 3, 4, "Soissons", "FRA"]
+	global.provinces[22] = ["Chartres", 2, 4, 4, 8, "Chartres", "FRA", 0, 0]
+	global.provinces[23] = ["Mantois", 4, 2, 2, 1, "Versailles", "FRA", 0, 0]
+	global.provinces[24] = ["Paris", 12, 12, 16, 10, "Paris", "FRA", 0, 0]
+	global.provinces[25] = ["Vexin", 3, 3, 2, 2, "Beauvais", "FRA", 0, 0]
+	global.provinces[26] = ["Valois", 4, 4, 2, 2, "Senlis", "FRA", 0, 0]
+	global.provinces[27] = ["Soissons", 4, 2, 3, 4, "Soissons", "FRA", 0, 0]
 	// Champagne - Champagne
-	global.provinces[28] = ["Remois", 3, 3, 3, 4, "Reims", "CHA"]
-	global.provinces[29] = ["Chalons", 2, 3, 1, 2, "Châlons", "CHA"]
-	global.provinces[30] = ["Troyes", 4, 5, 5, 4, "Troyes", "CHA"]
-	global.provinces[31] = ["Vallage", 2, 1, 2, 11, "Chaumont", "CHA"]
-	global.provinces[32] = ["Senonois", 3, 2, 1, 1, "Sens", "CHA"]
+	global.provinces[28] = ["Remois", 3, 3, 3, 4, "Reims", "CHA", 0, 0]
+	global.provinces[29] = ["Chalons", 2, 3, 1, 2, "Châlons", "CHA", 0, 0]
+	global.provinces[30] = ["Troyes", 4, 5, 5, 4, "Troyes", "CHA", 0, 0]
+	global.provinces[31] = ["Vallage", 2, 1, 2, 11, "Chaumont", "CHA", 0, 0]
+	global.provinces[32] = ["Senonois", 3, 2, 1, 1, "Sens", "CHA", 0, 0]
 	// Berry - Berry
-	global.provinces[33] = ["Argenton", 2, 3, 2, 4, "Argenton", "BER"]
-	global.provinces[34] = ["Berry", 5, 6, 6, 4, "Bourges", "BER"]
+	global.provinces[33] = ["Argenton", 2, 3, 2, 4, "Argenton", "BER", 0, 0]
+	global.provinces[34] = ["Berry", 5, 6, 6, 4, "Bourges", "BER", 0, 0]
 	// Bourbonnais - Bourbonnais
-	global.provinces[35] = ["Bourbonnais", 3, 4, 4, 8, "Moulins", "BOU"]
+	global.provinces[35] = ["Bourbonnais", 3, 4, 4, 8, "Moulins", "BOU", 0, 0]
 	// Nivernais - Nivernais
-	global.provinces[36] = ["Nivernais", 2, 4, 2, 2, "Nevers", "NIV"]
+	global.provinces[36] = ["Nivernais", 2, 4, 2, 2, "Nevers", "NIV", 0, 0]
 	// Poitou - Poitou
-	global.provinces[37] = ["Haut-Poitou", 5, 4, 5, 4, "Poitiers", "POI"]
-	global.provinces[38] = ["Bas-Poitou", 2, 4, 2, 11, "La Roche", "POI"]
+	global.provinces[37] = ["Haut-Poitou", 5, 4, 5, 4, "Poitiers", "POI", 0, 0]
+	global.provinces[38] = ["Bas-Poitou", 2, 4, 2, 11, "La Roche", "POI", 0, 0]
 	// Aunis - Aunis
-	global.provinces[39] = ["Aunis", 3, 4, 2, 0, "La Rochelle", "AUN"]
+	global.provinces[39] = ["Aunis", 3, 4, 2, 0, "La Rochelle", "AUN", 0, 0]
 	// Saintonge - Saintonge
-	global.provinces[40] = ["Saintonge", 5, 2, 4, 11, "Saintes", "SAI"]
+	global.provinces[40] = ["Saintonge", 5, 2, 4, 11, "Saintes", "SAI", 0, 0]
 	// Angoumois - Angoumois
-	global.provinces[41] = ["Angoumois", 5, 4, 3, 3, "Angoulême", "SAI"]
+	global.provinces[41] = ["Angoumois", 5, 4, 3, 3, "Angoulême", "SAI", 0, 0]
 	// La Marche - The March
-	global.provinces[42] = ["La Marche", 4, 3, 2, 2, "Guéret", "MAR"]
+	global.provinces[42] = ["La Marche", 4, 3, 2, 2, "Guéret", "MAR", 0, 0]
 	// Limousin - Limousin
-	global.provinces[43] = ["Limousin", 4, 4, 2, 10, "Limoges", "LIM"]
+	global.provinces[43] = ["Limousin", 4, 4, 2, 10, "Limoges", "LIM", 0, 0]
 	// Auvergne - Auvergne
-	global.provinces[44] = ["Basse-Auvergne", 4, 4, 8, 7, "Clermond Ferrant", "AUV"]
-	global.provinces[45] = ["Haute-Auvergne", 3, 3, 6, 8, "St. Flour", "AUV"]
+	global.provinces[44] = ["Basse-Auvergne", 4, 4, 8, 7, "Clermond Ferrant", "AUV", 0, 0]
+	global.provinces[45] = ["Haute-Auvergne", 3, 3, 6, 8, "St. Flour", "AUV", 0, 0]
 	// Bourgogne - Burgundy
-	global.provinces[46] = ["Auxois", 3, 1, 5, 3, "Auxerne", "BUR"]
-	global.provinces[47] = ["Dijonnais", 6, 4, 4, 4, "Dijon", "BUR"]
-	global.provinces[48] = ["Bourgogne-Sud", 3, 3, 2, 7, "Mâcon", "BUR"]
+	global.provinces[46] = ["Auxois", 3, 1, 5, 3, "Auxerne", "BUR", 0, 0]
+	global.provinces[47] = ["Dijonnais", 6, 4, 4, 4, "Dijon", "BUR", 0, 0]
+	global.provinces[48] = ["Bourgogne-Sud", 3, 3, 2, 7, "Mâcon", "BUR", 0, 0]
 	// Espana - Spain
-	global.provinces[49] = ["Charolais", 3, 3, 3, 3, "Charolais", "SPA"]
+	global.provinces[49] = ["Charolais", 3, 3, 3, 3, "Charolais", "SPA", 0, 0]
 	// Lyonnais - Lyon
-	global.provinces[50] = ["Lyonnais", 10, 8, 8, 9, "Lyon", "LYO"]
+	global.provinces[50] = ["Lyonnais", 10, 8, 8, 9, "Lyon", "LYO", 0, 0]
 	// Guyenne - Guyenne
-	global.provinces[51] = ["Bordeaux", 11, 9, 8, 4, "Bordeaux", "GUY"]
-	global.provinces[52] = ["Bazadois", 4, 4, 4, 0, "Bazas", "GUY"]
-	global.provinces[53] = ["Cahorsin", 3, 3, 2, 8, "Cahors", "GUY"]
-	global.provinces[54] = ["Périgord", 4, 5, 2, 7, "Périgueux", "GUY"]
-	global.provinces[55] = ["Villefranchois", 3, 5, 1, 3, "Villefranche", "GUY"]
+	global.provinces[51] = ["Bordeaux", 11, 9, 8, 4, "Bordeaux", "GUY", 0, 0]
+	global.provinces[52] = ["Bazadois", 4, 4, 4, 0, "Bazas", "GUY", 0, 0]
+	global.provinces[53] = ["Cahorsin", 3, 3, 2, 8, "Cahors", "GUY", 0, 0]
+	global.provinces[54] = ["Périgord", 4, 5, 2, 7, "Périgueux", "GUY", 0, 0]
+	global.provinces[55] = ["Villefranchois", 3, 5, 1, 3, "Villefranche", "GUY", 0, 0]
 	// Languedoc - Languedoc
-	global.provinces[56] = ["Toulouse", 8, 10, 8, 4, "Toulouse", "LAN"]
-	global.provinces[57] = ["Narbonnais", 5, 4, 3, 6, "Narbonne", "LAN"]
-	global.provinces[58] = ["Montpellier", 13, 5, 5, 4, "Montpellier", "LAN"]
-	global.provinces[59] = ["Nimois", 3, 3, 2, 6, "Nîmes", "LAN"]
-	global.provinces[60] = ["Gévaudan", 2, 2, 1, 3, "Marvejols", "LAN"]
-	global.provinces[61] = ["Vivarais", 3, 5, 5, 6, "Viviers", "LAN"]
+	global.provinces[56] = ["Toulouse", 8, 10, 8, 4, "Toulouse", "LAN", 0, 0]
+	global.provinces[57] = ["Narbonnais", 5, 4, 3, 6, "Narbonne", "LAN", 0, 0]
+	global.provinces[58] = ["Montpellier", 13, 5, 5, 4, "Montpellier", "LAN", 0, 0]
+	global.provinces[59] = ["Nimois", 3, 3, 2, 6, "Nîmes", "LAN", 0, 0]
+	global.provinces[60] = ["Gévaudan", 2, 2, 1, 3, "Marvejols", "LAN", 0, 0]
+	global.provinces[61] = ["Vivarais", 3, 5, 5, 6, "Viviers", "LAN", 0, 0]
 	// Stato Pontifico - The Papal States
-	global.provinces[62] = ["Avignon", 4, 5, 4, 1, "Avignon", "PAP"]
+	global.provinces[62] = ["Avignon", 4, 5, 4, 1, "Avignon", "PAP", 0, 0]
 	// Dauphine - Dauphine
-	global.provinces[63] = ["Valentinois", 3, 3, 4, 4, "Valence", "DAU"]
-	global.provinces[64] = ["Grésivaudan", 5, 4, 4, 6, "Grenoble", "DAU"]
-	global.provinces[65] = ["Briançon", 2, 3, 3, 10, "Briançon", "DAU"]
+	global.provinces[63] = ["Valentinois", 3, 3, 4, 4, "Valence", "DAU", 0, 0]
+	global.provinces[64] = ["Grésivaudan", 5, 4, 4, 6, "Grenoble", "DAU", 0, 0]
+	global.provinces[65] = ["Briançon", 2, 3, 3, 10, "Briançon", "DAU", 0, 0]
 	// Provence - Provence
-	global.provinces[66] = ["Camargue", 10, 3, 4, 10, "Arles", "PRO"]
-	global.provinces[67] = ["Aix", 7, 3, 5, 8, "Aix", "PRO"]
-	global.provinces[68] = ["Toulonnais", 2, 1, 4, 0, "Toulon", "PRO"]
+	global.provinces[66] = ["Camargue", 10, 3, 4, 10, "Arles", "PRO", 0, 0]
+	global.provinces[67] = ["Aix", 7, 3, 5, 8, "Aix", "PRO", 0, 0]
+	global.provinces[68] = ["Toulonnais", 2, 1, 4, 0, "Toulon", "PRO", 0, 0]
 	// Foix - Foix
-	global.provinces[69] = ["Foix", 3, 3, 3, 0, "Foix", "FOI"]
+	global.provinces[69] = ["Foix", 3, 3, 3, 0, "Foix", "FOI", 0, 0]
 	// Gascogne - Gascony
-	global.provinces[70] = ["Labourd", 3, 2, 1, 0, "Bayonne", "GAS"]
-	global.provinces[71] = ["Marsan", 2, 3, 1, 3, "Roquefort", "GAS"]
-	global.provinces[72] = ["Armagnac", 4, 4, 3, 4, "Auch", "GAS"]
-	global.provinces[73] = ["Bigorre", 1, 3, 1, 3, "Tarbes", "GAS"]
+	global.provinces[70] = ["Labourd", 3, 2, 1, 0, "Bayonne", "GAS", 0, 0]
+	global.provinces[71] = ["Marsan", 2, 3, 1, 3, "Roquefort", "GAS", 0, 0]
+	global.provinces[72] = ["Armagnac", 4, 4, 3, 4, "Auch", "GAS", 0, 0]
+	global.provinces[73] = ["Bigorre", 1, 3, 1, 3, "Tarbes", "GAS", 0, 0]
 	// Béarn - Bearn
-	global.provinces[74] = ["Béarn", 4, 3, 2, 5, "Pau", "BEA"]
+	global.provinces[74] = ["Béarn", 4, 3, 2, 5, "Pau", "BEA", 0, 0]
 	// Also Ile de France:
-	global.provinces[75] = ["Brie", 4, 3, 3, 5, "Nemours", "FRA"]
+	global.provinces[75] = ["Brie", 4, 3, 3, 5, "Nemours", "FRA", 0, 0]
 	// Provence Again
-	global.provinces[76] = ["Forcalquier", 2, 4, 3, 7, "Forcalquier", "PRO"]
-	global.provinces[77] = ["Dignois", 2, 2, 2, 5, "Digne", "PRO"]
+	global.provinces[76] = ["Forcalquier", 2, 4, 3, 7, "Forcalquier", "PRO", 0, 0]
+	global.provinces[77] = ["Dignois", 2, 2, 2, 5, "Digne", "PRO", 0, 0]
 	// Guyenne Again
-	global.provinces[78] = ["Gabardan", 4, 2, 3, 5, "Nerac", "GUY"]
+	global.provinces[78] = ["Gabardan", 4, 2, 3, 5, "Nerac", "GUY", 0, 0]
 	
 	with instance_create_depth(180, 531, 0, obj_province) {
 		sprite_index = spr_c_leon
