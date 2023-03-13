@@ -8,7 +8,12 @@
 //	total_mp += units[i][1] 
 //}
 
-total_mp = global.army[tag_id][army_id]
+if army_id < array_length(global.army[tag_id]) {
+	total_mp = global.army[tag_id][army_id]
+} else {
+	total_mp = 0	
+}
+
 if total_mp <= 0 {
 	array_delete(global.army[tag_id], army_id, 1)
 	instance_destroy()
@@ -39,14 +44,47 @@ if tag_id == tag_fetch_id(obj_control.player_tag) || tag_is_ally(obj_control.pla
 	visible = true
 } else {
 	visible = false
+	
+	
 }
 
 if position_meeting(device_mouse_x(0), device_mouse_y(0), id) && image_alpha > 0 {
 	//obj_control.province_popup_id = -1
 	if mouse_check_button_pressed(mb_left) {
+		with obj_non_gui_button {
+			if type == "ArmyMerge" || type == "ArmySplit" || type == "ArmyBuild" || type == "ArmyClose" {
+				instance_destroy(self)	
+			}
+		}
 		if tag_id == tag_fetch_id(obj_control.player_tag) {
 			obj_control.army_overview_id = army_id
 			obj_control.selected_army = id
+			
+			with instance_create_depth(x - 36, y - 37, -103, obj_non_gui_button) {
+				type = "ArmyMerge"
+				sprite_index = spr_quick_buttons
+				image_index = 0
+				image_speed = 0
+			}
+			with instance_create_depth(x -20, y - 37, -103, obj_non_gui_button) {
+				type = "ArmySplit"
+				sprite_index = spr_quick_buttons
+				image_index = 1
+				image_speed = 0
+			}
+			with instance_create_depth(x - 4, y - 37, -103, obj_non_gui_button) {
+				type = "ArmyBuild"
+				sprite_index = spr_quick_buttons
+				image_index = 2
+				image_speed = 0
+			}
+			with instance_create_depth(x + 12, y - 37, -103, obj_non_gui_button) {
+				type = "ArmyClose"
+				sprite_index = spr_quick_buttons
+				image_index = 3
+				image_speed = 0
+			}
+			
 			//with instance_create_depth(1814, 334, -103, obj_button) {
 			//	type = "CloseArmy"
 			//	sprite_index = spr_square_button
@@ -65,6 +103,9 @@ if position_meeting(device_mouse_x(0), device_mouse_y(0), id) && image_alpha > 0
 		}
 	}
 }
+
+// Check for AI initiated battles
+///check_for_adjacent_enemy(id)
 
 //////// BATTLE
 //var colliding_army = instance_place(x, y, obj_army)

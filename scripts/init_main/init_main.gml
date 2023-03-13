@@ -40,41 +40,122 @@ function economy_init() {
 	
 	// List of Trade Goods
 	// Index 0: Name, Index 1: Base Value, Index 3: Manufactory Building
-	global.trade_goods[0] = ["Fish", .25, 0]
-	global.trade_goods[1] = ["Cloth", .3, 0]
-	global.trade_goods[2] = ["Grain", .25, 0]
-	global.trade_goods[3] = ["Livestock", .2, 0]
-	global.trade_goods[4] = ["Wine", .4, 0]
-	global.trade_goods[5] = ["Lumber", .3, 0]
-	global.trade_goods[6] = ["Wool", .35, 0]
-	global.trade_goods[7] = ["Copper", .3, 0]
-	global.trade_goods[8] = ["Iron", .35, 0]
-	global.trade_goods[9] = ["Glass", .35, 0]
-	global.trade_goods[10] = ["Gold", .5, 0] 
-	global.trade_goods[11] = ["Salt", .3, 0]
+	global.trade_goods[0] = ["Fish", 2, 0]
+	global.trade_goods[1] = ["Cloth", 3, 0]
+	global.trade_goods[2] = ["Grain", 2.5, 0]
+	global.trade_goods[3] = ["Livestock", 2, 0]
+	global.trade_goods[4] = ["Wine", 4, 0]
+	global.trade_goods[5] = ["Lumber", 3, 0]
+	global.trade_goods[6] = ["Wool", 3.5, 0]
+	global.trade_goods[7] = ["Copper", 3, 0]
+	global.trade_goods[8] = ["Iron", 3.5, 0]
+	global.trade_goods[9] = ["Glass", 4, 0]
+	global.trade_goods[10] = ["Gold", 5, 0] 
+	global.trade_goods[11] = ["Salt", 4.5, 0]
+	
+	// List of Buildings
+	// Index 0: Name, Index 1: Effect, Index 2: Effect Amount, Index 3: Cost, Index 4: Prequisite (ID, or -1), Index 5: Maintenance, Index 6: Can/Can't be upgraded?
+	global.buildings[0] = ["Tax Office", "Tax", 1, 150, -1, 0, true]
+	global.buildings[1] = ["Constabulary", "Tax", 3, 400, 0, 0, true]
+	global.buildings[2] = ["Governor's Manor", "Tax", 5, 400, 1, 0, false]			// Extra Effect: Tax Income +20%
+	global.buildings[3] = ["Trade Post", "Production", 1, 200, -1, 0, true]
+	global.buildings[4] = ["Caravansary", "Production", 3, 500, 3, 0, true]
+	global.buildings[5] = ["Foreign Market", "Production", 5, 1000, 4, 0, false]	// Extra Effect: Production Income +20%
+	global.buildings[6] = ["Garrison", "Manpower", 1, 125, -1, 0.25, true]
+	global.buildings[7] = ["Barracks", "Manpower", 3, 200, 6, 0.5, true] 
+	global.buildings[8] = ["Fort", "Manpower", 4, 350, 7, 1, true]				// Extra Effect: Manpower Income +10%
+	global.buildings[9] = ["Starfort", "Manpower", 5, 600, 8, 1.5, false]			// Extra Effect: Manpower Income +25%
+	global.buildings[10] = ["Library", "Threat", -0.015, 200, -1, true]
+	global.buildings[11] = ["Print Shop", "Threat", -0.03, 400, 10, true]
+	global.buildings[12] = ["News Agent", "Threat", -0.05, 600, 11, false]
+	
 }
 
-function economy_update() {
-	// Updates all economies
+function economy_update(tag) {
+	// Updates tag economy
 	// Update Manpower/Wealth Per Turn
-	for (i = 0; i < array_length(global.tags); i ++) {
-		global.economy[i][2] = 0
-		global.economy[i][4] = 0
+	
+	var tag_id = tag_fetch_id(tag)
+	var t_income = 0, p_income = 0, m_income = 0, b_expense = 0, a_expense = 0
+	
+	for (var i = 0; i < array_length(global.provinces); i ++) {
+		var tax = global.provinces[i][1]						// Tax Value
+		var man = global.provinces[i][2]						// Manpower Value
+		var pro = global.provinces[i][3]						// Production Value
+		var trd = global.trade_goods[global.provinces[i][4]][1] // Trade Good Value
 		
-		for (j = 0; j < array_length(global.provinces); j ++) {
-			if global.tags[i][0] == global.provinces[j][6] {
-				global.economy[i][2] += (global.provinces[j][1])/4		// Add 1/4 of Base Tax
-				global.economy[i][2] += (global.trade_goods[global.provinces[j][4]][1]) * global.provinces[j][3]	// Add Trade Good price times production
-				global.economy[i][4] += (global.provinces[j][2])/4		// Add 1/4 of Manpower
+		// Building Expense (Maintenance)
+		for (var j = 0; j < array_length(global.buildslots[i]); j ++) {
+			if global.buildslots[i][j] != -1 {
+				var bex = global.buildings[global.buildslots[i][j]][5] 
+				b_expense += bex
 			}
 		}
 		
-		global.economy[i][2] *= global.economy[i][6] // Multiply Income by modifier
-		global.economy[i][4] *= global.economy[i][7] // Multiply Manpower by modifier
+		// Army Expense (Maintenance)
+		a_expense = (military_get_tag_total(tag) /1000) * 0.1 // -0.1 per 1000 men
+		
+		// Calculate Province Income, add total incomes
+		if map_province_owner(i) == tag {
+			t_income += (tax / 10)								// Tax Income
+			m_income += (man / 33.334)							// Manpower Per Turn
+			p_income += ((pro * trd) / 10)						// Production Income
+		}
 	}
+	
+	var expense = (b_expense + a_expense)						// Total Expense
+	var income = (t_income + p_income)							// Total Income (Wealth)
+	var profit = (income - expense) - (income / 10)				// Profit/Loss
+	
+	// Values for economy tab
+	obj_control.tax_income = t_income
+	obj_control.pro_income = p_income
+	obj_control.man_income = m_income
+	obj_control.bld_expense = b_expense
+	obj_control.arm_expense = a_expense
+	obj_control.pre_profit = profit
+	
+	global.economy[tag_id][1] = round(global.economy[tag_id][1] + profit)		// Add to current wealth
+	global.economy[tag_id][2] = income											// Set previous income (for economy tab viewing)
+	global.economy[tag_id][3] = expense											// Set previous expense (for economy tab also)
+	global.economy[tag_id][4] = m_income										// Set previous manpower gain (for economy tab)
+	global.economy[tag_id][5] += m_income										// Add to current manpower
+		
+	//global.economy[i][2] *= global.economy[i][6] // Multiply Income by modifier
+	//global.economy[i][4] *= global.economy[i][7] // Multiply Manpower by modifier
 	
 	// Update Expenditure
 	// Will take into account Army & Building Maintenance + Liege Taxes + Council Payments
+}
+
+function add_wealth(tag, amount) {
+	// Adds wealth to specified tag
+	var tag_id = tag_fetch_id(tag)
+	global.economy[tag_id][1] += amount
+	
+	if global.economy[tag_id][1] < 0 {
+		global.economy[tag_id][1] = 0
+	}
+}
+
+function add_prestige(tag, amount) {
+	// Adds prestige to specified tag
+	var tag_id = tag_fetch_id(tag)
+	global.economy[tag_id][8] += amount
+	
+	if global.economy[tag_id][8] < 0 {
+		global.economy[tag_id][8] = 0
+	}
+}
+
+function add_manpower(tag, amount) {
+	// Adds manpower to specified tag
+	var tag_id = tag_fetch_id(tag)
+	global.economy[tag_id][5] += amount
+	
+	if global.economy[tag_id][5] < 0 {
+		global.economy[tag_id][5] = 0
+	}
 }
 
 function char_init() {
@@ -125,4 +206,41 @@ function char_init() {
 	global.chars[27] = ["Jean", "de Foix", "Foix", 5, 8, 10]								// Foix
 	global.chars[28] = ["Anne Marie 'Grande Mademoiselle'", "d'Orléans", "Bourbon", 3, 5, 6]// Gascony - Daughter of Gaston
 	global.chars[29] = ["Antoine", "de Gramont", "Gramont", 0, 3, 8]						// Beárn
+}
+
+function building_check_prov(prov, building) {
+	// Checks if a specific province has a specific building built
+	
+	for (var i = 0; i < global.buildslots[prov]; i ++) {
+		if global.buildslots[prov][i] == building {
+			return true
+		}
+	}
+	
+	return false
+}
+
+function buildings_list_all(prov, slot) {
+	// Lists all buildable building
+	//var building_list = []
+	var y_offset = 808
+	obj_control.build_select = true // enable build select menu
+	
+	for (var i = 0; i < array_length(global.buildings); i ++) {
+		// Check if building meets prerequisites
+		if global.buildslots[prov][slot] == global.buildings[i][4] || (global.buildings[i][4] == -1 && global.buildslots[prov][slot] != i) {		
+			var new_button = instance_create_depth(909, y_offset, -10, obj_button)
+			with new_button	{
+				sprite_index = spr_rectlarge_button
+				type = "BuildSelect"
+				building_to_select = i
+				build_prov = prov
+				build_slot = slot
+			}
+			
+			y_offset += 64
+		}
+	}
+	
+	//return prov_list
 }

@@ -1,28 +1,6 @@
 /// @description Mouse Check
 if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 	// Check for Mouse Enter
-	if type != "Dropdown" {	
-		image_index = 1
-	} else {
-		if dropdown_type == "Relations" && !obj_control.dropdowns[0] {
-			image_index = 1
-		} else if dropdown_type == "Relations" && obj_control.dropdowns[0] {
-			image_index = 3
-		} else if dropdown_type == "Intrigue" && !obj_control.dropdowns[1] {
-			image_index = 1
-		} else if dropdown_type == "Intrigue" && obj_control.dropdowns[1] {
-			image_index = 3
-		} else if dropdown_type == "Economic" && !obj_control.dropdowns[2] {
-			image_index = 1
-		} else if dropdown_type == "Economic" && obj_control.dropdowns[2] {
-			image_index = 3
-		} else if dropdown_type == "Liege" && !obj_control.dropdowns[3] {
-			image_index = 1
-		} else if dropdown_type == "Liege" && obj_control.dropdowns[3] {
-			image_index = 3
-		}
-	}
-	
 	if mouse_check_button_pressed(mb_left){
 		// Check for Left Pressed
 			instance_destroy(obj_prevent_clickthrough)
@@ -41,6 +19,8 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 			} else if type == "Profile" {
 				// open the profile
 				obj_control.tag_overview_id = tag_id
+				obj_control.lock_ui = true
+				obj_control.main_tab = "Profile"
 				menu_pop("Profile")
 			} else if type == "LangSetting" {
 				if obj_control.lang_setting == 1 {
@@ -48,20 +28,35 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 				} else {
 					obj_control.lang_setting = 1
 				}
-			} else if type == "CloseArmy" {
+			} else if type == "ArmyClose" {
 				obj_control.army_overview_id = -1
-				with obj_button {
-					if type == "ArmyList" {
-						instance_destroy(self)
+				obj_control.selected_army = noone
+			} else if type = "ArmySplit" {
+				var new_army
+				new_army = global.army[tag_fetch_id(obj_control.player_tag)][obj_control.selected_army.army_id] / 2
+				global.army[tag_fetch_id(obj_control.player_tag)][obj_control.selected_army.army_id] -= new_army
+				array_push(global.army[tag_fetch_id(obj_control.player_tag)], new_army)
+				with instance_create_depth(obj_control.selected_army.x, obj_control.selected_army.y, obj_control.selected_army.depth, obj_army) {
+					tag_id = obj_control.selected_army.tag_id
+					army_id = array_length(global.army) - 1
+					location = obj_control.selected_army.location
+				}
+			} else if type == "ArmyMerge" {
+				with obj_control.selected_army {
+					var other_army = instance_place(x, y, obj_army);
+					if (other_army != noone) {
+						global.army[tag_fetch_id(obj_control.player_tag)][obj_control.selected_army.army_id] += global.army[tag_fetch_id(obj_control.player_tag)][other_army.army_id]
+						array_delete(global.army[tag_fetch_id(obj_control.player_tag)], other_army.army_id, 1)
+						instance_destroy(other_army)
 					}
 				}
-				instance_destroy(self)
 			} else if type == "Form Alliance" && obj_control.diplo_moves > 0 {
 				obj_control.diplo_moves -= 1
 				if tag_opinion_of(obj_control.tag_overview_id, obj_control.player_tag) >= 25 && !tag_is_ally(obj_control.tag_overview_id, obj_control.player_tag) {
 					tag_add_opinion(obj_control.tag_overview_id, obj_control.player_tag, 50)
 					tag_add_opinion(obj_control.player_tag, obj_control.tag_overview_id, 50)
 					tag_add_ally(obj_control.tag_overview_id, obj_control.player_tag)
+					obj_control.threat_level -= 1
 				}
 			} else if type == "Arrange Marriage" && obj_control.diplo_moves > 0 {
 				obj_control.diplo_moves -= 1
@@ -76,12 +71,14 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 				if tag_opinion_of(obj_control.tag_overview_id, obj_control.player_tag) >= 0 {
 					tag_add_opinion(obj_control.tag_overview_id, obj_control.player_tag, -10)
 					global.economy[tag_fetch_id(obj_control.player_tag)][8] -= 10
+					obj_control.threat_level += 1
 					obj_control.player_fabricating = 1
 					obj_control.player_fabricate_target = obj_control.tag_overview_id
 				}
 			} else if type == "Declare War" && tag_has_claim(obj_control.player_tag, obj_control.tag_overview_id) && !tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
 				tag_add_opinion(obj_control.tag_overview_id, obj_control.player_tag, -50)
 				tag_declare_war(obj_control.player_tag, obj_control.tag_overview_id)
+				obj_control.threat_level += 5
 			} else if type == "Declare War" && tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
 				tag_declare_peace(obj_control.player_tag, obj_control.tag_overview_id)
 				with obj_province {
@@ -91,10 +88,142 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 						prov_occupied_by = noone
 					}
 				}
+			} else if type == "Improve Relations" && obj_control.diplo_moves > 0 {
+				obj_control.diplo_moves -= 1
+				tag_add_opinion(obj_control.tag_overview_id, obj_control.player_tag, 10)
 			} else if type == "End Turn" {
 				obj_control.turn_stage = "AI"
+			} else if type == "Demonstrate Fealty (-5)" {
+				if global.economy[tag_fetch_id(obj_control.player_tag)][8] >= 10 && obj_control.court_actions > 0 {
+					obj_control.threat_level -= 5
+					if obj_control.threat_level < 0 { obj_control.threat_level = 0 }
+					tag_add_opinion("FRA", obj_control.player_tag, 10)
+					global.economy[tag_fetch_id(obj_control.player_tag)][8] -= 10
+					obj_control.court_actions -= 1
+				}
+			} else if type == "Pay Tribute (-10)" {
+				if global.economy[tag_fetch_id(obj_control.player_tag)][1] >= 500 && obj_control.court_actions > 0 {
+					obj_control.threat_level -= 10
+					if obj_control.threat_level < 0 { obj_control.threat_level = 0 }
+					global.economy[tag_fetch_id(obj_control.player_tag)][1] -= 500
+					tag_add_opinion("FRA", obj_control.player_tag, 25)
+					obj_control.court_actions -= 1
+				}
+			} else if type == "Offer Recruits (-15)" {
+				if global.economy[tag_fetch_id(obj_control.player_tag)][5] >= 5 && obj_control.court_actions > 0 {
+					obj_control.threat_level -= 15
+					if obj_control.threat_level < 0 { obj_control.threat_level = 0 }
+					global.economy[tag_fetch_id(obj_control.player_tag)][5] -= 5
+					tag_add_opinion("FRA", obj_control.player_tag, 35)
+					obj_control.court_actions -= 1
+				}
+			} else if type == "Grant Province (-25)" {
+				if obj_control.court_actions > 0 {
+					obj_control.threat_level -= 25
+					if obj_control.threat_level < 0 { obj_control.threat_level = 0 }
+					tag_add_opinion("FRA", obj_control.player_tag, 50)
+					map_list_provselect(obj_control.player_tag)
+					obj_control.prov_select_purpose = "GrantProv"
+					obj_control.court_actions -= 1
+				}
+			} else if type == "Request Title (+1)" {
+				if obj_control.court_actions > 0 {
+					obj_control.threat_level += 5
+					if obj_control.threat_level > 100 { obj_control.threat_level = 100 }
+					tag_remove_opinion("FRA", obj_control.player_tag, 5)
+					global.economy[tag_fetch_id(obj_control.player_tag)][8] += 25
+					obj_control.court_actions -= 1
+				}
+			} else if type == "Request Funds (+5)" {
+				if tag_opinion_of("FRA", obj_control.player_tag) > 25 || military_get_tag_total("FRA") * 1.2 < military_get_tag_total(obj_control.player_tag) {
+					if obj_control.court_actions > 0 {
+						obj_control.threat_level += 5
+						if obj_control.threat_level > 100 { obj_control.threat_level = 100 }
+						global.economy[tag_fetch_id(obj_control.player_tag)][1] += 500
+						tag_remove_opinion("FRA", obj_control.player_tag, 15)
+						obj_control.court_actions -= 1
+					}
+				}
+			} else if type == "Levy Reserves (+5)" {
+				if tag_opinion_of("FRA", obj_control.player_tag) > 15 || military_get_tag_total("FRA") * 1.334 < military_get_tag_total(obj_control.player_tag) {
+					if obj_control.court_actions > 0 {	
+						obj_control.threat_level += 5
+						if obj_control.threat_level > 100 { obj_control.threat_level = 100 }
+						global.economy[tag_fetch_id(obj_control.player_tag)][5] += 5
+						tag_remove_opinion("FRA", obj_control.player_tag, 25)
+						obj_control.court_actions -= 1
+					}
+				}
+			} else if type == "Demand Province (+10)" {
+				if tag_opinion_of("FRA", obj_control.player_tag) > 50 || military_get_tag_total("FRA") * 1.5 < military_get_tag_total(obj_control.player_tag) {
+					if obj_control.court_actions > 0 {		
+						obj_control.threat_level += 10
+						if obj_control.threat_level > 100 { obj_control.threat_level = 100 }
+						tag_remove_opinion("FRA", obj_control.player_tag, 35)
+						map_list_provselect("FRA")
+						obj_control.prov_select_purpose = "TakeProv"
+						obj_control.court_actions -= 1
+					}
+				}
+			} else if type == "ProvSelect" {
+				obj_control.prov_selected = prov_to_select
+				
+				with obj_button {
+					if type == "ProvSelect" {
+						instance_destroy(self)	
+					}
+				}
+			} else if type == "BuildingSlot" && (global.buildslots[build_prov][build_slot] == -1 || global.buildings[global.buildslots[build_prov][build_slot] + 1][4] == global.buildslots[build_prov][build_slot]) {
+				buildings_list_all(build_prov, build_slot)
+			} else if type == "BuildSelect" {
+				if global.economy[tag_fetch_id(obj_control.player_tag)][1] >= global.buildings[building_to_select][3] {
+					global.buildslots[build_prov][build_slot] = building_to_select
+					obj_control.build_select = false
+					global.economy[tag_fetch_id(obj_control.player_tag)][1] -= global.buildings[building_to_select][3]
+					if global.economy[tag_fetch_id(obj_control.player_tag)][1] < 0 {
+						global.economy[tag_fetch_id(obj_control.player_tag)][1] = 0	
+					}
+					
+					// Do the building effect
+					if global.buildings[building_to_select][1] == "Tax" {
+						global.provinces[build_prov][1] += global.buildings[building_to_select][2]
+					} else if global.buildings[building_to_select][1] == "Production" {
+						global.provinces[build_prov][3] += global.buildings[building_to_select][2]
+					} else if global.buildings[building_to_select][1] == "Manpower" {
+						global.provinces[build_prov][2] += global.buildings[building_to_select][2]
+					} else if global.buildings[building_to_select][1] == "Threat" {
+						// Placeholder for Threat Impact	
+					}
+					
+					
+				}
+			} else if type == "TagTo" {
+				obj_control.player_tag = obj_control.tag_overview_id
 			}
 			
+			//else if type == "Build Units" {
+			//	// Create Plus, Minus and OK buttons
+			//	with obj_button { 
+			//		if type == "BA_Plus" || type == "BA_Minus" || type == "BA_OK" {
+			//			instance_destroy(self)
+			//		}
+			//	}
+			//	with instance_create_depth((x + sprite_width) -64, y - 64, -1004, obj_button) {
+			//		type = "BA_Plus"
+			//		ico_index = 8
+			//		sprite_index = spr_square_button
+			//	}
+			//	with instance_create_depth(x, y - 64, -1004, obj_button) {
+			//		type = "BA_Minus"
+			//		ico_index = 9
+			//		sprite_index = spr_square_button
+			//	}
+			//	//with instance_create_depth(x + sprite_width, y - 64, -1004, obj_button) {
+			//	//	type = "BA_OK"
+			//	//	ico_index = 10
+			//	//	sprite_index = spr_square_button
+			//	//}
+			//}
 			if type == "Dropdown" {
 				switch dropdown_type {
 					case "Relations":
@@ -121,6 +250,13 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 						// Create Diplo Dropdowns
 						obj_control.dropdowns = [false, false, false, false]
 						if obj_control.tag_overview_id == "FRA" {
+							/// DEBUG BUTTON
+							with instance_create_depth(502, 218, -1111, obj_button) {
+								type = "TagTo"
+								ico_index = 11
+								sprite_index = spr_square_button
+							}
+							/////////////////
 							with instance_create_depth(24, 680, -1003, obj_button) {
 								type = "Improve Relations"
 								diplo_action = true
@@ -154,6 +290,13 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								sprite_index = spr_rectlarge_button
 							}
 						} else if obj_control.tag_overview_id == "SPA" || obj_control.tag_overview_id == "PAP" {
+							/// DEBUG BUTTON
+							with instance_create_depth(502, 218, -1111, obj_button) {
+								type = "TagTo"
+								ico_index = 11
+								sprite_index = spr_square_button
+							}
+							/////////////////
 							with instance_create_depth(24, 680, -1003, obj_button) {
 								type = "Improve Relations"
 								diplo_action = true
@@ -167,6 +310,13 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								sprite_index = spr_rectlarge_button
 							}
 						} else {
+							/// DEBUG BUTTON
+							with instance_create_depth(502, 218, -1111, obj_button) {
+								type = "TagTo"
+								ico_index = 11
+								sprite_index = spr_square_button
+							}
+							/////////////////
 							with instance_create_depth(24, 680, -1003, obj_button) {
 								type = "Form Alliance"
 								diplo_action = true
@@ -212,28 +362,14 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 				}
 			}
 	}
-} else {
-	if type != "Dropdown" {	
-		image_index = 0
-	} else {
-		if dropdown_type == "Relations" && !obj_control.dropdowns[0] {
-			image_index = 0
-		} else if dropdown_type == "Relations" && obj_control.dropdowns[0] {
-			image_index = 2
-		} else if dropdown_type == "Intrigue" && !obj_control.dropdowns[1] {
-			image_index = 0
-		} else if dropdown_type == "Intrigue" && obj_control.dropdowns[1] {
-			image_index = 2
-		} else if dropdown_type == "Economic" && !obj_control.dropdowns[2] {
-			image_index = 0
-		} else if dropdown_type == "Economic" && obj_control.dropdowns[2] {
-			image_index = 2
-		} else if dropdown_type == "Liege" && !obj_control.dropdowns[3] {
-			image_index = 0
-		} else if dropdown_type == "Liege" && obj_control.dropdowns[3] {
-			image_index = 2
-		}
-	}
+} 
+
+if !position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
+	image_index = 0
+}
+
+if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
+	image_index = 1
 }
 
 if type == "Liege" {
@@ -245,7 +381,7 @@ if type == "Liege" {
 } else if type == "Diplomacy" {
 	ico_index = 5
 } else if type == "Profile" {
-	tag_id = "ORL"
+	tag_id = obj_control.player_tag
 } else if type == "CloseArmy" {
 	ico_index = 7
 }
@@ -255,9 +391,14 @@ if obj_control.tag_overview_id == -1 {
 		obj_control.dropdowns = [false, false, false, false]
 	}
 	
-	if diplo_action {
+	if diplo_action || type == "TagTo" {
 		instance_destroy(self)
 	}
 }
 
-
+if !obj_control.prov_select && type == "ProvSelect" {	
+	instance_destroy(self)
+}
+if !obj_control.build_select && type == "BuildSelect" {	
+	instance_destroy(self)
+}

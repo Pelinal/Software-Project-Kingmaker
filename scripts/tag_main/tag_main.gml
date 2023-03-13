@@ -163,6 +163,39 @@ function tag_init() {
 	global.opinions[27] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0]
 	global.opinions[28] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0]
 	global.opinions[29] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100]
+	
+	// List of Flags
+	// Index corresponds to Tag_ID, each value is a list formatted: ["FlagName", TurnsRemaining (Integer)]
+	global.flags[0] = []
+	global.flags[1] = []
+	global.flags[2] = []
+	global.flags[3] = []
+	global.flags[4] = []
+	global.flags[5] = []
+	global.flags[6] = []
+	global.flags[7] = []
+	global.flags[8] = []
+	global.flags[9] = []
+	global.flags[10] = []
+	global.flags[11] = []
+	global.flags[12] = []
+	global.flags[13] = []
+	global.flags[14] = []
+	global.flags[15] = []
+	global.flags[16] = []
+	global.flags[17] = []
+	global.flags[18] = []
+	global.flags[19] = []
+	global.flags[20] = []
+	global.flags[21] = []
+	global.flags[22] = []
+	global.flags[23] = []
+	global.flags[24] = []
+	global.flags[25] = []
+	global.flags[26] = []
+	global.flags[27] = []
+	global.flags[28] = []
+	global.flags[29] = []
 }
 
 function tag_fetch_colour(tag) {
@@ -552,5 +585,49 @@ function tag_declare_war(tag1, tag2) {
 			array_push(global.wars[ally_tag_id], tag2)
 			array_push(global.wars[tag2_id], global.allies[tag1_id][i])
 		}
+	}
+}
+
+function flag_add(tag, flag, timer) {
+	// Adds a flag to the tag
+	var tag_id = tag_fetch_id(tag)
+	
+	array_push(global.flags[tag_id], [flag, timer])
+}
+
+function tag_has_flag(tag, flag) {
+	// Determines if a tag has the specified flag
+	var flag_list = global.flags[tag_fetch_id(tag)]
+	
+	if array_length(flag_list) > 0 {
+		for (var i = 0; i < array_length(flag_list); i ++) {
+			// Check each flag
+			
+			if flag_list[i][0] == flag {
+				return true
+			}
+		}
+	} else {
+		return false	
+	}
+	
+	return false
+}
+
+function flags_update(tag_id) {
+	// Goes through all flags of a target country, and ticks them by one
+	var flag_list = global.flags[tag_id]
+	
+	if array_length(flag_list) > 0 {
+		for (var i = 0; i < array_length(flag_list); i ++) {
+			flag_list[i][1] -= 1 // Decrement flag timer by 1
+			
+			if flag_list[i][1] <= 0 {
+				// Remove Flag if timer runs out
+				array_delete(global.flags[tag_id], i, 1)
+			}
+		}
+	} else {
+		return	
 	}
 }

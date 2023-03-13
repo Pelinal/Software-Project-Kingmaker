@@ -117,6 +117,90 @@ function map_init(){
 	// Guyenne Again
 	global.provinces[78] = ["Gabardan", 4, 2, 3, 5, "Nerac", "GUY", 0, 0]
 	
+	/// Buildings Slots List
+	// Index correlates to Prov ID
+	// Each one is a list of Building IDS (max Four) , -1 means no building is present in slot
+	global.buildslots[0] = [-1, -1, -1, -1]
+	global.buildslots[1] = [-1, -1, -1, -1]
+	global.buildslots[2] = [-1, -1, -1, -1]
+	global.buildslots[3] = [-1, -1, -1, -1]
+	global.buildslots[4] = [-1, -1, -1, -1]
+	global.buildslots[5] = [-1, -1, -1, -1]
+	global.buildslots[6] = [-1, -1, -1, -1]
+	global.buildslots[7] = [-1, -1, -1, -1]
+	global.buildslots[8] = [-1, -1, -1, -1]
+	global.buildslots[9] = [-1, -1, -1, -1]
+	global.buildslots[10] = [-1, -1, -1, -1]
+	global.buildslots[11] = [-1, -1, -1, -1]
+	global.buildslots[12] = [-1, -1, -1, -1]
+	global.buildslots[13] = [-1, -1, -1, -1]
+	global.buildslots[14] = [-1, -1, -1, -1]
+	global.buildslots[15] = [-1, -1, -1, -1]
+	global.buildslots[16] = [-1, -1, -1, -1]
+	global.buildslots[17] = [-1, -1, -1, -1]
+	global.buildslots[18] = [-1, -1, -1, -1]
+	global.buildslots[19] = [-1, -1, -1, -1]
+	global.buildslots[20] = [-1, -1, -1, -1]
+	global.buildslots[21] = [-1, -1, -1, -1]
+	global.buildslots[22] = [-1, -1, -1, -1]
+	global.buildslots[23] = [-1, -1, -1, -1]
+	global.buildslots[24] = [-1, -1, -1, -1]
+	global.buildslots[25] = [-1, -1, -1, -1]
+	global.buildslots[26] = [-1, -1, -1, -1]
+	global.buildslots[27] = [-1, -1, -1, -1]
+	global.buildslots[28] = [-1, -1, -1, -1]
+	global.buildslots[29] = [-1, -1, -1, -1]
+	global.buildslots[30] = [-1, -1, -1, -1]
+	global.buildslots[31] = [-1, -1, -1, -1]
+	global.buildslots[32] = [-1, -1, -1, -1]
+	global.buildslots[33] = [-1, -1, -1, -1]
+	global.buildslots[34] = [-1, -1, -1, -1]
+	global.buildslots[35] = [-1, -1, -1, -1]
+	global.buildslots[36] = [-1, -1, -1, -1]
+	global.buildslots[37] = [-1, -1, -1, -1]
+	global.buildslots[38] = [-1, -1, -1, -1]
+	global.buildslots[39] = [-1, -1, -1, -1]
+	global.buildslots[40] = [-1, -1, -1, -1]
+	global.buildslots[41] = [-1, -1, -1, -1]
+	global.buildslots[42] = [-1, -1, -1, -1]
+	global.buildslots[43] = [-1, -1, -1, -1]
+	global.buildslots[44] = [-1, -1, -1, -1]
+	global.buildslots[45] = [-1, -1, -1, -1]
+	global.buildslots[46] = [-1, -1, -1, -1]
+	global.buildslots[47] = [-1, -1, -1, -1]
+	global.buildslots[48] = [-1, -1, -1, -1]
+	global.buildslots[49] = [-1, -1, -1, -1]
+	global.buildslots[50] = [-1, -1, -1, -1]
+	global.buildslots[51] = [-1, -1, -1, -1]
+	global.buildslots[52] = [-1, -1, -1, -1]
+	global.buildslots[53] = [-1, -1, -1, -1]
+	global.buildslots[54] = [-1, -1, -1, -1]
+	global.buildslots[55] = [-1, -1, -1, -1]
+	global.buildslots[56] = [-1, -1, -1, -1]
+	global.buildslots[57] = [-1, -1, -1, -1]
+	global.buildslots[58] = [-1, -1, -1, -1]
+	global.buildslots[59] = [-1, -1, -1, -1]
+	global.buildslots[60] = [-1, -1, -1, -1]
+	global.buildslots[61] = [-1, -1, -1, -1]
+	global.buildslots[62] = [-1, -1, -1, -1]
+	global.buildslots[63] = [-1, -1, -1, -1]
+	global.buildslots[64] = [-1, -1, -1, -1]
+	global.buildslots[65] = [-1, -1, -1, -1]
+	global.buildslots[66] = [-1, -1, -1, -1]
+	global.buildslots[67] = [-1, -1, -1, -1]
+	global.buildslots[68] = [-1, -1, -1, -1]
+	global.buildslots[69] = [-1, -1, -1, -1]
+	global.buildslots[70] = [-1, -1, -1, -1]
+	global.buildslots[71] = [-1, -1, -1, -1]
+	global.buildslots[72] = [-1, -1, -1, -1]
+	global.buildslots[73] = [-1, -1, -1, -1]
+	global.buildslots[74] = [-1, -1, -1, -1]
+	global.buildslots[75] = [-1, -1, -1, -1]
+	global.buildslots[76] = [-1, -1, -1, -1]
+	global.buildslots[77] = [-1, -1, -1, -1]
+	global.buildslots[78] = [-1, -1, -1, -1]
+
+	
 	with instance_create_depth(180, 531, 0, obj_province) {
 		sprite_index = spr_c_leon
 		y_offset = -20
@@ -539,6 +623,7 @@ function map_init(){
 
 function map_province_owner(province) {
 	// Finds the owning tag of the specified province
+	//show_debug_message(province)
 	return global.provinces[province][6]
 }
 
@@ -803,7 +888,812 @@ function map_province_is_adjacent(prov1, prov2) {
 	return false
 }
 
+function map_province_get_adjacent(prov1, tag) {
+	// Returns the id of a random adjacent province, prioritises owned tags
+	
+	var adj_list
+	
+	switch prov1 {
+		case 0:
+			adj_list = [1, 2]
+			break
+		case 1:
+			adj_list = [0, 2, 3]
+			break
+		case 2:
+			adj_list = [0, 1, 3, 4, 5, 14, 16]
+			break
+		case 3:
+			adj_list = [1, 2, 4]
+			break
+		case 4:
+			adj_list = [2, 3, 16, 38]
+			break
+		case 5:
+			adj_list = [2, 7, 6, 14]
+			break
+		case 6:
+			adj_list = [5, 7, 8]
+			break
+		case 7:
+			adj_list = [5, 6, 8, 14, 15]
+			break
+		case 8:
+			adj_list = [6, 7, 9, 15, 22, 23]
+			break
+		case 9:
+			adj_list = [8, 11, 12, 25]
+			break
+		case 10:
+			adj_list = [11]
+			break
+		case 11:
+			adj_list = [9, 12, 13]
+			break
+		case 12:
+			adj_list = [9, 11, 13, 25, 26]
+			break
+		case 13:
+			adj_list = [11, 12, 26, 27, 28]
+			break
+		case 14:
+			adj_list = [2, 5, 7, 15, 16]
+			break
+		case 15:
+			adj_list = [7, 8, 14, 16, 17, 18, 22]
+			break
+		case 16:
+			adj_list = [2, 4, 14, 15, 17, 37, 38]
+			break
+		case 17:
+			adj_list = [15, 16, 18, 19, 33, 37]
+			break
+		case 18:
+			adj_list = [15, 17, 19, 20, 22]
+			break
+		case 19:
+			adj_list = [17, 18, 20, 21, 33, 34]
+			break
+		case 20:
+			adj_list = [18, 19, 21, 22, 24, 75]
+			break
+		case 21:
+			adj_list = [19, 20, 32, 34, 36, 46]
+			break
+		case 22:
+			adj_list = [8, 15, 18, 20, 23, 24]
+			break
+		case 23:
+			adj_list = [8, 15, 22, 24, 25]
+			break
+		case 24:
+			adj_list = [22, 23, 25, 26, 29, 75]
+			break
+		case 25:
+			adj_list = [9, 12, 23, 24, 26]
+			break
+		case 26:
+			adj_list = [12, 13, 24, 27, 29]
+			break
+		case 27:
+			adj_list = [13, 26, 28, 29]
+			break
+		case 28:
+			adj_list = [13, 27, 29, 30, 31]
+			break
+		case 29:
+			adj_list = [24, 26, 27, 28, 30, 32, 75]
+			break
+		case 30:
+			adj_list = [28, 29, 31, 32, 46]
+			break
+		case 31:
+			adj_list = [28, 30, 46, 47]
+			break
+		case 32:
+			adj_list = [21, 29, 30, 46, 75]
+			break
+		case 33:
+			adj_list = [17, 19, 34, 35, 42]
+			break
+		case 34:
+			adj_list = [19, 21, 33, 35, 36]
+			break
+		case 35:
+			adj_list = [33, 34, 36, 44, 48, 49, 50]
+			break
+		case 36:
+			adj_list = [21, 34, 35, 46, 47, 48]
+			break
+		case 37:
+			adj_list = [16, 17, 38, 40, 41, 42, 43]
+			break
+		case 38:
+			adj_list = [4, 16, 37, 39]
+			break
+		case 39:
+			adj_list = [38, 40]
+			break
+		case 40:
+			adj_list = [37, 38, 39, 41, 51, 53]
+			break
+		case 41:
+			adj_list = [37, 40, 43, 54, 53]
+			break
+		case 42:
+			adj_list = [17, 33, 37, 43, 44]
+			break
+		case 43:
+			adj_list = [37, 41, 42, 44, 45, 54, 55]
+			break
+		case 44:
+			adj_list = [33, 35, 42, 43, 45, 50, 61]
+			break
+		case 45:
+			adj_list = [43, 44, 50, 55, 60, 61]
+			break
+		case 46:
+			adj_list = [21, 32, 30, 31, 36, 47]
+			break
+		case 47:
+			adj_list = [36, 46, 48]
+			break
+		case 48:
+			adj_list = [35, 36, 49, 50]
+			break
+		case 49:
+			adj_list = [35, 48]
+			break
+		case 50:
+			adj_list = [35, 44, 48, 61, 64]
+			break
+		case 51:
+			adj_list = [40, 52, 53]
+			break
+		case 52:
+			adj_list = [51, 53, 71, 78]
+			break
+		case 53:
+			adj_list = [40, 41, 51, 52, 54, 55, 72, 78]
+			break
+		case 54:
+			adj_list = [41, 43, 53]
+			break
+		case 55:
+			adj_list = [43, 45, 56, 57, 58, 59, 60, 72]
+			break
+		case 56:
+			adj_list = [55, 57, 69, 72]
+			break
+		case 57:
+			adj_list = [55, 56, 58, 69]
+			break
+		case 58:
+			adj_list = [55, 57, 59]
+			break
+		case 59:
+			adj_list = [55, 58, 60, 61, 62, 66]
+			break
+		case 60:
+			adj_list = [45, 55, 59, 61]
+			break
+		case 61:
+			adj_list = [44, 50, 59, 60, 63, 64]
+			break
+		case 62:
+			adj_list = [59, 63, 66, 76]
+			break
+		case 63:
+			adj_list = [61, 62, 64, 65, 76]
+			break
+		case 64:
+			adj_list = [50, 61, 63, 65]
+			break
+		case 65:
+			adj_list = [63, 64, 76, 77]
+			break
+		case 66:
+			adj_list = [59, 62, 67, 76]
+			break
+		case 67:
+			adj_list = [66, 76, 77, 68]
+			break
+		case 68:
+			adj_list = [67, 77]
+			break
+		case 69:
+			adj_list = [56, 57, 69, 72]
+			break
+		case 70:
+			adj_list = [71, 74]
+			break
+		case 71:
+			adj_list = [52, 70, 72, 74, 78]
+			break
+		case 72:
+			adj_list = [53, 55, 56, 69, 71, 73, 78]
+			break
+		case 73:
+			adj_list = [69, 72, 74]
+			break
+		case 74:
+			adj_list = [70, 71, 72, 73]
+			break
+		case 75:
+			adj_list = [20, 24, 29, 32]
+			break
+		case 76:
+			adj_list = [62, 63, 65, 66, 67, 77]
+			break
+		case 77:
+			adj_list = [65, 67, 68, 76]
+			break
+		case 78:
+			adj_list = [52, 53, 71, 72]
+			break
+	}
+	
+	for (var i = 0; i < array_length(adj_list); i ++) {
+		if global.provinces[adj_list[i]][6] == tag {
+			return adj_list[i]
+			break
+		}
+	}
+	
+	return adj_list[irandom_range(0, array_length(adj_list)-1)]
+}
+
+function map_province_get_adjacent_list(prov1) {
+	// Returns the id of a random adjacent province, prioritises owned tags
+	
+	var adj_list = []
+	
+	switch prov1 {
+		case 0:
+			adj_list = [1, 2]
+			break
+		case 1:
+			adj_list = [0, 2, 3]
+			break
+		case 2:
+			adj_list = [0, 1, 3, 4, 5, 14, 16]
+			break
+		case 3:
+			adj_list = [1, 2, 4]
+			break
+		case 4:
+			adj_list = [2, 3, 16, 38]
+			break
+		case 5:
+			adj_list = [2, 7, 6, 14]
+			break
+		case 6:
+			adj_list = [5, 7, 8]
+			break
+		case 7:
+			adj_list = [5, 6, 8, 14, 15]
+			break
+		case 8:
+			adj_list = [6, 7, 9, 15, 22, 23]
+			break
+		case 9:
+			adj_list = [8, 11, 12, 25]
+			break
+		case 10:
+			adj_list = [11]
+			break
+		case 11:
+			adj_list = [9, 12, 13]
+			break
+		case 12:
+			adj_list = [9, 11, 13, 25, 26]
+			break
+		case 13:
+			adj_list = [11, 12, 26, 27, 28]
+			break
+		case 14:
+			adj_list = [2, 5, 7, 15, 16]
+			break
+		case 15:
+			adj_list = [7, 8, 14, 16, 17, 18, 22]
+			break
+		case 16:
+			adj_list = [2, 4, 14, 15, 17, 37, 38]
+			break
+		case 17:
+			adj_list = [15, 16, 18, 19, 33, 37]
+			break
+		case 18:
+			adj_list = [15, 17, 19, 20, 22]
+			break
+		case 19:
+			adj_list = [17, 18, 20, 21, 33, 34]
+			break
+		case 20:
+			adj_list = [18, 19, 21, 22, 24, 75]
+			break
+		case 21:
+			adj_list = [19, 20, 32, 34, 36, 46]
+			break
+		case 22:
+			adj_list = [8, 15, 18, 20, 23, 24]
+			break
+		case 23:
+			adj_list = [8, 15, 22, 24, 25]
+			break
+		case 24:
+			adj_list = [22, 23, 25, 26, 29, 75]
+			break
+		case 25:
+			adj_list = [9, 12, 23, 24, 26]
+			break
+		case 26:
+			adj_list = [12, 13, 24, 27, 29]
+			break
+		case 27:
+			adj_list = [13, 26, 28, 29]
+			break
+		case 28:
+			adj_list = [13, 27, 29, 30, 31]
+			break
+		case 29:
+			adj_list = [24, 26, 27, 28, 30, 32, 75]
+			break
+		case 30:
+			adj_list = [28, 29, 31, 32, 46]
+			break
+		case 31:
+			adj_list = [28, 30, 46, 47]
+			break
+		case 32:
+			adj_list = [21, 29, 30, 46, 75]
+			break
+		case 33:
+			adj_list = [17, 19, 34, 35, 42]
+			break
+		case 34:
+			adj_list = [19, 21, 33, 35, 36]
+			break
+		case 35:
+			adj_list = [33, 34, 36, 44, 48, 49, 50]
+			break
+		case 36:
+			adj_list = [21, 34, 35, 46, 47, 48]
+			break
+		case 37:
+			adj_list = [16, 17, 38, 40, 41, 42, 43]
+			break
+		case 38:
+			adj_list = [4, 16, 37, 39]
+			break
+		case 39:
+			adj_list = [38, 40]
+			break
+		case 40:
+			adj_list = [37, 38, 39, 41, 51, 53]
+			break
+		case 41:
+			adj_list = [37, 40, 43, 54, 53]
+			break
+		case 42:
+			adj_list = [17, 33, 37, 43, 44]
+			break
+		case 43:
+			adj_list = [37, 41, 42, 44, 45, 54, 55]
+			break
+		case 44:
+			adj_list = [33, 35, 42, 43, 45, 50, 61]
+			break
+		case 45:
+			adj_list = [43, 44, 50, 55, 60, 61]
+			break
+		case 46:
+			adj_list = [21, 32, 30, 31, 36, 47]
+			break
+		case 47:
+			adj_list = [36, 46, 48]
+			break
+		case 48:
+			adj_list = [35, 36, 49, 50]
+			break
+		case 49:
+			adj_list = [35, 48]
+			break
+		case 50:
+			adj_list = [35, 44, 48, 61, 64]
+			break
+		case 51:
+			adj_list = [40, 52, 53]
+			break
+		case 52:
+			adj_list = [51, 53, 71, 78]
+			break
+		case 53:
+			adj_list = [40, 41, 51, 52, 54, 55, 72, 78]
+			break
+		case 54:
+			adj_list = [41, 43, 53]
+			break
+		case 55:
+			adj_list = [43, 45, 56, 57, 58, 59, 60, 72]
+			break
+		case 56:
+			adj_list = [55, 57, 69, 72]
+			break
+		case 57:
+			adj_list = [55, 56, 58, 69]
+			break
+		case 58:
+			adj_list = [55, 57, 59]
+			break
+		case 59:
+			adj_list = [55, 58, 60, 61, 62, 66]
+			break
+		case 60:
+			adj_list = [45, 55, 59, 61]
+			break
+		case 61:
+			adj_list = [44, 50, 59, 60, 63, 64]
+			break
+		case 62:
+			adj_list = [59, 63, 66, 76]
+			break
+		case 63:
+			adj_list = [61, 62, 64, 65, 76]
+			break
+		case 64:
+			adj_list = [50, 61, 63, 65]
+			break
+		case 65:
+			adj_list = [63, 64, 76, 77]
+			break
+		case 66:
+			adj_list = [59, 62, 67, 76]
+			break
+		case 67:
+			adj_list = [66, 76, 77, 68]
+			break
+		case 68:
+			adj_list = [67, 77]
+			break
+		case 69:
+			adj_list = [56, 57, 69, 72]
+			break
+		case 70:
+			adj_list = [71, 74]
+			break
+		case 71:
+			adj_list = [52, 70, 72, 74, 78]
+			break
+		case 72:
+			adj_list = [53, 55, 56, 69, 71, 73, 78]
+			break
+		case 73:
+			adj_list = [69, 72, 74]
+			break
+		case 74:
+			adj_list = [70, 71, 72, 73]
+			break
+		case 75:
+			adj_list = [20, 24, 29, 32]
+			break
+		case 76:
+			adj_list = [62, 63, 65, 66, 67, 77]
+			break
+		case 77:
+			adj_list = [65, 67, 68, 76]
+			break
+		case 78:
+			adj_list = [52, 53, 71, 72]
+			break
+	}
+
+	return adj_list
+}
+
+function find_adjacent_armies(prov1, tag) {
+	// Checks ajacent provinces for friendly armies
+	
+	var adj_list
+	
+	switch prov1 {
+		case 0:
+			adj_list = [1, 2]
+			break
+		case 1:
+			adj_list = [0, 2, 3]
+			break
+		case 2:
+			adj_list = [0, 1, 3, 4, 5, 14, 16]
+			break
+		case 3:
+			adj_list = [1, 2, 4]
+			break
+		case 4:
+			adj_list = [2, 3, 16, 38]
+			break
+		case 5:
+			adj_list = [2, 7, 6, 14]
+			break
+		case 6:
+			adj_list = [5, 7, 8]
+			break
+		case 7:
+			adj_list = [5, 6, 8, 14, 15]
+			break
+		case 8:
+			adj_list = [6, 7, 9, 15, 22, 23]
+			break
+		case 9:
+			adj_list = [8, 11, 12, 25]
+			break
+		case 10:
+			adj_list = [11]
+			break
+		case 11:
+			adj_list = [9, 12, 13]
+			break
+		case 12:
+			adj_list = [9, 11, 13, 25, 26]
+			break
+		case 13:
+			adj_list = [11, 12, 26, 27, 28]
+			break
+		case 14:
+			adj_list = [2, 5, 7, 15, 16]
+			break
+		case 15:
+			adj_list = [7, 8, 14, 16, 17, 18, 22]
+			break
+		case 16:
+			adj_list = [2, 4, 14, 15, 17, 37, 38]
+			break
+		case 17:
+			adj_list = [15, 16, 18, 19, 33, 37]
+			break
+		case 18:
+			adj_list = [15, 17, 19, 20, 22]
+			break
+		case 19:
+			adj_list = [17, 18, 20, 21, 33, 34]
+			break
+		case 20:
+			adj_list = [18, 19, 21, 22, 24, 75]
+			break
+		case 21:
+			adj_list = [19, 20, 32, 34, 36, 46]
+			break
+		case 22:
+			adj_list = [8, 15, 18, 20, 23, 24]
+			break
+		case 23:
+			adj_list = [8, 15, 22, 24, 25]
+			break
+		case 24:
+			adj_list = [22, 23, 25, 26, 29, 75]
+			break
+		case 25:
+			adj_list = [9, 12, 23, 24, 26]
+			break
+		case 26:
+			adj_list = [12, 13, 24, 27, 29]
+			break
+		case 27:
+			adj_list = [13, 26, 28, 29]
+			break
+		case 28:
+			adj_list = [13, 27, 29, 30, 31]
+			break
+		case 29:
+			adj_list = [24, 26, 27, 28, 30, 32, 75]
+			break
+		case 30:
+			adj_list = [28, 29, 31, 32, 46]
+			break
+		case 31:
+			adj_list = [28, 30, 46, 47]
+			break
+		case 32:
+			adj_list = [21, 29, 30, 46, 75]
+			break
+		case 33:
+			adj_list = [17, 19, 34, 35, 42]
+			break
+		case 34:
+			adj_list = [19, 21, 33, 35, 36]
+			break
+		case 35:
+			adj_list = [33, 34, 36, 44, 48, 49, 50]
+			break
+		case 36:
+			adj_list = [21, 34, 35, 46, 47, 48]
+			break
+		case 37:
+			adj_list = [16, 17, 38, 40, 41, 42, 43]
+			break
+		case 38:
+			adj_list = [4, 16, 37, 39]
+			break
+		case 39:
+			adj_list = [38, 40]
+			break
+		case 40:
+			adj_list = [37, 38, 39, 41, 51, 53]
+			break
+		case 41:
+			adj_list = [37, 40, 43, 54, 53]
+			break
+		case 42:
+			adj_list = [17, 33, 37, 43, 44]
+			break
+		case 43:
+			adj_list = [37, 41, 42, 44, 45, 54, 55]
+			break
+		case 44:
+			adj_list = [33, 35, 42, 43, 45, 50, 61]
+			break
+		case 45:
+			adj_list = [43, 44, 50, 55, 60, 61]
+			break
+		case 46:
+			adj_list = [21, 32, 30, 31, 36, 47]
+			break
+		case 47:
+			adj_list = [36, 46, 48]
+			break
+		case 48:
+			adj_list = [35, 36, 49, 50]
+			break
+		case 49:
+			adj_list = [35, 48]
+			break
+		case 50:
+			adj_list = [35, 44, 48, 61, 64]
+			break
+		case 51:
+			adj_list = [40, 52, 53]
+			break
+		case 52:
+			adj_list = [51, 53, 71, 78]
+			break
+		case 53:
+			adj_list = [40, 41, 51, 52, 54, 55, 72, 78]
+			break
+		case 54:
+			adj_list = [41, 43, 53]
+			break
+		case 55:
+			adj_list = [43, 45, 56, 57, 58, 59, 60, 72]
+			break
+		case 56:
+			adj_list = [55, 57, 69, 72]
+			break
+		case 57:
+			adj_list = [55, 56, 58, 69]
+			break
+		case 58:
+			adj_list = [55, 57, 59]
+			break
+		case 59:
+			adj_list = [55, 58, 60, 61, 62, 66]
+			break
+		case 60:
+			adj_list = [45, 55, 59, 61]
+			break
+		case 61:
+			adj_list = [44, 50, 59, 60, 63, 64]
+			break
+		case 62:
+			adj_list = [59, 63, 66, 76]
+			break
+		case 63:
+			adj_list = [61, 62, 64, 65, 76]
+			break
+		case 64:
+			adj_list = [50, 61, 63, 65]
+			break
+		case 65:
+			adj_list = [63, 64, 76, 77]
+			break
+		case 66:
+			adj_list = [59, 62, 67, 76]
+			break
+		case 67:
+			adj_list = [66, 76, 77, 68]
+			break
+		case 68:
+			adj_list = [67, 77]
+			break
+		case 69:
+			adj_list = [56, 57, 69, 72]
+			break
+		case 70:
+			adj_list = [71, 74]
+			break
+		case 71:
+			adj_list = [52, 70, 72, 74, 78]
+			break
+		case 72:
+			adj_list = [53, 55, 56, 69, 71, 73, 78]
+			break
+		case 73:
+			adj_list = [69, 72, 74]
+			break
+		case 74:
+			adj_list = [70, 71, 72, 73]
+			break
+		case 75:
+			adj_list = [20, 24, 29, 32]
+			break
+		case 76:
+			adj_list = [62, 63, 65, 66, 67, 77]
+			break
+		case 77:
+			adj_list = [65, 67, 68, 76]
+			break
+		case 78:
+			adj_list = [52, 53, 71, 72]
+			break
+	}
+	
+	var units_to_merge = []
+	
+	for (var i = 0; i < array_length(adj_list); i ++) {
+		with obj_province {
+			if adj_list[i] == prov_id && unit_in_prov != noone {
+				if unit_in_prov.tag_id == tag_fetch_id(tag) {
+					array_push(units_to_merge, unit_in_prov)
+				}
+			}
+		}
+	}
+	
+	if array_length(units_to_merge) == 0 {
+		return noone	
+	} else {
+		return units_to_merge
+	}
+}
+
 function map_province_own(prov, tag) {
 	// changes the owner of a province
 	global.provinces[prov][6] = tag
+}
+
+function map_list_provselect(tag) {
+	// lists all provinces owned by a certain tag in a scroll menu
+	var y_offset = 252
+	obj_control.prov_select = true // enable prov select menu
+	
+	for (var i = 0; i < array_length(global.provinces); i ++) {
+		if global.provinces[i][6] == tag && i != 24 {
+			//array_push(prov_list, global.provinces[i][6]) // Add owned ids to list
+			
+			var new_button = instance_create_depth(717, y_offset, -10, obj_button)
+			with new_button	{
+				sprite_index = spr_rectlarge_button
+				type = "ProvSelect"
+				prov_to_select = i
+			}
+			
+			y_offset += 64
+		}
+	}
+	
+	//return prov_list
+	
+}
+
+function map_find_owned_list(tag) {
+	// lists all provinces owned by a certain tag and returns a list
+	var prov_list = []
+	
+	for (var i = 0; i < array_length(global.provinces); i ++) {
+		if global.provinces[i][6] == tag {
+			array_push(prov_list, i)
+		}
+	}
+	
+	return prov_list
+	
 }

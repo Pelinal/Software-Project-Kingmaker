@@ -14,6 +14,14 @@ if colliding_unit != noone {
 	unit_in_prov = noone
 }
 
+if unit_in_prov != noone {
+	if tag_is_enemy(global.tags[unit_in_prov.tag_id][0], map_province_owner(prov_id)) {
+		prov_occupied_by = global.tags[unit_in_prov.tag_id][0]
+	}
+	if prov_occupied_by != noone && tag == global.tags[unit_in_prov.tag_id][0] {
+		prov_occupied_by = noone
+	}
+}
 if prov_occupied_by == noone {
 	image_colour = tag_fetch_colour(global.provinces[prov_id][6])
 } else {
@@ -32,23 +40,55 @@ if position_meeting(mouse_x, mouse_y, id) {
 	}
 
 	if mouse_check_button_pressed(mb_left) {
+		//if !!position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), obj_button) {
+		//	obj_control.selected_army = noone
+		//	obj_control.army_overview_id = -1
+		//}
 		/// @description Show Panel
 		if !position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), obj_button) &&
-		   !position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), obj_prevent_clickthrough) &&
+		   !position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), obj_prevent_clickthrough) && 
 		   !obj_control.lock_ui && !position_meeting(mouse_x, mouse_y, obj_army) { 
 			instance_destroy(obj_prevent_clickthrough)
 			obj_control.province_overview_id = prov_id
+			obj_control.prov_select = false
+			obj_control.build_select = false
 			with obj_button {
-				if type == "Build Units" || type == "Construct Slot" || type == "ProfileSmall" || type == "Dropdown" || diplo_action {
+				if type == "BuildingSlot" || type == "BuildSelect" || type == "ProfileSmall" || type == "Dropdown" || diplo_action || court_action {
 					instance_destroy(self)
 				}
 			}
+			//if map_province_owner(prov_id) == obj_control.player_tag {
+			//	with instance_create_depth(320, 824, -103, obj_button) {
+			//		sprite_index = spr_tall_button
+			//		image_index = 0
+			//		type = "Build Units"
+			//	}
+			//}
+			
 			if map_province_owner(prov_id) == obj_control.player_tag {
-				with instance_create_depth(320, 824, -103, obj_button) {
-					sprite_index = spr_tall_button
-					image_index = 0
-					type = "Build Units"
-				}
+				var new_button = instance_create_depth(336, 840, -103, obj_button)
+				new_button.sprite_index = spr_building_slot
+				new_button.build_prov = prov_id
+				new_button.build_slot = 0
+				new_button.type = "BuildingSlot"
+				
+				var new_button = instance_create_depth(432, 840, -103, obj_button)
+				new_button.sprite_index = spr_building_slot
+				new_button.build_prov = prov_id
+				new_button.build_slot = 1
+				new_button.type = "BuildingSlot"
+				
+				var new_button = instance_create_depth(336, 936, -103, obj_button)
+				new_button.sprite_index = spr_building_slot
+				new_button.build_prov = prov_id
+				new_button.build_slot = 2
+				new_button.type = "BuildingSlot"
+				
+				var new_button = instance_create_depth(432, 936, -103, obj_button)
+				new_button.sprite_index = spr_building_slot
+				new_button.build_prov = prov_id
+				new_button.build_slot = 3
+				new_button.type = "BuildingSlot"
 			}
 	
 			with instance_create_depth(732, 828, -103, obj_button) {
@@ -71,10 +111,10 @@ if position_meeting(mouse_x, mouse_y, id) {
 	
 
 			if keyboard_check(vk_shift) {
-				global.provinces[prov_id][6] = "ORL"
+				global.provinces[prov_id][6] = obj_control.player_tag
 			}
 		}
-	} else if mouse_check_button_pressed(mb_right) {
+	} else if mouse_check_button_pressed(mb_right) && obj_control.army_overview_id != -1 {
 		if unit_in_prov == noone {
 			if obj_control.selected_army != noone && map_province_is_adjacent(prov_id, obj_control.selected_army.location) 
 			&& (map_province_owner(prov_id) == obj_control.player_tag || tag_is_ally(obj_control.player_tag, map_province_owner(prov_id)) || tag_is_enemy(obj_control.player_tag, map_province_owner(prov_id))) {
@@ -90,6 +130,7 @@ if position_meeting(mouse_x, mouse_y, id) {
 					}
 				
 					obj_control.selected_army = noone
+					obj_control.army_overview_id = -1
 				}
 			}
 		} else {

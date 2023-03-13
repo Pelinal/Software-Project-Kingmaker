@@ -1,5 +1,8 @@
 /// @description Draw Self
-
+if type == "ArmyMerge" || type == "ArmySplit" 
+|| type == "ArmyBuild" || type == "ArmyClose" {
+	exit;
+}
 draw_self()
 draw_set_alpha(1)
 draw_set_font(fnt_header)
@@ -12,6 +15,20 @@ if type == "Build Units" {
 	draw_set_halign(fa_left)
 } else if sprite_index = spr_square_button && type != "LangSetting" {
 	draw_sprite(spr_square_button, ico_index, x, y)
+} else if type == "BuildingSlot" {
+	if global.buildslots[build_prov][build_slot] != -1 {
+		if global.buildslots[build_prov][build_slot] >= 0 && global.buildslots[build_prov][build_slot] <= 2 {
+			draw_sprite(spr_building_slot, 3, x, y)
+		} else if global.buildslots[build_prov][build_slot] >= 3 && global.buildslots[build_prov][build_slot] <= 5 {
+			draw_sprite(spr_building_slot, 4, x, y)
+		} else if global.buildslots[build_prov][build_slot] >= 6 && global.buildslots[build_prov][build_slot] <= 9 {
+			draw_sprite(spr_building_slot, 5, x, y)
+		} else if global.buildslots[build_prov][build_slot] >= 10 {
+			draw_sprite(spr_building_slot, 6, x, y)
+		}
+	} else {
+		draw_sprite(spr_building_slot, 2, x, y)
+	}
 } else if type == "LangSetting" {
 	draw_set_color(c_black)
 	draw_text(x + 20, y + 54, "Language")
@@ -24,7 +41,7 @@ if type == "Build Units" {
 	if type == "Declare War" && tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
 		draw_text(x + 12, y + 24, "Offer Peace")
 	} else if type == "Declare War" && !tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
-		draw_text(x + 12, y + 24, "Delcare War")
+		draw_text(x + 12, y + 24, "Declare War")
 	} else if type == "Form Alliance" && tag_is_ally(obj_control.player_tag, obj_control.tag_overview_id) {
 		draw_text(x + 12, y + 24, "Break Alliance")
 	} else {
@@ -48,7 +65,31 @@ if type == "Build Units" {
 } else if type == "ArmyList" {
 	draw_set_colour(c_grey)
 	draw_text(x + 96, y + 24, global.unit[unit_id][0])
+} else if court_action == true {
+	draw_set_colour(c_grey)
+	draw_text(x + 12, y + 24, type)
+	if opinion_req != 0 {	
+		if tag_opinion_of("FRA", obj_control.player_tag) >= opinion_req {
+			draw_sprite(sprite_index, 2, x, y)
+		} else {
+			draw_sprite(sprite_index, 3, x, y)
+		}
+	}
+} else if type == "ProvSelect" {
+	draw_set_colour(c_grey)
+	draw_text(x + 12, y + 24, global.provinces[prov_to_select][0])
+	draw_set_halign(fa_right)
+	draw_text(x + (sprite_width - 12), y + 24, string(global.provinces[prov_to_select][1] + global.provinces[prov_to_select][2] + global.provinces[prov_to_select][3]))
+	draw_set_halign(fa_left)
+} else if type == "BuildSelect" {
+	draw_set_colour(c_grey)
+	draw_text(x + 12, y + 24, global.buildings[building_to_select][0])
+	draw_set_halign(fa_right)
+	draw_text(x + (sprite_width - 12), y + 24, string(global.buildings[building_to_select][1]) + " " + string(global.buildings[building_to_select][2]) +  "  " + string(global.buildings[building_to_select][3]))
+	draw_set_halign(fa_left)
 }
+
+
 
 if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 	if type == "Liege" {
@@ -104,7 +145,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 																 "in a war. This will take three\n" +
 																 "turns to complete.")
 	} else if type == "Improve Relations" {
-		draw_tooltip(x, y + 68, 256, 96, "Once Per Turn",		"Improve their opinion of you,\n" + 
+		draw_tooltip(x, y + 68, 256, 96, "Increase Opinion",	"Improve their opinion of you,\n" + 
 																"to open up new diplomatic\n" +
 																"options or prevent them from\n" +
 																"declaring war on you.")
@@ -118,5 +159,3 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 																"increase your own domain.\n")
 	}
 }
-
- 
