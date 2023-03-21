@@ -3,8 +3,8 @@
   "resourceVersion": "1.0",
   "name": "obj_army",
   "spriteId": {
-    "name": "spr_dot",
-    "path": "sprites/spr_dot/spr_dot.yy",
+    "name": "spr_army",
+    "path": "sprites/spr_army/spr_army.yy",
   },
   "solid": false,
   "visible": true,

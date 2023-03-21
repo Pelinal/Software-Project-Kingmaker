@@ -4,10 +4,11 @@ army_id = 0			// The Army id
 tag_id = 0			// The Owner
 location = 0		// The Province ID of its current location
 general = noone		// ID of the general in charge
-units = []			// Stores the IDs for Unit Types currently in the army
+//units = []		// Stores the IDs for Unit Types currently in the army
 total_mp = 0		// Stores the total manpower of the whole army
 moves_remaining = 2 // How many times they can move this turn
 path = []			// The path it is currently taking
+quality = 1			// The quality of the tags military
 
 depth = -1000
 image_speed = 0

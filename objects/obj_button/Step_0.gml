@@ -197,9 +197,153 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					
 					
 				}
+			} else if type == "TagListDN" && obj_control.diplo_scroll < (obj_control.diplo_count-10) {
+				/// Scroll up on diplomenu
+				obj_control.diplo_scroll += 1
+				with obj_button {
+					if type == "TagListButton" {
+						y -= 64
+					}
+				}
+			} else if type == "TagListUP" && obj_control.diplo_scroll > 0 {
+				/// Scroll up on diplomenu
+				obj_control.diplo_scroll -= 1
+				with obj_button {
+					if type == "TagListButton" {
+						y += 64
+					}
+				}
+			} else if type == "MilBudgetDN" {
+				obj_control.mil_budget[tag_fetch_id(obj_control.player_tag)] = 0
+			} else if type == "MilBudgetNO" {
+				obj_control.mil_budget[tag_fetch_id(obj_control.player_tag)] = 1
+			} else if type == "MilBudgetUP" {
+				obj_control.mil_budget[tag_fetch_id(obj_control.player_tag)] = 2
 			} else if type == "TagTo" {
 				obj_control.player_tag = obj_control.tag_overview_id
-			}
+			} else if type == "TagListButton" && visible {
+					//show_debug_message("tagid::: " + string(tag_id))
+					
+					obj_control.main_tab = "Profile"
+					obj_control.tag_overview_id = global.tags[tag_id][0]
+					//show_debug_message("overviewid::: " + string(obj_control.tag_overview_id))
+					//obj_control.lock_ui = true
+					
+					
+					if obj_control.tag_overview_id != obj_control.player_tag {
+						// Create Diplo Dropdowns
+						obj_control.dropdowns = [false, false, false, false]
+						if obj_control.tag_overview_id == "FRA" {
+							/// DEBUG BUTTON
+							with instance_create_depth(502, 218, -1111, obj_button) {
+								type = "TagTo"
+								ico_index = 11
+								sprite_index = spr_square_button
+							}
+							/////////////////
+							with instance_create_depth(24, 680, -1003, obj_button) {
+								type = "Improve Relations"
+								diplo_action = true
+								opinion_req = 0
+								sprite_index = spr_rectlarge_button
+							}
+							with instance_create_depth(24, 744, -1003, obj_button) {
+								type = "Arrange Marriage"
+								diplo_action = true
+								opinion_req = 75
+								sprite_index = spr_rectlarge_button
+							}
+							
+							
+							with instance_create_depth(350, 680, -103, obj_button) {
+								type = "Declare War"
+								diplo_action = true
+								opinion_req = 0
+								sprite_index = spr_rectlarge_button
+							}
+							with instance_create_depth(350, 744, -103, obj_button) {
+								type = "Fabricate Claim"
+								diplo_action = true
+								opinion_req = 0
+								sprite_index = spr_rectlarge_button
+							}
+							with instance_create_depth(350, 808, -103, obj_button) {
+								type = "Sabotage Armies"
+								diplo_action = true
+								opinion_req = 0
+								sprite_index = spr_rectlarge_button
+							}
+						} else if obj_control.tag_overview_id == "SPA" || obj_control.tag_overview_id == "PAP" {
+							/// DEBUG BUTTON
+							with instance_create_depth(502, 218, -1111, obj_button) {
+								type = "TagTo"
+								ico_index = 11
+								sprite_index = spr_square_button
+							}
+							/////////////////
+							with instance_create_depth(24, 680, -1003, obj_button) {
+								type = "Improve Relations"
+								diplo_action = true
+								opinion_req = 0
+								sprite_index = spr_rectlarge_button
+							}
+							with instance_create_depth(24, 744, -1003, obj_button) {
+								type = "Arrange Marriage"
+								diplo_action = true
+								opinion_req = 50
+								sprite_index = spr_rectlarge_button
+							}
+						} else {
+							/// DEBUG BUTTON
+							with instance_create_depth(502, 218, -1111, obj_button) {
+								type = "TagTo"
+								ico_index = 11
+								sprite_index = spr_square_button
+							}
+							/////////////////
+							with instance_create_depth(24, 680, -1003, obj_button) {
+								type = "Form Alliance"
+								diplo_action = true
+								opinion_req = 50
+								sprite_index = spr_rectlarge_button
+							}
+							with instance_create_depth(24, 744, -1003, obj_button) {
+								type = "Improve Relations"
+								diplo_action = true
+								opinion_req = 0
+								sprite_index = spr_rectlarge_button
+							}
+							with instance_create_depth(24, 808, -1003, obj_button) {
+								type = "Arrange Marriage"
+								diplo_action = true
+								opinion_req = 25
+								sprite_index = spr_rectlarge_button
+							}
+							
+							
+							with instance_create_depth(350, 680, -103, obj_button) {
+								type = "Declare War"
+								diplo_action = true
+								opinion_req = 0
+								sprite_index = spr_rectlarge_button
+							}
+							with instance_create_depth(350, 744, -103, obj_button) {
+								type = "Fabricate Claim"
+								diplo_action = true
+								opinion_req = 0
+								sprite_index = spr_rectlarge_button
+							}
+							with instance_create_depth(350, 808, -103, obj_button) {
+								type = "Sabotage Armies"
+								diplo_action = true
+								opinion_req = 0
+								sprite_index = spr_rectlarge_button
+							}
+						}
+					}
+					
+					//instance_destroy(self)
+				}
 			
 			//else if type == "Build Units" {
 			//	// Create Plus, Minus and OK buttons
@@ -239,9 +383,8 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 			}
 			
 			if obj_control.lock_ui == false {
-				if type == "Build Units" {
-					
-				} else if type == "ProfileSmall" {
+				if type == "ProfileSmall" {
+					//show_debug_message("Clicked Profile or Taglist")
 					obj_control.tag_overview_id = tag_id
 					obj_control.lock_ui = true
 					obj_control.main_tab = "Profile"
@@ -372,6 +515,12 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 	image_index = 1
 }
 
+if type == "TagListButton" && (y > 904 || y < 300) {
+	visible = false
+} else {
+	visible = true	
+}
+
 if type == "Liege" {
 	ico_index = 2
 } else if type == "Military" {
@@ -394,6 +543,14 @@ if obj_control.tag_overview_id == -1 {
 	if diplo_action || type == "TagTo" {
 		instance_destroy(self)
 	}
+}
+
+if obj_control.main_tab != "Diplomacy" && (type == "TagListButton" || type == "TagListUP" || type == "TagListDN") {
+	instance_destroy(self)
+}
+
+if obj_control.main_tab != "Economy" && (type == "MilBudgetDN" || type == "MilBudgetNO" || type == "MilBudgetUP") {
+	instance_destroy(self)
 }
 
 if !obj_control.prov_select && type == "ProvSelect" {	

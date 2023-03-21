@@ -88,7 +88,9 @@ function economy_update(tag) {
 		for (var j = 0; j < array_length(global.buildslots[i]); j ++) {
 			if global.buildslots[i][j] != -1 {
 				var bex = global.buildings[global.buildslots[i][j]][5] 
-				b_expense += bex
+				if map_province_owner(i) == tag {	
+					b_expense += bex
+				}
 			}
 		}
 		

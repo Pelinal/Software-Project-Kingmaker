@@ -5,6 +5,7 @@
   "resources": [
     {"id":{"name":"spr_c_valentinois","path":"sprites/spr_c_valentinois/spr_c_valentinois.yy",},"order":0,},
     {"id":{"name":"spr_c_arles","path":"sprites/spr_c_arles/spr_c_arles.yy",},"order":0,},
+    {"id":{"name":"spr_rectlong_button","path":"sprites/spr_rectlong_button/spr_rectlong_button.yy",},"order":14,},
     {"id":{"name":"spr_c_toulonnais","path":"sprites/spr_c_toulonnais/spr_c_toulonnais.yy",},"order":2,},
     {"id":{"name":"spr_c_soissons","path":"sprites/spr_c_soissons/spr_c_soissons.yy",},"order":5,},
     {"id":{"name":"spr_c_caennais","path":"sprites/spr_c_caennais/spr_c_caennais.yy",},"order":1,},
@@ -111,7 +112,7 @@
     {"id":{"name":"spr_c_remois","path":"sprites/spr_c_remois/spr_c_remois.yy",},"order":0,},
     {"id":{"name":"spr_c_foix","path":"sprites/spr_c_foix/spr_c_foix.yy",},"order":7,},
     {"id":{"name":"spr_c_lyonnais","path":"sprites/spr_c_lyonnais/spr_c_lyonnais.yy",},"order":0,},
-    {"id":{"name":"spr_dot","path":"sprites/spr_dot/spr_dot.yy",},"order":6,},
+    {"id":{"name":"spr_army","path":"sprites/spr_army/spr_army.yy",},"order":6,},
     {"id":{"name":"spr_c_perche","path":"sprites/spr_c_perche/spr_c_perche.yy",},"order":1,},
     {"id":{"name":"spr_seasons","path":"sprites/spr_seasons/spr_seasons.yy",},"order":6,},
     {"id":{"name":"spr_c_ebroicien","path":"sprites/spr_c_ebroicien/spr_c_ebroicien.yy",},"order":3,},

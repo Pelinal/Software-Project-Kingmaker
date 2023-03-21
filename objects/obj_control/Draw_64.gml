@@ -1,4 +1,4 @@
-/// @description debug
+/// @description HUD Drawing
 
 
 //if province_popup_id != -1 {
@@ -85,6 +85,7 @@ if main_tab != -1 {
 	
 	if main_tab == "Profile" {
 		// DIVIDER 1: OVERVIEW
+		//show_debug_message(obj_control.tag_overview_id)
 		draw_set_colour(c_grey)
 		draw_set_font(fnt_title)
 		draw_text(24, 232, global.tags[tag_fetch_id(tag_overview_id)][lang_setting]) // Name
@@ -215,6 +216,17 @@ if main_tab != -1 {
 		// DIV 3: Budget actions
 		draw_set_font(fnt_header_2)
 		draw_text(22, 760+48, "Budgeting")
+		draw_set_font(fnt_header_3)
+		draw_text(22, 790+48, "Military Budget")
+	} else if main_tab == "Diplomacy" {
+		draw_set_colour(c_grey)
+		draw_set_font(fnt_map_lg)
+		draw_text(22, 232,"Diplomacy")
+		draw_set_font(fnt_header_2)
+		draw_text(22, 264, "Nations")
+		draw_set_font(fnt_header_3)
+		draw_text(22+128+32, 266, "Opinion of You")
+		draw_text(22+292+32, 266, "Your Opinion of Them")
 	}
 }
 

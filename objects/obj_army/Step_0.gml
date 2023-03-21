@@ -8,6 +8,8 @@
 //	total_mp += units[i][1] 
 //}
 
+quality = obj_control.army_quality[tag_id]
+
 if army_id < array_length(global.army[tag_id]) {
 	total_mp = global.army[tag_id][army_id]
 } else {
@@ -62,24 +64,32 @@ if position_meeting(device_mouse_x(0), device_mouse_y(0), id) && image_alpha > 0
 			
 			with instance_create_depth(x - 36, y - 37, -103, obj_non_gui_button) {
 				type = "ArmyMerge"
+				start_x = x
+				start_y = y
 				sprite_index = spr_quick_buttons
 				image_index = 0
 				image_speed = 0
 			}
 			with instance_create_depth(x -20, y - 37, -103, obj_non_gui_button) {
 				type = "ArmySplit"
+				start_x = x
+				start_y = y
 				sprite_index = spr_quick_buttons
 				image_index = 1
 				image_speed = 0
 			}
 			with instance_create_depth(x - 4, y - 37, -103, obj_non_gui_button) {
 				type = "ArmyBuild"
+				start_x = x
+				start_y = y
 				sprite_index = spr_quick_buttons
 				image_index = 2
 				image_speed = 0
 			}
 			with instance_create_depth(x + 12, y - 37, -103, obj_non_gui_button) {
 				type = "ArmyClose"
+				start_x = x
+				start_y = y
 				sprite_index = spr_quick_buttons
 				image_index = 3
 				image_speed = 0

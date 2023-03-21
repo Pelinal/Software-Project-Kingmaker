@@ -60,5 +60,49 @@ function menu_pop(menu_type) {
 			opinion_req = 50
 			sprite_index = spr_rectlarge_button
 		}
+	} else if menu_type == "Diplomacy" {
+		obj_control.diplo_scroll = 0
+		obj_control.diplo_count = 0
+		var y_offset = 0
+		for (var i = 0; i < array_length(global.tags); i ++) {
+			if i != tag_fetch_id(obj_control.player_tag) && tag_total_development(global.tags[i][0]) > 0 {
+				with instance_create_depth(22, 300 + y_offset, -1003, obj_button) {
+					type = "TagListButton"
+					tag_id = i
+					sprite_index = spr_rectlong_button
+				}
+			
+				y_offset += 64
+				obj_control.diplo_count ++ 
+			}
+		}
+		// 12, 13
+		with instance_create_depth(616, 960, -1003, obj_button) {
+			sprite_index = spr_square_button
+			type = "TagListUP"
+			ico_index = 12 // UP button
+		}
+		
+		with instance_create_depth(548, 960, -1003, obj_button) {
+			sprite_index = spr_square_button
+			type = "TagListDN"
+			ico_index = 13 // Down button
+		}
+	} else if menu_type == "Economy" {
+		with instance_create_depth(22, 862, -1003, obj_button) {
+			sprite_index = spr_square_button
+			type = "MilBudgetDN"
+			ico_index = 14
+		}
+		with instance_create_depth(22 + 72, 862, -1003, obj_button) {
+			sprite_index = spr_square_button
+			type = "MilBudgetNO"
+			ico_index = 15
+		}
+		with instance_create_depth(22 + 144, 862, -1003, obj_button) {
+			sprite_index = spr_square_button
+			type = "MilBudgetUP"
+			ico_index = 16
+		}
 	}
 }

@@ -2,10 +2,17 @@
 
 global.pause = false
 
+// Army Quality
+army_quality = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+
+// Budget
+mil_budget = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+//adm_budget = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+
 province_overview_id = -1
 province_popup_id = -1
 zoom = 0
-player_tag = "SAI"
+player_tag = "ORL"
 
 date = ["January", 1648]
 season = 3
@@ -52,6 +59,10 @@ man_income = 0
 bld_expense = 0
 arm_expense = 0
 pre_profit  = 0
+
+// for diplomacy
+diplo_scroll = 0
+diplo_count = 0
 
 depth = -100
 

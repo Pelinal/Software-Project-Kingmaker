@@ -1,5 +1,9 @@
 /// @description Drag to move camera
 
+// Alter this if other things end up affecting army quality
+army_quality = mil_budget
+///////
+
 if mouse_check_button_pressed(mb_middle) {
 	drag_x = mouse_x
 	drag_y = mouse_y
@@ -26,6 +30,25 @@ if keyboard_check_pressed(vk_escape) {
 	}
 }
 
+//// Diplo scroll
+//if main_tab == "Diplomacy" {
+//	} else if mouse_wheel_down() && obj_control.diplo_scroll < 19 {
+//		/// Scroll up on diplomenu
+//		obj_control.diplo_scroll += 1
+//		with obj_button {
+//			if type == "TagListButton" {
+//				y -= 64
+//			}
+//		}
+//	} else if mouse_wheel_up() && obj_control.diplo_scroll > 0 {
+//		/// Scroll up on diplomenu
+//		obj_control.diplo_scroll -= 1
+//		with obj_button {
+//			if type == "TagListButton" {
+//				y += 64
+//			}
+//		}
+//}
 
 if mouse_check_button(mb_middle) {
 	// Drag the camera

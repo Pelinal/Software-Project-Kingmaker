@@ -87,6 +87,12 @@ if type == "Build Units" {
 	draw_set_halign(fa_right)
 	draw_text(x + (sprite_width - 12), y + 24, string(global.buildings[building_to_select][1]) + " " + string(global.buildings[building_to_select][2]) +  "  " + string(global.buildings[building_to_select][3]))
 	draw_set_halign(fa_left)
+} else if type == "TagListButton" {
+	draw_set_colour(c_grey)
+	draw_text(x + 12, y + 24, global.tags[tag_id][obj_control.lang_setting])
+	draw_sprite_stretched(spr_coas, tag_id + 1, (x + sprite_width) - 61, y+3, 58, 58)
+	draw_text(x + 128+32, y + 24, tag_opinion_of(global.tags[tag_id][0], obj_control.player_tag)) // Opinon of Player
+	draw_text(x + 292+32, y + 24, tag_opinion_of(obj_control.player_tag, global.tags[tag_id][0])) // Player's opinion of
 }
 
 
@@ -157,5 +163,16 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 		draw_tooltip(x, y + 68, 256, 96, "Claim On Them",		"Declare war on them! Take\n" + 
 																"their land by force and\n" +
 																"increase your own domain.\n")
+	} else if type == "MilBudgetDN" {
+		draw_tooltip(x, y + 64, 256, 96, "Low Military Budget",		"A 50% reduction to army upkeep\n" + 
+																	"at the cost of 1 star quality\n" +
+																	"of army loss.\n")
+	} else if type == "MilBudgetNO" {
+		draw_tooltip(x, y + 64, 292, 96, "Balanced Military Budget","Normal maintenance cost with no\n" + 
+																	"effect on army quality.")
+	} else if type == "MilBudgetUP" {
+		draw_tooltip(x, y + 64, 256, 96, "High Military Budget",	"A 50% increase to army upkeep\n" + 
+																	"in exchange for a +1 star army\n" +
+																	"quality improvement.\n")
 	}
 }
