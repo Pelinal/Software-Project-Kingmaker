@@ -17,21 +17,25 @@ function menu_pop(menu_type) {
 		with instance_create_depth(19, 680, -1003, obj_button) {
 			type = "Demonstrate Fealty (-5)"
 			court_action = true
+			ico_index = 5
 			sprite_index = spr_rectlarge_button
 		}
 		with instance_create_depth(19, 752, -1003, obj_button) {
 			type = "Pay Tribute (-10)"
 			court_action = true
+			ico_index = 6
 			sprite_index = spr_rectlarge_button
 		}
 		with instance_create_depth(19, 824, -1003, obj_button) {
 			type = "Offer Recruits (-15)"
 			court_action = true
+			ico_index = 7
 			sprite_index = spr_rectlarge_button
 		}
 		with instance_create_depth(19, 896, -1003, obj_button) {
 			type = "Grant Province (-25)" 
 			court_action = true
+			ico_index = 8
 			sprite_index = spr_rectlarge_button
 		}
 		
@@ -40,24 +44,28 @@ function menu_pop(menu_type) {
 			type = "Request Title (+1)"
 			court_action = true
 			opinion_req = 0
+			ico_index = 9
 			sprite_index = spr_rectlarge_button
 		}
 		with instance_create_depth(360, 752, -1003, obj_button) {
 			type = "Request Funds (+5)"
 			court_action = true
 			opinion_req = 25
+			ico_index = 10
 			sprite_index = spr_rectlarge_button
 		}
 		with instance_create_depth(360, 824, -1003, obj_button) {
 			type = "Levy Reserves (+5)"
 			court_action = true
 			opinion_req = 25
+			ico_index = 11
 			sprite_index = spr_rectlarge_button
 		}
 		with instance_create_depth(360, 896, -1003, obj_button) {
 			type = "Demand Province (+10)" 
 			court_action = true
 			opinion_req = 50
+			ico_index = 12
 			sprite_index = spr_rectlarge_button
 		}
 	} else if menu_type == "Diplomacy" {

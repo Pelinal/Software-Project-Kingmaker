@@ -20,14 +20,24 @@ draw_menu(0, 0, 6, 6)
 draw_sprite_ext(spr_coas, tag_fetch_id(player_tag) + 1, 6, 6, 1.4, 1.4, 0, c_white, 1)
 draw_sprite_ext(spr_coas, 0, 6, 6, 1.4, 1.4, 0, c_white, 1)
 
-draw_set_font(fnt_header)
+draw_set_font(fnt_header_3)
 draw_set_colour(c_grey)
 draw_menu(192, 0, 16, 4)
 draw_text(212, 16, global.tags[tag_fetch_id(player_tag)][4] + " of " + global.tags[tag_fetch_id(player_tag)][lang_setting])
 draw_text(212, 48, global.tags[tag_fetch_id(player_tag)][5] + " " + global.chars[global.tags[tag_fetch_id(player_tag)][6]][0])
-draw_text(212, 80, "Prestige: " + string(global.economy[tag_fetch_id(player_tag)][8]) + 
-					"  Wealth: " + string(global.economy[tag_fetch_id(player_tag)][1]) + 
-					"  Manpower: " + string(round(global.economy[tag_fetch_id(player_tag)][5]*100)))
+//draw_text(212, 80, "Prestige: " + string(global.economy[tag_fetch_id(player_tag)][8]) + 
+//					"  Wealth: " + string(global.economy[tag_fetch_id(player_tag)][1]) + 
+//					"  Manpower: " + string(round(global.economy[tag_fetch_id(player_tag)][5]*100)))
+
+draw_sprite_stretched(spr_icons, 17, 198, 60, 60, 60)
+draw_text(252, 80, string(global.economy[tag_fetch_id(player_tag)][8]))
+//draw_text(252, 80, 9999)
+draw_sprite_stretched(spr_icons, 19, 282, 60, 60, 60)
+draw_text(330, 80, string(round(global.economy[tag_fetch_id(player_tag)][5]*100)))
+//draw_text(330, 80, 99999)
+draw_sprite_stretched(spr_icons, 18, 384, 60, 60, 60)
+draw_text(437, 80, string(global.economy[tag_fetch_id(player_tag)][1]))
+//draw_text(437, 80, 999999)
 
 // Draw Top Right HUD
 draw_set_font(fnt_header)
@@ -115,7 +125,7 @@ if main_tab != -1 {
 		draw_text(27, 570, "Prestige: " + string(global.economy[tag_fetch_id(tag_overview_id)][8]))
 		draw_text(27, 596, "Manpower: " + string(round(global.economy[tag_fetch_id(tag_overview_id)][5]*100)))
 		draw_text(27+323, 544, "Development: " + string(tag_total_development(tag_overview_id)))
-		draw_text(27+323, 570, "Opinion of You: " + string(global.opinions[tag_fetch_id(tag_overview_id)][tag_fetch_id(player_tag)]))
+		draw_text(27+323, 570, "Opinion of You: " + get_opinion_name(global.opinions[tag_fetch_id(tag_overview_id)][tag_fetch_id(player_tag)]))
 		draw_text(27+323, 596, "Military Size: " + string(military_get_tag_total(tag_overview_id)))
 		draw_line_width_color(24, 632, 676, 632, 3, c_gray, c_gray)
 		
@@ -145,16 +155,17 @@ if main_tab != -1 {
 		draw_line_width_color(24, 582, 676, 582, 3, c_gray, c_gray)
 		// DIV 2: OPINION & THREAT
 		draw_set_font(fnt_header_2)
-		draw_text(27, 586,"Opinion of You: " + string(global.opinions[7][tag_fetch_id(player_tag)]))
+		draw_text(27, 1000, "Moves Remaining: " + string(obj_control.court_actions))
 		draw_set_halign(fa_right)
-		draw_text(672, 586,"Threat Level: " + threat_level_name + " (" + string(threat_level) + ")" )
+		draw_text(672, 586,"Opinion: " + get_opinion_name(global.opinions[7][tag_fetch_id(player_tag)]))
 		draw_set_halign(fa_left)
+		draw_text(27, 586,"Threat Level: " + threat_level_name + " (" + string(threat_level) + ")" )
 		draw_line_width_color(24, 618, 676, 618, 3, c_gray, c_gray)
 		// DIV3 ACTIONS
 		draw_line_width_color(352, 618, 352, 1048, 3, c_gray, c_gray)
-		draw_text(27, 622, "Concessions")
+		draw_text(27, 622, "Concessions (-Threat)")
 		draw_set_halign(fa_right)
-		draw_text(672, 622, "Demands" )
+		draw_text(672, 622, "Demands (+Threat)" )
 		draw_set_halign(fa_left)
 	} else if main_tab == "Economy" {
 		// DIV 1: Income

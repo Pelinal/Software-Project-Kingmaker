@@ -37,15 +37,19 @@ if type == "Build Units" {
 	draw_set_colour(c_grey)
 	draw_text(x + 96, y + 24, dropdown_type)
 } else if diplo_action == true || type == "End Turn" {
-	draw_set_colour(c_grey)
+	draw_set_colour(c_white)
 	if type == "Declare War" && tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
-		draw_text(x + 12, y + 24, "Offer Peace")
+		draw_text(x + 74, y + 24, "Offer Peace")
+		draw_sprite(spr_icons, 15, x + 3, y + 3)
 	} else if type == "Declare War" && !tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
-		draw_text(x + 12, y + 24, "Declare War")
+		draw_text(x + 74, y + 24, "Declare War")
+		draw_sprite(spr_icons, 13, x + 3, y + 3)
 	} else if type == "Form Alliance" && tag_is_ally(obj_control.player_tag, obj_control.tag_overview_id) {
-		draw_text(x + 12, y + 24, "Break Alliance")
+		draw_text(x + 74, y + 24, "Break Alliance")
+		draw_sprite(spr_icons, 14, x + 3, y + 3)
 	} else {
-		draw_text(x + 12, y + 24, type)
+		draw_sprite(spr_icons, ico_index, x + 3, y + 3)
+		draw_text(x + 74, y + 24, type)
 	}
 	if opinion_req != 0 {
 		if type == "Form Alliance" && !tag_is_ally(obj_control.player_tag, obj_control.tag_overview_id) {
@@ -66,8 +70,10 @@ if type == "Build Units" {
 	draw_set_colour(c_grey)
 	draw_text(x + 96, y + 24, global.unit[unit_id][0])
 } else if court_action == true {
-	draw_set_colour(c_grey)
-	draw_text(x + 12, y + 24, type)
+	draw_set_colour(c_white)
+	draw_sprite(spr_icons, ico_index, x + 3, y + 3)
+	draw_set_font(fnt_header_4)
+	draw_text(x + 74, y + 24, type)
 	if opinion_req != 0 {	
 		if tag_opinion_of("FRA", obj_control.player_tag) >= opinion_req {
 			draw_sprite(sprite_index, 2, x, y)
@@ -88,11 +94,11 @@ if type == "Build Units" {
 	draw_text(x + (sprite_width - 12), y + 24, string(global.buildings[building_to_select][1]) + " " + string(global.buildings[building_to_select][2]) +  "  " + string(global.buildings[building_to_select][3]))
 	draw_set_halign(fa_left)
 } else if type == "TagListButton" {
-	draw_set_colour(c_grey)
+	draw_set_colour(c_white)
 	draw_text(x + 12, y + 24, global.tags[tag_id][obj_control.lang_setting])
 	draw_sprite_stretched(spr_coas, tag_id + 1, (x + sprite_width) - 61, y+3, 58, 58)
-	draw_text(x + 128+32, y + 24, tag_opinion_of(global.tags[tag_id][0], obj_control.player_tag)) // Opinon of Player
-	draw_text(x + 292+32, y + 24, tag_opinion_of(obj_control.player_tag, global.tags[tag_id][0])) // Player's opinion of
+	draw_text(x + 128+32, y + 24, get_opinion_name(tag_opinion_of(global.tags[tag_id][0], obj_control.player_tag))) // Opinon of Player
+	draw_text(x + 292+32, y + 24, get_opinion_name(tag_opinion_of(obj_control.player_tag, global.tags[tag_id][0]))) // Player's opinion of
 }
 
 
@@ -126,12 +132,12 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 																					 "its ruler, dynasty, obligations,\n" +
 																					 "rank, etc.\n")
 	} else if type == "Form Alliance" {
-		draw_tooltip(x, y + 68, 256, 96, "Opinion Required: 25", "Negotiate an alliance with a\n" + 
+		draw_tooltip(x, y + 68, 256, 96, "Opinion Required: Cordial", "Negotiate an alliance with a\n" + 
 																 "nation. They will agree to aid\n" +
 																 "you in wars, provided you do\n" +
 																 "the same for them.")
 	} else if type == "Arrange Marriage" {
-		draw_tooltip(x, y + 68, 256, 96, "Opinion Required: 0", "Arrange a political marriage\n" + 
+		draw_tooltip(x, y + 68, 256, 96, "Opinion Required: Neutral", "Arrange a political marriage\n" + 
 																"between your two houses for an\n" +
 																"opinion increase and prestige\n" +
 																"gain.")
@@ -174,5 +180,29 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 		draw_tooltip(x, y + 64, 256, 96, "High Military Budget",	"A 50% increase to army upkeep\n" + 
 																	"in exchange for a +1 star army\n" +
 																	"quality improvement.\n")
+	} else if type == "Demonstrate Fealty (-5)" {
+		draw_tooltip(x + sprite_width, y, 256, 72, "Spend Prestige",			"In exchange for a -5 reduction\n" + 
+																				"of global Threat Level.")
+	} else if type == "Pay Tribute (-10)" {
+		draw_tooltip(x + sprite_width, y, 256, 72, "Spend Wealth",			"In exchange for a -10 reduction\n" + 
+																			"of global Threat Level.")
+	} else if type == "Offer Recruits (-15)" {
+		draw_tooltip(x + sprite_width, y, 256, 72, "Spend Manpower",			"In exchange for a -15 reduction\n" + 
+																				"of global Threat Level.")
+	} else if type == "Grant Province (-25)" {
+		draw_tooltip(x + sprite_width, y, 256, 72, "Province to King",		"In exchange for a -25 reduction\n" + 
+																			"of global Threat Level.")
+	} else if type == "Request Title (+1)" {
+		draw_tooltip(x + sprite_width, y, 256, 72, "Gain Prestige",			"At the cost of a +1 increase\n" + 
+																			"of global Threat Level.")
+	} else if type == "Request Funds (+5)" {
+		draw_tooltip(x + sprite_width, y, 256, 72, "Gain Wealth",			"At the cost of a +5 increase\n" + 
+																			"of global Threat Level.")
+	} else if type == "Levy Reserves (+5)" {
+		draw_tooltip(x + sprite_width, y, 256, 72, "Gain Manpower",			"At the cost of a +5 increase\n" + 
+																			"of global Threat Level.")
+	} else if type == "Demand Province (+10)" {
+		draw_tooltip(x + sprite_width, y, 256, 72, "Take King's Land",		"At the cost of a +10 increase\n" + 
+																			"of global Threat Level.")
 	}
 }

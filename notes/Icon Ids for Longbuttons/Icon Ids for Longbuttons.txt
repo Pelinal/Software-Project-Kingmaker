@@ -1,0 +1,27 @@
+Long Button Ico Ids
+
+0 Form Alliance
+1 Improve Relations
+2 Arrange Marriage
+3 Fabricate Claim
+4 Intrigue/Sabatoage Armies
+
+5 Demonstrate Fealty
+6 Pay Tribute
+7 Offer Recruits
+8 Grant Province
+9 Request Title
+10 Request Funds
+11 Levy Reserves
+12 Demand Province
+
+13 Declare War
+14 break alliance
+15 offer peace
+
+16 End Turn
+
+17 Prestige
+18 Wealth
+19 Manpower
+20 Threat Level

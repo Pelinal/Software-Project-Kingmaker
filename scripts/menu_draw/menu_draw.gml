@@ -69,3 +69,21 @@ function draw_tooltip(x_coord, y_coord, length, height, text, desc=noone) {
 		draw_text(x_coord + 4, y_coord + 32, desc)
 	}
 }
+
+function get_opinion_name(opinion_value) {
+	/// Takes an opinion integer as input and returns the corresponding string
+	
+	if opinion_value < -50 {
+		return "Hostile"
+	} else if opinion_value >= -50 && opinion_value < 0 {
+		return "Suspicious"
+	} else if opinion_value == 0 {
+		return "Neutral"
+	} else if opinion_value > 0 && opinion_value < 50 {
+		return "Cordial"
+	} else if opinion_value > 50 {
+		return "Friendly"
+	} else {
+		return "Neutral"
+	}
+}

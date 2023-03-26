@@ -100,6 +100,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					tag_add_opinion("FRA", obj_control.player_tag, 10)
 					global.economy[tag_fetch_id(obj_control.player_tag)][8] -= 10
 					obj_control.court_actions -= 1
+					ico_index = 5
 				}
 			} else if type == "Pay Tribute (-10)" {
 				if global.economy[tag_fetch_id(obj_control.player_tag)][1] >= 500 && obj_control.court_actions > 0 {
@@ -108,6 +109,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					global.economy[tag_fetch_id(obj_control.player_tag)][1] -= 500
 					tag_add_opinion("FRA", obj_control.player_tag, 25)
 					obj_control.court_actions -= 1
+					ico_index = 6
 				}
 			} else if type == "Offer Recruits (-15)" {
 				if global.economy[tag_fetch_id(obj_control.player_tag)][5] >= 5 && obj_control.court_actions > 0 {
@@ -116,6 +118,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					global.economy[tag_fetch_id(obj_control.player_tag)][5] -= 5
 					tag_add_opinion("FRA", obj_control.player_tag, 35)
 					obj_control.court_actions -= 1
+					ico_index = 7
 				}
 			} else if type == "Grant Province (-25)" {
 				if obj_control.court_actions > 0 {
@@ -125,6 +128,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					map_list_provselect(obj_control.player_tag)
 					obj_control.prov_select_purpose = "GrantProv"
 					obj_control.court_actions -= 1
+					ico_index = 8
 				}
 			} else if type == "Request Title (+1)" {
 				if obj_control.court_actions > 0 {
@@ -133,6 +137,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					tag_remove_opinion("FRA", obj_control.player_tag, 5)
 					global.economy[tag_fetch_id(obj_control.player_tag)][8] += 25
 					obj_control.court_actions -= 1
+					ico_index = 9
 				}
 			} else if type == "Request Funds (+5)" {
 				if tag_opinion_of("FRA", obj_control.player_tag) > 25 || military_get_tag_total("FRA") * 1.2 < military_get_tag_total(obj_control.player_tag) {
@@ -142,6 +147,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 						global.economy[tag_fetch_id(obj_control.player_tag)][1] += 500
 						tag_remove_opinion("FRA", obj_control.player_tag, 15)
 						obj_control.court_actions -= 1
+						ico_index = 10
 					}
 				}
 			} else if type == "Levy Reserves (+5)" {
@@ -152,6 +158,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 						global.economy[tag_fetch_id(obj_control.player_tag)][5] += 5
 						tag_remove_opinion("FRA", obj_control.player_tag, 25)
 						obj_control.court_actions -= 1
+						ico_index = 11
 					}
 				}
 			} else if type == "Demand Province (+10)" {
@@ -163,6 +170,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 						map_list_provselect("FRA")
 						obj_control.prov_select_purpose = "TakeProv"
 						obj_control.court_actions -= 1
+						ico_index = 12
 					}
 				}
 			} else if type == "ProvSelect" {
@@ -245,12 +253,14 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								type = "Improve Relations"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 1
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(24, 744, -1003, obj_button) {
 								type = "Arrange Marriage"
 								diplo_action = true
 								opinion_req = 75
+								ico_index = 2
 								sprite_index = spr_rectlarge_button
 							}
 							
@@ -259,18 +269,21 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								type = "Declare War"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 13
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 744, -103, obj_button) {
 								type = "Fabricate Claim"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 3
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 808, -103, obj_button) {
 								type = "Sabotage Armies"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 4
 								sprite_index = spr_rectlarge_button
 							}
 						} else if obj_control.tag_overview_id == "SPA" || obj_control.tag_overview_id == "PAP" {
@@ -285,12 +298,14 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								type = "Improve Relations"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 1
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(24, 744, -1003, obj_button) {
 								type = "Arrange Marriage"
 								diplo_action = true
 								opinion_req = 50
+								ico_index = 2
 								sprite_index = spr_rectlarge_button
 							}
 						} else {
@@ -305,18 +320,21 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								type = "Form Alliance"
 								diplo_action = true
 								opinion_req = 50
+								ico_index = 0
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(24, 744, -1003, obj_button) {
 								type = "Improve Relations"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 1
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(24, 808, -1003, obj_button) {
 								type = "Arrange Marriage"
 								diplo_action = true
 								opinion_req = 25
+								ico_index = 2
 								sprite_index = spr_rectlarge_button
 							}
 							
@@ -325,18 +343,21 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								type = "Declare War"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 13
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 744, -103, obj_button) {
 								type = "Fabricate Claim"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 3
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 808, -103, obj_button) {
 								type = "Sabotage Armies"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 4
 								sprite_index = spr_rectlarge_button
 							}
 						}
@@ -404,32 +425,36 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								type = "Improve Relations"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 1
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(24, 744, -1003, obj_button) {
 								type = "Arrange Marriage"
 								diplo_action = true
 								opinion_req = 75
+								ico_index = 2
 								sprite_index = spr_rectlarge_button
 							}
-							
 							
 							with instance_create_depth(350, 680, -103, obj_button) {
 								type = "Declare War"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 13
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 744, -103, obj_button) {
 								type = "Fabricate Claim"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 3
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 808, -103, obj_button) {
 								type = "Sabotage Armies"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 4
 								sprite_index = spr_rectlarge_button
 							}
 						} else if obj_control.tag_overview_id == "SPA" || obj_control.tag_overview_id == "PAP" {
@@ -444,12 +469,14 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								type = "Improve Relations"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 1
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(24, 744, -1003, obj_button) {
 								type = "Arrange Marriage"
 								diplo_action = true
 								opinion_req = 50
+								ico_index = 2
 								sprite_index = spr_rectlarge_button
 							}
 						} else {
@@ -464,38 +491,43 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								type = "Form Alliance"
 								diplo_action = true
 								opinion_req = 50
+								ico_index = 0
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(24, 744, -1003, obj_button) {
 								type = "Improve Relations"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 1
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(24, 808, -1003, obj_button) {
 								type = "Arrange Marriage"
 								diplo_action = true
 								opinion_req = 25
+								ico_index = 2
 								sprite_index = spr_rectlarge_button
 							}
-							
 							
 							with instance_create_depth(350, 680, -103, obj_button) {
 								type = "Declare War"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 13
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 744, -103, obj_button) {
 								type = "Fabricate Claim"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 3
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 808, -103, obj_button) {
 								type = "Sabotage Armies"
 								diplo_action = true
 								opinion_req = 0
+								ico_index = 4
 								sprite_index = spr_rectlarge_button
 							}
 						}
