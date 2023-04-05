@@ -9,6 +9,10 @@ if mouse_check_button_pressed(mb_middle) {
 	drag_y = mouse_y
 }
 
+if main_tab == -1 {
+	intrigue_open = false
+}
+
 if keyboard_check_pressed(vk_escape) {
 	if global.pause {
 		global.pause = false
@@ -114,6 +118,17 @@ if prov_select {
 		} else if prov_select_purpose = "CedeProv" {
 			global.provinces[prov_selected][6] = cede_to
 			threat_level += 2
+		} else if prov_select_purpose == "BuildArmy" {
+			array_push(global.army[tag_fetch_id(player_tag)], 100)
+			with instance_create_depth(global.provinces[prov_selected][7], global.provinces[prov_selected][8], depth, obj_army) {
+				
+				id.tag_id = tag_fetch_id(obj_control.player_tag)		// The Owner
+				army_id = array_length(global.army[id.tag_id])-1		// The Army id
+				total_mp =  global.army[id.tag_id][army_id]			// The Army size
+				location = obj_control.prov_selected			// The Province ID of its current location
+			}
+			
+			menu_pop("Military")
 		}
 		
 		prov_selected = -1

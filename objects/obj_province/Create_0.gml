@@ -10,3 +10,6 @@ image_alpha = 1
 prov_occupied_by = noone
 unit_in_prov = noone
 //// Set Node X,Y values
+
+
+

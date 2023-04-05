@@ -4,6 +4,7 @@ tag = global.provinces[prov_id][6]
 
 global.provinces[prov_id][7] = x
 global.provinces[prov_id][8] = y
+global.provinces[prov_id][9] = id
 
 var colliding_unit = instance_place(x, y, obj_army)
 if colliding_unit != noone {

@@ -2,6 +2,23 @@
 
 if position_meeting(mouse_x, mouse_y, id) {
 	if mouse_check_button_pressed(mb_left) {
+		
+		// bug prevention:
+		with obj_control {
+			province_overview_id = -1
+			tag_overview_id = -1
+			main_tab = -1
+			lock_ui = false
+			prov_select = false
+			build_select = false
+		}
+		with obj_button {
+			if type == "BuildingSlot" || type == "ProfileSmall" || diplo_action || court_action {
+				instance_destroy(self)
+			}
+		}
+		//
+		
 		if type == "ArmyClose" {
 			obj_control.army_overview_id = -1
 			obj_control.selected_army = noone

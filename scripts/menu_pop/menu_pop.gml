@@ -112,5 +112,51 @@ function menu_pop(menu_type) {
 			type = "MilBudgetUP"
 			ico_index = 16
 		}
+	} else if menu_type == "Military" {
+		//obj_control.diplo_scroll = 0
+		//obj_control.diplo_count = 0
+		var y_offset = 0
+		var i = 0
+		
+		with obj_button {
+			if type == "ArmyListButton" || type == "ArmyUpButton" || type == "ArmyDownButton" || type == "ArmyNewButton" {
+				instance_destroy(self)
+			}
+		}
+		
+		for (i = 0; i < array_length(global.army[tag_fetch_id(obj_control.player_tag)]); i ++) {
+			with instance_create_depth(22, 380 + y_offset, -103, obj_button) {
+				type = "ArmyListButton"
+				tag_id = tag_fetch_id(obj_control.player_tag)
+				army_id = i
+				sprite_index = spr_rectlarge_button
+			}
+			
+			// Small Buttons (Increase/Decrease)
+			with instance_create_depth(448, 380 + y_offset, -102, obj_button) {
+				type = "ArmyUpButton"
+				tag_id = tag_fetch_id(obj_control.player_tag)
+				army_id = i 
+				ico_index = 17
+				sprite_index = spr_sqdark_button
+			}
+			with instance_create_depth(376, 380 + y_offset, -103, obj_button) {
+				type = "ArmyDownButton"
+				tag_id = tag_fetch_id(obj_control.player_tag)
+				army_id = i
+				ico_index = 18
+				sprite_index = spr_sqdark_button
+			}
+			
+			y_offset += 64
+		}
+		
+		// "Create New Army" Button
+		with instance_create_depth(22, 380 + y_offset, -103, obj_button) {
+			type = "ArmyNewButton"
+			tag_id = tag_fetch_id(obj_control.player_tag)
+			army_id = i + 1
+			sprite_index = spr_rectlarge_button
+		}
 	}
 }

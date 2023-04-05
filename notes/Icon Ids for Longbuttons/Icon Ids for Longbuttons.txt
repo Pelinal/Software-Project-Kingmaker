@@ -24,4 +24,18 @@ Long Button Ico Ids
 17 Prestige
 18 Wealth
 19 Manpower
-20 Threat Level
+
+20 Down
+21 Up
+
+22 Sabtoage Armies
+23 Raid Province
+24 Infiltrate Court
+
+25 Quality Pip 1
+26 Quality Pip 2
+27 Quality Pip 3
+28 Quality Pip 4
+
+29 Up 100
+30 Down 100

@@ -37,6 +37,8 @@ dropdowns[1] = false
 dropdowns[2] = false
 dropdowns[3] = false
 
+intrigue_open = false
+
 // for moving armies
 selected_army = noone
 

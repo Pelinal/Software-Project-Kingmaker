@@ -15,6 +15,8 @@ if type == "Build Units" {
 	draw_set_halign(fa_left)
 } else if sprite_index = spr_square_button && type != "LangSetting" {
 	draw_sprite(spr_square_button, ico_index, x, y)
+} else if sprite_index = spr_sqdark_button {
+	draw_sprite(spr_sqdark_button, ico_index, x, y)
 } else if type == "BuildingSlot" {
 	if global.buildslots[build_prov][build_slot] != -1 {
 		if global.buildslots[build_prov][build_slot] >= 0 && global.buildslots[build_prov][build_slot] <= 2 {
@@ -47,6 +49,14 @@ if type == "Build Units" {
 	} else if type == "Form Alliance" && tag_is_ally(obj_control.player_tag, obj_control.tag_overview_id) {
 		draw_text(x + 74, y + 24, "Break Alliance")
 		draw_sprite(spr_icons, 14, x + 3, y + 3)
+	} else if type == "Intrigue" && !obj_control.intrigue_open { 
+		draw_sprite(spr_icons, ico_index, x + 3, y + 3)
+		draw_text(x + 74, y + 24, "Open Intrigue")
+		draw_sprite(spr_icons, 20, (x + sprite_width) - 64, y + 3)
+	} else if type == "Intrigue" && obj_control.intrigue_open { 
+		draw_sprite(spr_icons, ico_index, x + 3, y + 3)
+		draw_text(x + 74, y + 24, "Close Intrigue")
+		draw_sprite(spr_icons, 21, (x + sprite_width) - 64, y + 3)
 	} else {
 		draw_sprite(spr_icons, ico_index, x + 3, y + 3)
 		draw_text(x + 74, y + 24, type)
@@ -99,6 +109,24 @@ if type == "Build Units" {
 	draw_sprite_stretched(spr_coas, tag_id + 1, (x + sprite_width) - 61, y+3, 58, 58)
 	draw_text(x + 128+32, y + 24, get_opinion_name(tag_opinion_of(global.tags[tag_id][0], obj_control.player_tag))) // Opinon of Player
 	draw_text(x + 292+32, y + 24, get_opinion_name(tag_opinion_of(obj_control.player_tag, global.tags[tag_id][0]))) // Player's opinion of
+} else if type == "ArmyListButton" {
+	draw_set_colour(c_white)
+	draw_set_font(fnt_header_3)
+	draw_text(x + 12, y + 24, global.tags[tag_id][2] + " Army " + string(army_id + 1))
+	draw_text(x + 200, y + 24, string(global.army[tag_id][army_id]))
+	if obj_control.army_quality[tag_id] > 0 {
+		draw_sprite(spr_icons, obj_control.army_quality[tag_id] + 24, (x + sprite_width) - 64, y + 4)
+	}
+	//draw_text(x + 128+32, y + 24, get_opinion_name(tag_opinion_of(global.tags[tag_id][0], obj_control.player_tag))) // Opinon of Player
+	 
+} else if type == "ArmyNewButton" {
+	draw_set_colour(c_white)
+	draw_set_font(fnt_header_3)
+	draw_set_color(c_ltgrey)
+	draw_text(x + 12, y + 24, "Click to Create New")
+	draw_set_color(c_white)
+	//draw_text(x + 128+32, y + 24, get_opinion_name(tag_opinion_of(global.tags[tag_id][0], obj_control.player_tag))) // Opinon of Player
+	 
 }
 
 
@@ -132,12 +160,12 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 																					 "its ruler, dynasty, obligations,\n" +
 																					 "rank, etc.\n")
 	} else if type == "Form Alliance" {
-		draw_tooltip(x, y + 68, 256, 96, "Opinion Required: Cordial", "Negotiate an alliance with a\n" + 
+		draw_tooltip(x, y + 68, 256, 96, "Opinion Req: Cordial", "Negotiate an alliance with a\n" + 
 																 "nation. They will agree to aid\n" +
 																 "you in wars, provided you do\n" +
 																 "the same for them.")
 	} else if type == "Arrange Marriage" {
-		draw_tooltip(x, y + 68, 256, 96, "Opinion Required: Neutral", "Arrange a political marriage\n" + 
+		draw_tooltip(x, y + 68, 256, 96, "Opinion Req: Neutral", "Arrange a political marriage\n" + 
 																"between your two houses for an\n" +
 																"opinion increase and prestige\n" +
 																"gain.")
@@ -204,5 +232,17 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 	} else if type == "Demand Province (+10)" {
 		draw_tooltip(x + sprite_width, y, 256, 72, "Take King's Land",		"At the cost of a +10 increase\n" + 
 																			"of global Threat Level.")
+	} else if type == "ArmyUpButton" {
+		draw_tooltip(x + sprite_width, y, 256, 72, "Recruit 100",			"Increase army size by 100,\n" + 
+																			"costs 100 manpower & 100\n"   +
+																		    "wealth.")
+	} else if type == "ArmyDownButton" {
+		draw_tooltip(x + sprite_width, y, 256, 72, "Disband 100",			"Decrease army size by 100,\n" + 
+																			"refunds 100 manpower & 100\n"   +
+																		    "wealth.")
+	} else if type == "ArmyNewButton" {
+		draw_tooltip(x, y + sprite_height, 256, 72, "Create New Army",		"Spend 100 manpower and 100\n" + 
+																			"wealth to create a new army\n"   +
+																		    "in a chosen province.")
 	}
 }

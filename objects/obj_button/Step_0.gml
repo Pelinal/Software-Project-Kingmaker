@@ -50,6 +50,44 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 						instance_destroy(other_army)
 					}
 				}
+			} else if type == "Intrigue" {
+				if obj_control.intrigue_open {
+					obj_control.intrigue_open = false 
+					
+					with obj_button {
+						if type == "Sabotage Armies" || type == "Raid Province" || type == "Infiltrate Court" {
+							instance_destroy(self)
+						}
+					}
+				}
+				else {
+					obj_control.intrigue_open = true
+					
+					with instance_create_depth(x, y + 64, -1003, obj_button) {
+						type = "Sabotage Armies"
+						image_xscale = 0.85
+						diplo_action = true
+						opinion_req = 0
+						ico_index = 22
+						sprite_index = spr_rectlarge_button
+					}
+					with instance_create_depth(x, y + 128, -1003, obj_button) {
+						type = "Raid Province"
+						image_xscale = 0.85
+						diplo_action = true
+						opinion_req = 0
+						ico_index = 23
+						sprite_index = spr_rectlarge_button
+					}
+					with instance_create_depth(x, y + 192, -1003, obj_button) {
+						type = "Infiltrate Court"
+						image_xscale = 0.85
+						diplo_action = true
+						opinion_req = 0
+						ico_index = 24
+						sprite_index = spr_rectlarge_button
+					}
+				}
 			} else if type == "Form Alliance" && obj_control.diplo_moves > 0 {
 				obj_control.diplo_moves -= 1
 				if tag_opinion_of(obj_control.tag_overview_id, obj_control.player_tag) >= 25 && !tag_is_ally(obj_control.tag_overview_id, obj_control.player_tag) {
@@ -229,6 +267,32 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 				obj_control.mil_budget[tag_fetch_id(obj_control.player_tag)] = 2
 			} else if type == "TagTo" {
 				obj_control.player_tag = obj_control.tag_overview_id
+			} else if type == "ArmyUpButton" {
+				if global.economy[tag_id][1] >= 100 && global.economy[tag_id][5] > 1 {
+					global.economy[tag_id][1] -= 100
+					global.economy[tag_id][5] -= 1
+					global.army[tag_id][army_id] += 100
+				}
+			} else if type == "ArmyDownButton" {
+				if global.army[tag_id][army_id] > 100 {
+					global.economy[tag_id][1] += 100
+					global.economy[tag_id][5] += 1
+					global.army[tag_id][army_id] -= 100
+				}
+			} else if type == "ArmyNewButton" {
+				if global.economy[tag_id][1] >= 100 && global.economy[tag_id][5] > 1 {
+					global.economy[tag_id][1] -= 100
+					global.economy[tag_id][5] -= 1
+					
+					
+					//show_debug_message(global.army[tag_id])
+					map_list_provselect(obj_control.player_tag)
+					obj_control.prov_select_purpose = "BuildArmy"
+					
+					
+					
+					menu_pop("Military")
+				}
 			} else if type == "TagListButton" && visible {
 					//show_debug_message("tagid::: " + string(tag_id))
 					
@@ -280,7 +344,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 808, -103, obj_button) {
-								type = "Sabotage Armies"
+								type = "Intrigue"
 								diplo_action = true
 								opinion_req = 0
 								ico_index = 4
@@ -354,7 +418,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 808, -103, obj_button) {
-								type = "Sabotage Armies"
+								type = "Intrigue"
 								diplo_action = true
 								opinion_req = 0
 								ico_index = 4
@@ -389,26 +453,33 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 			//	//	sprite_index = spr_square_button
 			//	//}
 			//}
-			if type == "Dropdown" {
-				switch dropdown_type {
-					case "Relations":
-						obj_control.dropdowns[0] = !obj_control.dropdowns[0]
-						break
-					case "Intrigue":
-						obj_control.dropdowns[1] = !obj_control.dropdowns[0]
-						break
-					case "Economic":
-						obj_control.dropdowns[2] = !obj_control.dropdowns[2]
-						break
-				}
-			}
+			//if type == "Dropdown" {
+			//	switch dropdown_type {
+			//		case "Relations":
+			//			obj_control.dropdowns[0] = !obj_control.dropdowns[0]
+			//			break
+			//		case "Intrigue":
+			//			obj_control.dropdowns[1] = !obj_control.dropdowns[0]
+			//			break
+			//		case "Economic":
+			//			obj_control.dropdowns[2] = !obj_control.dropdowns[2]
+			//			break
+			//	}
+			//}
 			
 			if obj_control.lock_ui == false {
 				if type == "ProfileSmall" {
 					//show_debug_message("Clicked Profile or Taglist")
 					obj_control.tag_overview_id = tag_id
+					obj_control.province_overview_id = -1
 					obj_control.lock_ui = true
 					obj_control.main_tab = "Profile"
+					
+					with obj_button {
+						if type == "BuildingSlot" {
+							instance_destroy()
+						}
+					}
 					
 					if obj_control.tag_overview_id != obj_control.player_tag {
 						// Create Diplo Dropdowns
@@ -451,7 +522,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 808, -103, obj_button) {
-								type = "Sabotage Armies"
+								type = "Intrigue"
 								diplo_action = true
 								opinion_req = 0
 								ico_index = 4
@@ -524,7 +595,7 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 								sprite_index = spr_rectlarge_button
 							}
 							with instance_create_depth(350, 808, -103, obj_button) {
-								type = "Sabotage Armies"
+								type = "Intrigue"
 								diplo_action = true
 								opinion_req = 0
 								ico_index = 4
@@ -581,6 +652,10 @@ if obj_control.main_tab != "Diplomacy" && (type == "TagListButton" || type == "T
 	instance_destroy(self)
 }
 
+if obj_control.main_tab != "Military" && (type == "ArmyListButton" || type == "ArmyNewButton" || type == "ArmyUpButton" || type == "ArmyDownButton") {
+	instance_destroy(self)
+}
+
 if obj_control.main_tab != "Economy" && (type == "MilBudgetDN" || type == "MilBudgetNO" || type == "MilBudgetUP") {
 	instance_destroy(self)
 }
@@ -589,5 +664,9 @@ if !obj_control.prov_select && type == "ProvSelect" {
 	instance_destroy(self)
 }
 if !obj_control.build_select && type == "BuildSelect" {	
+	instance_destroy(self)
+}
+
+if obj_control.province_overview_id == -1 && type == "BuildingSlot" {
 	instance_destroy(self)
 }

@@ -53,6 +53,23 @@ if tag_id == tag_fetch_id(obj_control.player_tag) || tag_is_ally(obj_control.pla
 if position_meeting(device_mouse_x(0), device_mouse_y(0), id) && image_alpha > 0 {
 	//obj_control.province_popup_id = -1
 	if mouse_check_button_pressed(mb_left) {
+		
+		// bug prevention:
+		with obj_control {
+			province_overview_id = -1
+			tag_overview_id = -1
+			main_tab = -1
+			lock_ui = false
+			prov_select = false
+			build_select = false
+		}
+		with obj_button {
+			if type == "BuildingSlot" || type == "ProfileSmall" || diplo_action || court_action {
+				instance_destroy(self)
+			}
+		}
+		//
+		
 		with obj_non_gui_button {
 			if type == "ArmyMerge" || type == "ArmySplit" || type == "ArmyBuild" || type == "ArmyClose" {
 				instance_destroy(self)	

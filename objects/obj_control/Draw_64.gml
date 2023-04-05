@@ -44,7 +44,23 @@ draw_set_font(fnt_header)
 draw_set_colour(c_grey)
 draw_menu(1408, 0, 16, 4)
 draw_text(1428, 16, string(date[0]) + ", " + string(date[1]) + " AD")
+if threat_level_name == "None" {
+	draw_set_colour(c_dkgrey)
+} else if threat_level_name == "Trivial" {
+	draw_set_colour(c_green)
+} else if threat_level_name == "Low" {
+	draw_set_colour(make_color_rgb(120, 165, 0))
+} else if threat_level_name == "Medium" {
+	draw_set_colour(make_color_rgb(165, 135, 0))
+} else if threat_level_name == "High" {
+	draw_set_colour(make_color_rgb(200, 85, 15))
+} else if threat_level_name == "Severe" {
+	draw_set_colour(make_color_rgb(170, 0, 0))
+} else if threat_level_name == "Absolute" {
+	draw_set_colour(make_color_rgb(110, 0, 110))
+}
 draw_text(1428, 48, "Threat: " + threat_level_name)
+draw_set_color(c_grey)
 draw_text(1428, 80, "Turn: " + string(turn_no))
 draw_text(1620, 80, "Diplo Moves: " + string(diplo_moves))
 draw_set_colour(c_white)
@@ -162,7 +178,7 @@ if main_tab != -1 {
 		draw_text(27, 586,"Threat Level: " + threat_level_name + " (" + string(threat_level) + ")" )
 		draw_line_width_color(24, 618, 676, 618, 3, c_gray, c_gray)
 		// DIV3 ACTIONS
-		draw_line_width_color(352, 618, 352, 1048, 3, c_gray, c_gray)
+		draw_line_width_color(352, 618, 352, 960, 3, c_gray, c_gray)
 		draw_text(27, 622, "Concessions (-Threat)")
 		draw_set_halign(fa_right)
 		draw_text(672, 622, "Demands (+Threat)" )
@@ -238,6 +254,21 @@ if main_tab != -1 {
 		draw_set_font(fnt_header_3)
 		draw_text(22+128+32, 266, "Opinion of You")
 		draw_text(22+292+32, 266, "Your Opinion of Them")
+	} else if main_tab == "Military" {
+		draw_set_colour(c_grey)
+		draw_set_font(fnt_map_lg)
+		draw_text(22, 232,"Military")
+		draw_set_font(fnt_header_2)
+		draw_set_halign(fa_center)
+		draw_text(352, 272, string(global.economy[tag_fetch_id(obj_control.player_tag)][4]*100))
+		draw_set_font(fnt_header_3)
+		draw_text(352, 294, "Manpower Per Month" )
+		draw_set_halign(fa_left)
+		draw_set_font(fnt_header_2)
+		draw_text(22, 324, "Your Armies")
+		draw_set_font(fnt_header_3)
+		draw_text(22, 354, " Army Name          Size Quality    -100   +100")
+		//draw_text(22+292+32, 266, "Your Opinion of Them")
 	}
 }
 
