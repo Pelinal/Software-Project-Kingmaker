@@ -130,7 +130,7 @@ function find_target_army(enemy_armies, army) {
 	if array_length(enemy_armies) > 0 {
 		for (var i = 0; i < array_length(enemy_armies); i ++) {
 			// For each potential target
-			if enemy_armies[i].total_mp < army.total_mp {
+			if enemy_armies[i].total_mp <= army.total_mp {
 				target = enemy_armies[i]	
 			}
 		}
@@ -168,8 +168,7 @@ function find_random_enemy_province(tag) {
 
 function find_path_to_target(target, subject) {
     /// Takes in target object and calculates best path to reach them
-    
-	if target == noone { return }
+	if target == noone { return [] }
 	
     var distance = {}
 	var previous = {}
@@ -180,11 +179,6 @@ function find_path_to_target(target, subject) {
         distance[$ string(prov)] = 1000
 		previous[$ string(prov)] = []
 		unvisited[$ string(prov)] = 1
-		
-        
-        // if prov != subject.location {
-        // 	array_push(unvisited, 1)
-        // }
     }
     
     // Set distance for start province to 0 so we start at start province
@@ -192,15 +186,6 @@ function find_path_to_target(target, subject) {
 	
 	// While there are unvisited provinces	
 	while variable_struct_names_count(unvisited) > 0 {
-		
-		//show_debug_message("-------------------------------------------------------------------------------------------------------------------------------")
-		//show_debug_message("distance")
-		//show_debug_message(distance)
-		//show_debug_message("previous")
-		//show_debug_message(previous)
-		//show_debug_message("unvisited")
-		//show_debug_message(unvisited)
-		
 		// Get province with shortest distance that is unvisited
 		var shortest_distance = 100000000
 		var shortest_dist_province = noone
@@ -214,9 +199,8 @@ function find_path_to_target(target, subject) {
 				}
 			}
 		}
-		
-		//.show_debug_message("Shortest Dist Province: " + string(shortest_dist_province))
 			
+		print("shortest_dist_province: " + string(shortest_dist_province))
 		// Get neighbouring provinces
 		var neighbours = map_province_get_adjacent_list(shortest_dist_province)
 		// Filter out neighbours that have been visited
@@ -230,7 +214,19 @@ function find_path_to_target(target, subject) {
 				array_delete(neighbours, i, 1)
 			}
 		}
-			
+		
+		if array_length(neighbours) == 0 {
+            var temp_path = []
+            for (var k = 0; k < array_length(previous[$ string(shortest_dist_province)]); k ++) {
+                array_push(temp_path, previous[$ string(shortest_dist_province)][k])
+            }
+            previous[$ string(shortest_dist_province)] = temp_path
+            
+            // Mark current province as visited so we don't backtrack
+            variable_struct_remove(unvisited, string(shortest_dist_province))
+        }
+		
+		print("Neighbours: " + string(neighbours))
 		// Iterate through neighbouring provinces
 		for (var j = 0; j < array_length(neighbours); j ++) {
 			// Check if distance between current province and neighbour is shorter than
@@ -239,26 +235,24 @@ function find_path_to_target(target, subject) {
 				// Apply this shorter distance to the neighbouring province
 				distance[$ string(neighbours[j])] = distance[$ string(shortest_dist_province)] + 1
 			}
-				
+			
+			print("Previous[shortest_dist_province]"+ string(previous[$ string(shortest_dist_province)]))
 			// Build list of previous provinces visited
 			var temp_path = []
 			for (var k = 0; k < array_length(previous[$ string(shortest_dist_province)]); k ++) {
 				array_push(temp_path, previous[$ string(shortest_dist_province)][k])
 			}
 			array_push(temp_path, shortest_dist_province)
-			if typeof(target) != "ref" { array_push(temp_path, real(neighbours[j])) }
 			
 			// Set path to neighbour as list of previous provinces visited
-			previous[$ string(neighbours[j])] = temp_path
+			if array_length(previous[$ string(neighbours[j])]) == 0 {
+				previous[$ string(neighbours[j])] = temp_path
+			}
 			
+			print("Previous[" + string(neighbours[j]) + "]" + string(previous[$ string(neighbours[j])]))
 			// Mark current province as visited so we don't backtrack
-				variable_struct_remove(unvisited, string(shortest_dist_province))
-			//show_debug_message("###############################################################")
-			//show_debug_message(neighbours[j])
-			//show_debug_message(target.location)
-			//show_debug_message("###############################################################")
-			
-			
+			variable_struct_remove(unvisited, string(shortest_dist_province))
+
 			if typeof(target) == "ref" {
 				if neighbours[j] == target.location {
 					return previous[$ string(neighbours[j])]
@@ -287,63 +281,16 @@ function check_for_adjacent_enemy(army) {
 	return noone
 }
 
-//function find_path_to_target(target, subject) {
-//	/// Takes in target object and calculates best path to reach them
-	
-//	var distance, previous, unvisited
-	
-//    for (var prov = 0; prov < array_length(global.provinces); prov ++) {
-//		distance[prov] = 1000
-		
-//		if prov != subject.location {
-//			array_push(unvisited, prov)	
-//		}
-//	}
-	
-//	// Start Province
-//    distance[subject.location] = 0
-    
-//	// While there are unvisited provinces
-//    while array_length(unvisited) < array_length(global.provinces) {
-//		var neighbours = map_province_get_adjacent_list(unvisited[0])
-//		for (var i = 0; i < array_length(unvisited); i ++) {	
-//			for (var j = 0; j < array_length(neighbours); j ++) {
-//				if neighbours[j] == unvisited[i] {
-//					array_delete(neighbours, j, 1)	
-//				}
-//			}
-//		}
-		
-//		for (var k = 0; k < array_length(neighbours); k ++) {
-//			if distance[unvisited[0]] + 1 < distance[neighbours[k]] {
-//				distance[neighbours[k]] = distance[unvisited[0]] + 1
-//			}
-			
-//			previous.neighbours[k] = 
-//			array_delete(unvisited, 0, 1)
-			
-//			if neighbours[k] == target {
-//				//return previous
-//			}
-//		}
-
-//    //        previous_provinces[neighbour province] += previous_provinces[current province] + current province
-            
-//    //        if neighbour province is target province:
-//    //            return previous_provinces[neighbour province] + neighbour province
-//	}
-//}
-
 function check_for_potential_battle(your_army) {
 	var battle_enemy = check_for_adjacent_enemy(your_army)
 	show_debug_message("Battle Enemy: " + string(battle_enemy))
 	if your_army.moves_remaining > 0 && battle_enemy != noone {
 		if battle_enemy.total_mp > your_army.total_mp {
-			// If your army is weaker than the enemy
+			// If their army is stronger than yours
 			global.army[your_army.tag_id][your_army.army_id] -= global.army[battle_enemy.tag_id][battle_enemy.army_id] - global.army[your_army.tag_id][your_army.army_id]
 			global.army[battle_enemy.tag_id][battle_enemy.army_id] -= ((global.army[battle_enemy.tag_id][battle_enemy.army_id] - global.army[your_army.tag_id][your_army.army_id]) / 2) * (1 + (obj_control.army_quality[your_army.tag_id]/10))
 		} else {
-			// If your army is stronger than theirs
+			// If their army is weaker or equal to yours
 			global.army[your_army.tag_id][your_army.army_id] -= (global.army[your_army.tag_id][your_army.army_id] - global.army[battle_enemy.tag_id][battle_enemy.army_id]) / 2
 			global.army[battle_enemy.tag_id][battle_enemy.army_id] -= (global.army[your_army.tag_id][your_army.army_id] - global.army[battle_enemy.tag_id][battle_enemy.army_id]) * (1 + (obj_control.army_quality[your_army.tag_id]/10))
 		}

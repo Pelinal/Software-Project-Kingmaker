@@ -91,14 +91,20 @@ if type == "Build Units" {
 			draw_sprite(sprite_index, 3, x, y)
 		}
 	}
+} else if type == "EVT_Option" {
+	draw_set_colour(c_white)
+	draw_set_font(fnt_header_4)
+	draw_set_halign(fa_center)
+	draw_text(x + 240, y + 16, e_option)
+	draw_set_halign(fa_left)
 } else if type == "ProvSelect" {
-	draw_set_colour(c_grey)
+	draw_set_colour(c_white)
 	draw_text(x + 12, y + 24, global.provinces[prov_to_select][0])
 	draw_set_halign(fa_right)
 	draw_text(x + (sprite_width - 12), y + 24, string(global.provinces[prov_to_select][1] + global.provinces[prov_to_select][2] + global.provinces[prov_to_select][3]))
 	draw_set_halign(fa_left)
 } else if type == "BuildSelect" {
-	draw_set_colour(c_grey)
+	draw_set_colour(c_white)
 	draw_text(x + 12, y + 24, global.buildings[building_to_select][0])
 	draw_set_halign(fa_right)
 	draw_text(x + (sprite_width - 12), y + 24, string(global.buildings[building_to_select][1]) + " " + string(global.buildings[building_to_select][2]) +  "  " + string(global.buildings[building_to_select][3]))
@@ -111,8 +117,8 @@ if type == "Build Units" {
 	draw_text(x + 292+32, y + 24, get_opinion_name(tag_opinion_of(obj_control.player_tag, global.tags[tag_id][0]))) // Player's opinion of
 } else if type == "ArmyListButton" {
 	draw_set_colour(c_white)
-	draw_set_font(fnt_header_3)
-	draw_text(x + 12, y + 24, global.tags[tag_id][2] + " Army " + string(army_id + 1))
+	draw_set_font(fnt_header_4)
+	draw_text(x + 12, y + 24, + "Armée d'" + global.tags[tag_id][1] + " " + string(army_id + 1))
 	draw_text(x + 200, y + 24, string(global.army[tag_id][army_id]))
 	if obj_control.army_quality[tag_id] > 0 {
 		draw_sprite(spr_icons, obj_control.army_quality[tag_id] + 24, (x + sprite_width) - 64, y + 4)
@@ -244,5 +250,24 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 		draw_tooltip(x, y + sprite_height, 256, 72, "Create New Army",		"Spend 100 manpower and 100\n" + 
 																			"wealth to create a new army\n"   +
 																		    "in a chosen province.")
+	} else if type == "Intrigue" {
+		draw_tooltip(x+ sprite_width, y, 256, 96, "Intrigue",			"Perform acts of espionage such\n" + 
+																"as poisoning enemy armies, or\n" +
+																"raiding their lands. Costs wealth\n" +
+																"and has a variable success chance.")
+	} else if type == "Sabotage Armies" {
+		draw_tooltip(x + sprite_width, y, 256, 96, "Damage Enemy Army",	"Costs 150 wealth to randomly\n" + 
+																		"damage an enemy army by 25%.\n" +
+																		"Has default success rate of 40%.")
+	} else if type == "Raid Province" {
+		draw_tooltip(x+ sprite_width, y, 256, 96, "Lower Development",	"Lower development in an enemy \n" + 
+																		"province to damage their local\n" +
+																		"economy. Costs 200 wealth with\n" +
+																		"success rate of 30%.")
+	} else if type == "Infiltrate Court" {
+		draw_tooltip(x+ sprite_width, y-64, 256, 96, "Reveal Enemy Armies",	"Costs 300 wealth to expose all\n" + 
+																			"enemy army positions. Base\n" +
+																			"success rate of 60%.")
 	}
+	
 }

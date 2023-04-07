@@ -4,6 +4,8 @@
 army_quality = mil_budget
 ///////
 
+
+
 if mouse_check_button_pressed(mb_middle) {
 	drag_x = mouse_x
 	drag_y = mouse_y
@@ -173,17 +175,18 @@ if turn_stage == "AI" {
 			if !tag_has_flag(tag, "BuiltRecently") && global.economy[tag_id][1] >= 125 {
 				// 5a: check all owned provinces
 				var owned_provs = map_find_owned_list(tag)
-				show_debug_message("Owned Provs (" + tag + "): " + string(owned_provs))
+				//show_debug_message("Owned Provs (" + tag + "): " + string(owned_provs))
 				if array_length(owned_provs) > 0 {
 					for (var prov = 0; prov < array_length(owned_provs); prov ++) {
 						// Check all slots in province
 						if tag_has_flag(tag, "BuiltRecently") { break }
 						for (var slot = 0; slot < array_length(global.buildslots[owned_provs[prov]]); slot ++) {
 							var building = global.buildslots[owned_provs[prov]][slot]
-							show_debug_message("("+tag+") Building: " + string(building))
+							//show_debug_message("("+tag+") Building: " + string(building))
 							// 5b: Is there already a building here? Can it be upgraded?
+							//show_debug_message("building id: " + string(building))
 							if building != -1 && global.buildings[building][6] {
-								show_debug_message("("+tag+") is Upgrading ")
+								//show_debug_message("("+tag+") is Upgrading ")
 								// If I can afford to upgrade:
 								if global.economy[tag_id][1] >= global.buildings[building + 1][3] {
 									global.buildslots[owned_provs[prov]][slot] = building + 1
@@ -201,14 +204,14 @@ if turn_stage == "AI" {
 									}
 									
 									flag_add(tag, "BuiltRecently", 3) // Add three turn cooldown for building
-									show_debug_message("("+tag+") Flags: " + string(global.flags[tag_id]))
+									//show_debug_message("("+tag+") Flags: " + string(global.flags[tag_id]))
 									break 
 								} else {
 									continue	
 								}
 							} else if building == -1 {
 								// IF slot is empty
-								show_debug_message("("+tag+") slot is empty ")
+								//show_debug_message("("+tag+") slot is empty ")
 								var wealth = global.economy[tag_id][1]
 								for (i = 0; i < array_length(global.buildings); i ++) {
 									// Check potential buildings
@@ -220,7 +223,7 @@ if turn_stage == "AI" {
 									
 									// If there is an affordable building
 									if array_length(affordables) > 0 {
-										show_debug_message("("+tag+") is building a new one ")
+										//show_debug_message("("+tag+") is building a new one ")
 										// Choose random affordable building
 										var chosen_building = affordables[irandom_range(0, array_length(affordables)-1)]
 									
@@ -257,26 +260,52 @@ if turn_stage == "AI" {
 			// 6b: Do I like the King? (If so, improve relations. If not, plot)
 			
 			// 7: Am I at war?
+			
+			// TRIED TO FIX PATHFINDING, DIDNT WORK SO CHANGE HOW TARGETS ARE SELECTED
+			// PREVENT SUPER-LONG PATHS, FORCE THEM TO PICK A NEW ONE
+			// MAYBE STAGGER THEIR PATH CHANGES, MAKE IT LOOK LIKE THEY ARE THINKING ABOUT IT
+			
 			if array_length(global.wars[tag_id]) > 0 {
 				// Check each of my armies
 				for (var army = 0; army < array_length(armies); army ++) {
 					var enemy_armies = []
+					var target_army = noone
 					if array_length(armies[army].path) == 0 {
 						// If army has no path
 						enemy_armies = find_enemy_armies(tag)								  // Fetches all enemy army object ids
-						var target_army = find_target_army(enemy_armies, armies[army])			  // Chooses an enemy army to chase
+						target_army = find_target_army(enemy_armies, armies[army])			  // Chooses an enemy army to chase
 						//if target_army == noone { continue }
-						show_debug_message(target_army)
+						show_debug_message("Target Army: " + string(target_army))
 						//show_debug_message(armies[army].location)
 						//if target_army != noone { show_debug_message(target_army.location) }
 						
 						armies[army].path = find_path_to_target(target_army, armies[army])
-						show_debug_message(armies[army].path)
+						show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path: " + string(armies[army].path))
 						
-					} 
-					
-					if array_length(armies[army].path) > 0 {
+					} else {
+						if target_army != noone {
+							if typeof(target_army) == "ref" {
+								// If the target is another army
+								var fi = array_length(armies[army].path) - 1
+								if check_for_adjacent_enemy(armies[army].path[fi]) == noone {
+									// If enemy army is no longer adjacent to that target province
+									show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path no longer valid, recalculating...")
+									armies[army].path = find_path_to_target(target_army, armies[army])
+								}
+							} else {
+								// If the target is a province id
+								if global.provinces[target_army][9].prov_occupied_by != noone {
+									// If the province is already occupied by someone
+									show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path no longer valid, recalculating...")
+									enemy_armies = find_enemy_armies(tag)									  // Fetches all enemy army object ids
+									var target_army = find_target_army(enemy_armies, armies[army])			  // Chooses an enemy army to chase
+								
+									armies[army].path = find_path_to_target(target_army, armies[army])
+								}
+							}
+						}
 						// If army has a path
+						show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path = " + string(armies[army].path))
 						armies[army].location = armies[army].path[0]
 						armies[army].x = global.provinces[armies[army].path[0]][7]
 						armies[army].y = global.provinces[armies[army].path[0]][8]

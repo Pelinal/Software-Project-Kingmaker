@@ -1,6 +1,6 @@
 /// @description Init
 
-depth = -103
+//depth = -103
 image_speed = 0
 type = ""
 ico_index = 0
@@ -12,6 +12,9 @@ unit_id = noone
 opinion_req = 0
 court_action = false
 prov_to_select = -1
+
+e_option = ""
+depth = -107
 
 // just for buildings@
 build_slot = 0

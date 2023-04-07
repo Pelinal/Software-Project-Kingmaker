@@ -160,3 +160,13 @@ function menu_pop(menu_type) {
 		}
 	}
 }
+
+function refresh_events() {
+	with obj_button {
+		if type == "EVT_Option" {
+			instance_destroy(self)
+		}
+	}
+					
+	instance_destroy(obj_event)
+}

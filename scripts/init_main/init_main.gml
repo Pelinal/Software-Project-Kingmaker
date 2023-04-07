@@ -65,9 +65,9 @@ function economy_init() {
 	global.buildings[7] = ["Barracks", "Manpower", 3, 200, 6, 0.5, true] 
 	global.buildings[8] = ["Fort", "Manpower", 4, 350, 7, 1, true]				// Extra Effect: Manpower Income +10%
 	global.buildings[9] = ["Starfort", "Manpower", 5, 600, 8, 1.5, false]			// Extra Effect: Manpower Income +25%
-	global.buildings[10] = ["Library", "Threat", -0.015, 200, -1, true]
-	global.buildings[11] = ["Print Shop", "Threat", -0.03, 400, 10, true]
-	global.buildings[12] = ["News Agent", "Threat", -0.05, 600, 11, false]
+	global.buildings[10] = ["Library", "Threat", -0.015, 200, -1, 0.25, true]
+	global.buildings[11] = ["Print Shop", "Threat", -0.03, 400, 10, 0.5, true]
+	global.buildings[12] = ["News Agent", "Threat", -0.05, 600, 11, 1.25, false]
 	
 }
 

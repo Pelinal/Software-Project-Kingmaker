@@ -1,6 +1,5 @@
 /// @description HUD Drawing
 
-
 //if province_popup_id != -1 {
 //	draw_set_color(c_black)
 //	draw_set_alpha(1)

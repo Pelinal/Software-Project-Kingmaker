@@ -673,7 +673,7 @@ function map_province_is_adjacent(prov1, prov2) {
 			adj_list = [11]
 			break
 		case 11:
-			adj_list = [9, 12, 13]
+			adj_list = [9, 10, 12, 13] 
 			break
 		case 12:
 			adj_list = [9, 11, 13, 25, 26]
@@ -691,7 +691,7 @@ function map_province_is_adjacent(prov1, prov2) {
 			adj_list = [2, 4, 14, 15, 17, 37, 38]
 			break
 		case 17:
-			adj_list = [15, 16, 18, 19, 33, 37]
+			adj_list = [15, 16, 18, 19, 33, 37, 42]
 			break
 		case 18:
 			adj_list = [15, 17, 19, 20, 22]
@@ -709,16 +709,16 @@ function map_province_is_adjacent(prov1, prov2) {
 			adj_list = [8, 15, 18, 20, 23, 24]
 			break
 		case 23:
-			adj_list = [8, 15, 22, 24, 25]
+			adj_list = [8, 22, 24, 25]
 			break
 		case 24:
-			adj_list = [22, 23, 25, 26, 29, 75]
+			adj_list = [20, 22, 23, 25, 26, 29, 75]
 			break
 		case 25:
 			adj_list = [9, 12, 23, 24, 26]
 			break
 		case 26:
-			adj_list = [12, 13, 24, 27, 29]
+			adj_list = [12, 13, 24, 25, 27, 29]
 			break
 		case 27:
 			adj_list = [13, 26, 28, 29]
@@ -739,7 +739,7 @@ function map_province_is_adjacent(prov1, prov2) {
 			adj_list = [21, 29, 30, 46, 75]
 			break
 		case 33:
-			adj_list = [17, 19, 34, 35, 42]
+			adj_list = [17, 19, 34, 35, 42, 44]
 			break
 		case 34:
 			adj_list = [19, 21, 33, 35, 36]
@@ -754,7 +754,7 @@ function map_province_is_adjacent(prov1, prov2) {
 			adj_list = [16, 17, 38, 40, 41, 42, 43]
 			break
 		case 38:
-			adj_list = [4, 16, 37, 39]
+			adj_list = [4, 16, 37, 39, 40]
 			break
 		case 39:
 			adj_list = [38, 40]
@@ -775,16 +775,16 @@ function map_province_is_adjacent(prov1, prov2) {
 			adj_list = [33, 35, 42, 43, 45, 50, 61]
 			break
 		case 45:
-			adj_list = [43, 44, 50, 55, 60, 61]
+			adj_list = [43, 44, 55, 60]
 			break
 		case 46:
 			adj_list = [21, 32, 30, 31, 36, 47]
 			break
 		case 47:
-			adj_list = [36, 46, 48]
+			adj_list = [31, 36, 46, 48]
 			break
 		case 48:
-			adj_list = [35, 36, 49, 50]
+			adj_list = [35, 36, 47, 49, 50]
 			break
 		case 49:
 			adj_list = [35, 48]
@@ -802,10 +802,10 @@ function map_province_is_adjacent(prov1, prov2) {
 			adj_list = [40, 41, 51, 52, 54, 55, 72, 78]
 			break
 		case 54:
-			adj_list = [41, 43, 53]
+			adj_list = [41, 43, 53, 55]
 			break
 		case 55:
-			adj_list = [43, 45, 56, 57, 58, 59, 60, 72]
+			adj_list = [43, 45, 54, 53, 56, 57, 58, 59, 60, 72]
 			break
 		case 56:
 			adj_list = [55, 57, 69, 72]
@@ -847,7 +847,7 @@ function map_province_is_adjacent(prov1, prov2) {
 			adj_list = [67, 77]
 			break
 		case 69:
-			adj_list = [56, 57, 69, 72]
+			adj_list = [56, 57, 72, 73]
 			break
 		case 70:
 			adj_list = [71, 74]
@@ -856,7 +856,7 @@ function map_province_is_adjacent(prov1, prov2) {
 			adj_list = [52, 70, 72, 74, 78]
 			break
 		case 72:
-			adj_list = [53, 55, 56, 69, 71, 73, 78]
+			adj_list = [53, 55, 56, 69, 71, 73, 74, 78]
 			break
 		case 73:
 			adj_list = [69, 72, 74]
@@ -928,7 +928,7 @@ function map_province_get_adjacent(prov1, tag) {
 			adj_list = [11]
 			break
 		case 11:
-			adj_list = [9, 12, 13]
+			adj_list = [9, 10, 12, 13] 
 			break
 		case 12:
 			adj_list = [9, 11, 13, 25, 26]
@@ -946,7 +946,7 @@ function map_province_get_adjacent(prov1, tag) {
 			adj_list = [2, 4, 14, 15, 17, 37, 38]
 			break
 		case 17:
-			adj_list = [15, 16, 18, 19, 33, 37]
+			adj_list = [15, 16, 18, 19, 33, 37, 42]
 			break
 		case 18:
 			adj_list = [15, 17, 19, 20, 22]
@@ -964,16 +964,16 @@ function map_province_get_adjacent(prov1, tag) {
 			adj_list = [8, 15, 18, 20, 23, 24]
 			break
 		case 23:
-			adj_list = [8, 15, 22, 24, 25]
+			adj_list = [8, 22, 24, 25]
 			break
 		case 24:
-			adj_list = [22, 23, 25, 26, 29, 75]
+			adj_list = [20, 22, 23, 25, 26, 29, 75]
 			break
 		case 25:
 			adj_list = [9, 12, 23, 24, 26]
 			break
 		case 26:
-			adj_list = [12, 13, 24, 27, 29]
+			adj_list = [12, 13, 24, 25, 27, 29]
 			break
 		case 27:
 			adj_list = [13, 26, 28, 29]
@@ -994,7 +994,7 @@ function map_province_get_adjacent(prov1, tag) {
 			adj_list = [21, 29, 30, 46, 75]
 			break
 		case 33:
-			adj_list = [17, 19, 34, 35, 42]
+			adj_list = [17, 19, 34, 35, 42, 44]
 			break
 		case 34:
 			adj_list = [19, 21, 33, 35, 36]
@@ -1009,7 +1009,7 @@ function map_province_get_adjacent(prov1, tag) {
 			adj_list = [16, 17, 38, 40, 41, 42, 43]
 			break
 		case 38:
-			adj_list = [4, 16, 37, 39]
+			adj_list = [4, 16, 37, 39, 40]
 			break
 		case 39:
 			adj_list = [38, 40]
@@ -1030,16 +1030,16 @@ function map_province_get_adjacent(prov1, tag) {
 			adj_list = [33, 35, 42, 43, 45, 50, 61]
 			break
 		case 45:
-			adj_list = [43, 44, 50, 55, 60, 61]
+			adj_list = [43, 44, 55, 60]
 			break
 		case 46:
 			adj_list = [21, 32, 30, 31, 36, 47]
 			break
 		case 47:
-			adj_list = [36, 46, 48]
+			adj_list = [31, 36, 46, 48]
 			break
 		case 48:
-			adj_list = [35, 36, 49, 50]
+			adj_list = [35, 36, 47, 49, 50]
 			break
 		case 49:
 			adj_list = [35, 48]
@@ -1057,10 +1057,10 @@ function map_province_get_adjacent(prov1, tag) {
 			adj_list = [40, 41, 51, 52, 54, 55, 72, 78]
 			break
 		case 54:
-			adj_list = [41, 43, 53]
+			adj_list = [41, 43, 53, 55]
 			break
 		case 55:
-			adj_list = [43, 45, 56, 57, 58, 59, 60, 72]
+			adj_list = [43, 45, 54, 53, 56, 57, 58, 59, 60, 72]
 			break
 		case 56:
 			adj_list = [55, 57, 69, 72]
@@ -1102,7 +1102,7 @@ function map_province_get_adjacent(prov1, tag) {
 			adj_list = [67, 77]
 			break
 		case 69:
-			adj_list = [56, 57, 69, 72]
+			adj_list = [56, 57, 72, 73]
 			break
 		case 70:
 			adj_list = [71, 74]
@@ -1111,7 +1111,7 @@ function map_province_get_adjacent(prov1, tag) {
 			adj_list = [52, 70, 72, 74, 78]
 			break
 		case 72:
-			adj_list = [53, 55, 56, 69, 71, 73, 78]
+			adj_list = [53, 55, 56, 69, 71, 73, 74, 78]
 			break
 		case 73:
 			adj_list = [69, 72, 74]
@@ -1183,7 +1183,7 @@ function map_province_get_adjacent_list(prov1) {
 			adj_list = [11]
 			break
 		case 11:
-			adj_list = [9, 12, 13]
+			adj_list = [9, 10, 12, 13] 
 			break
 		case 12:
 			adj_list = [9, 11, 13, 25, 26]
@@ -1201,7 +1201,7 @@ function map_province_get_adjacent_list(prov1) {
 			adj_list = [2, 4, 14, 15, 17, 37, 38]
 			break
 		case 17:
-			adj_list = [15, 16, 18, 19, 33, 37]
+			adj_list = [15, 16, 18, 19, 33, 37, 42]
 			break
 		case 18:
 			adj_list = [15, 17, 19, 20, 22]
@@ -1219,16 +1219,16 @@ function map_province_get_adjacent_list(prov1) {
 			adj_list = [8, 15, 18, 20, 23, 24]
 			break
 		case 23:
-			adj_list = [8, 15, 22, 24, 25]
+			adj_list = [8, 22, 24, 25]
 			break
 		case 24:
-			adj_list = [22, 23, 25, 26, 29, 75]
+			adj_list = [20, 22, 23, 25, 26, 29, 75]
 			break
 		case 25:
 			adj_list = [9, 12, 23, 24, 26]
 			break
 		case 26:
-			adj_list = [12, 13, 24, 27, 29]
+			adj_list = [12, 13, 24, 25, 27, 29]
 			break
 		case 27:
 			adj_list = [13, 26, 28, 29]
@@ -1249,7 +1249,7 @@ function map_province_get_adjacent_list(prov1) {
 			adj_list = [21, 29, 30, 46, 75]
 			break
 		case 33:
-			adj_list = [17, 19, 34, 35, 42]
+			adj_list = [17, 19, 34, 35, 42, 44]
 			break
 		case 34:
 			adj_list = [19, 21, 33, 35, 36]
@@ -1264,7 +1264,7 @@ function map_province_get_adjacent_list(prov1) {
 			adj_list = [16, 17, 38, 40, 41, 42, 43]
 			break
 		case 38:
-			adj_list = [4, 16, 37, 39]
+			adj_list = [4, 16, 37, 39, 40]
 			break
 		case 39:
 			adj_list = [38, 40]
@@ -1285,16 +1285,16 @@ function map_province_get_adjacent_list(prov1) {
 			adj_list = [33, 35, 42, 43, 45, 50, 61]
 			break
 		case 45:
-			adj_list = [43, 44, 50, 55, 60, 61]
+			adj_list = [43, 44, 55, 60]
 			break
 		case 46:
 			adj_list = [21, 32, 30, 31, 36, 47]
 			break
 		case 47:
-			adj_list = [36, 46, 48]
+			adj_list = [31, 36, 46, 48]
 			break
 		case 48:
-			adj_list = [35, 36, 49, 50]
+			adj_list = [35, 36, 47, 49, 50]
 			break
 		case 49:
 			adj_list = [35, 48]
@@ -1312,10 +1312,10 @@ function map_province_get_adjacent_list(prov1) {
 			adj_list = [40, 41, 51, 52, 54, 55, 72, 78]
 			break
 		case 54:
-			adj_list = [41, 43, 53]
+			adj_list = [41, 43, 53, 55]
 			break
 		case 55:
-			adj_list = [43, 45, 56, 57, 58, 59, 60, 72]
+			adj_list = [43, 45, 54, 53, 56, 57, 58, 59, 60, 72]
 			break
 		case 56:
 			adj_list = [55, 57, 69, 72]
@@ -1357,7 +1357,7 @@ function map_province_get_adjacent_list(prov1) {
 			adj_list = [67, 77]
 			break
 		case 69:
-			adj_list = [56, 57, 69, 72]
+			adj_list = [56, 57, 72, 73]
 			break
 		case 70:
 			adj_list = [71, 74]
@@ -1366,7 +1366,7 @@ function map_province_get_adjacent_list(prov1) {
 			adj_list = [52, 70, 72, 74, 78]
 			break
 		case 72:
-			adj_list = [53, 55, 56, 69, 71, 73, 78]
+			adj_list = [53, 55, 56, 69, 71, 73, 74, 78]
 			break
 		case 73:
 			adj_list = [69, 72, 74]
@@ -1431,7 +1431,7 @@ function find_adjacent_armies(prov1, tag) {
 			adj_list = [11]
 			break
 		case 11:
-			adj_list = [9, 12, 13]
+			adj_list = [9, 10, 12, 13] 
 			break
 		case 12:
 			adj_list = [9, 11, 13, 25, 26]
@@ -1449,7 +1449,7 @@ function find_adjacent_armies(prov1, tag) {
 			adj_list = [2, 4, 14, 15, 17, 37, 38]
 			break
 		case 17:
-			adj_list = [15, 16, 18, 19, 33, 37]
+			adj_list = [15, 16, 18, 19, 33, 37, 42]
 			break
 		case 18:
 			adj_list = [15, 17, 19, 20, 22]
@@ -1467,16 +1467,16 @@ function find_adjacent_armies(prov1, tag) {
 			adj_list = [8, 15, 18, 20, 23, 24]
 			break
 		case 23:
-			adj_list = [8, 15, 22, 24, 25]
+			adj_list = [8, 22, 24, 25]
 			break
 		case 24:
-			adj_list = [22, 23, 25, 26, 29, 75]
+			adj_list = [20, 22, 23, 25, 26, 29, 75]
 			break
 		case 25:
 			adj_list = [9, 12, 23, 24, 26]
 			break
 		case 26:
-			adj_list = [12, 13, 24, 27, 29]
+			adj_list = [12, 13, 24, 25, 27, 29]
 			break
 		case 27:
 			adj_list = [13, 26, 28, 29]
@@ -1497,7 +1497,7 @@ function find_adjacent_armies(prov1, tag) {
 			adj_list = [21, 29, 30, 46, 75]
 			break
 		case 33:
-			adj_list = [17, 19, 34, 35, 42]
+			adj_list = [17, 19, 34, 35, 42, 44]
 			break
 		case 34:
 			adj_list = [19, 21, 33, 35, 36]
@@ -1512,7 +1512,7 @@ function find_adjacent_armies(prov1, tag) {
 			adj_list = [16, 17, 38, 40, 41, 42, 43]
 			break
 		case 38:
-			adj_list = [4, 16, 37, 39]
+			adj_list = [4, 16, 37, 39, 40]
 			break
 		case 39:
 			adj_list = [38, 40]
@@ -1533,16 +1533,16 @@ function find_adjacent_armies(prov1, tag) {
 			adj_list = [33, 35, 42, 43, 45, 50, 61]
 			break
 		case 45:
-			adj_list = [43, 44, 50, 55, 60, 61]
+			adj_list = [43, 44, 55, 60]
 			break
 		case 46:
 			adj_list = [21, 32, 30, 31, 36, 47]
 			break
 		case 47:
-			adj_list = [36, 46, 48]
+			adj_list = [31, 36, 46, 48]
 			break
 		case 48:
-			adj_list = [35, 36, 49, 50]
+			adj_list = [35, 36, 47, 49, 50]
 			break
 		case 49:
 			adj_list = [35, 48]
@@ -1560,10 +1560,10 @@ function find_adjacent_armies(prov1, tag) {
 			adj_list = [40, 41, 51, 52, 54, 55, 72, 78]
 			break
 		case 54:
-			adj_list = [41, 43, 53]
+			adj_list = [41, 43, 53, 55]
 			break
 		case 55:
-			adj_list = [43, 45, 56, 57, 58, 59, 60, 72]
+			adj_list = [43, 45, 54, 53, 56, 57, 58, 59, 60, 72]
 			break
 		case 56:
 			adj_list = [55, 57, 69, 72]
@@ -1605,7 +1605,7 @@ function find_adjacent_armies(prov1, tag) {
 			adj_list = [67, 77]
 			break
 		case 69:
-			adj_list = [56, 57, 69, 72]
+			adj_list = [56, 57, 72, 73]
 			break
 		case 70:
 			adj_list = [71, 74]
@@ -1614,7 +1614,7 @@ function find_adjacent_armies(prov1, tag) {
 			adj_list = [52, 70, 72, 74, 78]
 			break
 		case 72:
-			adj_list = [53, 55, 56, 69, 71, 73, 78]
+			adj_list = [53, 55, 56, 69, 71, 73, 74, 78]
 			break
 		case 73:
 			adj_list = [69, 72, 74]

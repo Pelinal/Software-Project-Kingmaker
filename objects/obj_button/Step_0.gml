@@ -293,6 +293,52 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					
 					menu_pop("Military")
 				}
+			} else if type == "EVT_Option" {
+				if e_option == "To Glory!" || e_option == "That's Enough (Exit Tutorial)" {
+					refresh_events()
+				} else if e_option == "Summon the Advisors (Tutorial)" {
+					refresh_events()
+					show_event("Tutorial: Objective", "The primary objective of Kingmaker is to expand your nation through any means possible. Conquer territory from your neighbours, construct buildings to improve your economy, and recruit more men to your armies to facilitate further expansion. Eventually, you must challenge the King himself and take the capital of Paris to become King yourself, thus winning the game.", 7, ["Next (Controls)", "That's Enough (Exit Tutorial)"])
+				} else if e_option == "Next (Controls)" {
+					refresh_events()
+					show_event("Tutorial: Controls", "The game's primary control scheme is using the mouse; LEFT-CLICK for using buttons, RIGHT-CLICK to close any menu, MIDDLE-CLICK on map to drag the view, SCROLL-WHEEL to zoom in and out of the map view.", 6, ["Next (Diplomacy)", "That's Enough (Exit Tutorial)"])
+				} else if e_option == "Next (Diplomacy)" {
+					refresh_events()
+					show_event("Tutorial: Diplomacy", "In addition to the obvious interaction of warfare, you can perform certain beneficial diplomacy with other nations. This includes forming alliances, improving relations and forming political marriages. It is also on this interface that you are able to engage in intrigue, claim fabrication and war declaration.", 5, ["That's Enough (Exit Tutorial)"])
+				} else if e_option == "A shame" {
+					global.economy[tag_fetch_id(obj_control.player_tag)][8] -= 5
+				} else if e_option == "Now we strike!" {
+					
+				} else if e_option == "Let their cities burn!" {
+					
+				} else if e_option == "Their secrets laid bare" {
+					
+				}
+			// Intrigue
+			} else if type == "Sabotage Armies" {
+				var chance = random(1)
+				if chance <= 0.4 {
+					// 40 % chance
+					show_event("Sabotage: Success!", "One of the enemy's armies has been successfully sabotaged, losing 25 percent of their active forces to poisoning at our hands.", 3, ["Now we strike!"])
+				} else {
+					show_event("Sabotage: Failure!", "Our agent in charge of sabotaging the enemy's armies has been captured. It seems our efforts were in vain, maybe we'll get them next time?", 3, ["A shame"])
+				}
+			} else if type == "Raid Province" {
+				var chance = random(1)
+				if chance <= 0.3 {
+					// 30 % chance
+					show_event("Raid: Success!", "Our raiding party has returned in triump! The enemy province targeted has lost 1 point of Tax, Production and Manpower.", 3, ["Let their cities burn!"])
+				} else {
+					show_event("Raid: Failure!", "A disaster! Our raiding party was captured and executed by the enemy, we have had to deny all involvement. This will be a major setback in our efforts.", 3, ["A shame"])
+				}
+			} else if type == "Infiltrate Court" {
+				var chance = random(1)
+				if chance <= 0.6 {
+					// 60 % chance
+					show_event("Infiltration: Success!", "Our agent reports they have successfully infilrated themselves into the enemy's court, earning trust among the courtiers there.", 3, ["Their secrets laid bare"])
+				} else {
+					show_event("Infiltration: Failure!", "Efforts to infiltrate our enemy's court have turned sour. Our agents have been captured and forced to retreat.", 3, ["A shame"])
+				}
 			} else if type == "TagListButton" && visible {
 					//show_debug_message("tagid::: " + string(tag_id))
 					

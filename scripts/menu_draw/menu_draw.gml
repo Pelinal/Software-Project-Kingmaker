@@ -87,3 +87,28 @@ function get_opinion_name(opinion_value) {
 		return "Neutral"
 	}
 }
+
+/// Displays an event popup in the middle of the screen 
+function show_event(title, body, pic_id, choices=["OK"]) {
+	var eventbox = instance_create_depth(960, 540, -105, obj_event)
+	with eventbox {
+		pic = pic_id // Id of image from spr_evt_pics
+		id.title = title
+		id.body = body
+		options = choices
+	}
+	
+	with instance_create_depth(eventbox.x - 240, eventbox.y + 176, -106, obj_button) {
+		type = "EVT_Option"
+		e_option = choices[0]
+		sprite_index = spr_rectthin_button
+	}
+	
+	if array_length(choices) > 1 {
+		with instance_create_depth(eventbox.x - 240, eventbox.y + 176 + 64, -106, obj_button) {
+			type = "EVT_Option"
+			e_option = choices[1]
+			sprite_index = spr_rectthin_button
+		}
+	}
+}
