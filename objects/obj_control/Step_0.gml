@@ -4,7 +4,9 @@
 army_quality = mil_budget
 ///////
 
-
+if !instance_exists(selected_army) {
+	selected_army = noone
+}
 
 if mouse_check_button_pressed(mb_middle) {
 	drag_x = mouse_x
@@ -156,6 +158,7 @@ if turn_stage == "AI" {
 			
 			// Update flags
 			flags_update(tag_id)
+			print(tag + ": " + string(global.flags[tag_id]))
 			
 			// Ingores the player, skips to next iteration
 			if tag == obj_control.player_tag { continue }
@@ -260,11 +263,9 @@ if turn_stage == "AI" {
 			// 6b: Do I like the King? (If so, improve relations. If not, plot)
 			
 			// 7: Am I at war?
-			
 			// TRIED TO FIX PATHFINDING, DIDNT WORK SO CHANGE HOW TARGETS ARE SELECTED
 			// PREVENT SUPER-LONG PATHS, FORCE THEM TO PICK A NEW ONE
 			// MAYBE STAGGER THEIR PATH CHANGES, MAKE IT LOOK LIKE THEY ARE THINKING ABOUT IT
-			
 			if array_length(global.wars[tag_id]) > 0 {
 				// Check each of my armies
 				for (var army = 0; army < array_length(armies); army ++) {
@@ -273,7 +274,7 @@ if turn_stage == "AI" {
 					if array_length(armies[army].path) == 0 {
 						// If army has no path
 						enemy_armies = find_enemy_armies(tag)								  // Fetches all enemy army object ids
-						target_army = find_target_army(enemy_armies, armies[army])			  // Chooses an enemy army to chase
+						target_army = find_target_for_army(enemy_armies, armies[army])			  // Chooses an enemy army to chase
 						//if target_army == noone { continue }
 						show_debug_message("Target Army: " + string(target_army))
 						//show_debug_message(armies[army].location)
@@ -282,28 +283,40 @@ if turn_stage == "AI" {
 						armies[army].path = find_path_to_target(target_army, armies[army])
 						show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path: " + string(armies[army].path))
 						
-					} else {
-						if target_army != noone {
-							if typeof(target_army) == "ref" {
-								// If the target is another army
-								var fi = array_length(armies[army].path) - 1
-								if check_for_adjacent_enemy(armies[army].path[fi]) == noone {
-									// If enemy army is no longer adjacent to that target province
-									show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path no longer valid, recalculating...")
-									armies[army].path = find_path_to_target(target_army, armies[army])
-								}
-							} else {
-								// If the target is a province id
-								if global.provinces[target_army][9].prov_occupied_by != noone {
-									// If the province is already occupied by someone
-									show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path no longer valid, recalculating...")
-									enemy_armies = find_enemy_armies(tag)									  // Fetches all enemy army object ids
-									var target_army = find_target_army(enemy_armies, armies[army])			  // Chooses an enemy army to chase
+					}
+					
+					show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Target: " + string(target_army))
+					
+					if target_army != noone {
+						if typeof(target_army) == "ref" {
+							// If the target is another army
+							if check_for_adjacent_enemy(armies[army]) == noone {
+								// If enemy army is no longer adjacent to that target province
+								show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path no longer valid, recalculating...")
+								armies[army].path = find_path_to_target(target_army, armies[army])
+							}
+						} else {
+							// If the target is a province id
+							if global.provinces[target_army][9].prov_occupied_by != noone {
+								// If the province is already occupied by someone
+								show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path no longer valid, recalculating...")
+								enemy_armies = find_enemy_armies(tag)									  // Fetches all enemy army object ids
+								var target_army = find_target_for_army(enemy_armies, armies[army])			  // Chooses an enemy army to chase
 								
-									armies[army].path = find_path_to_target(target_army, armies[army])
-								}
+								armies[army].path = find_path_to_target(target_army, armies[army])
 							}
 						}
+						
+						if typeof(target_army) != "ref" && array_length(armies[army].path) == 1 {
+							show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Booting them to target, wiping path...")
+							armies[army].location = target_army
+							armies[army].x = global.provinces[target_army][7]
+							armies[army].y = global.provinces[target_army][8]
+							armies[army].path = []
+						}
+					}
+						
+					if array_length(armies[army].path) > 0 {
 						// If army has a path
 						show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path = " + string(armies[army].path))
 						armies[army].location = armies[army].path[0]
@@ -313,6 +326,7 @@ if turn_stage == "AI" {
 					}
 					
 					if array_length(enemy_armies) > 0 { check_for_potential_battle(armies[army]) }
+					
 				}
 			}
 			

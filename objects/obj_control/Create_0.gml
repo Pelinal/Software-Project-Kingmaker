@@ -5,6 +5,9 @@ global.pause = false
 // startup
 show_event("The Fronde", "The upcoming years are forecast to be turmultous for France. Grumblings among the Paris parelment and like-minded individuals seem poised to enter revolt against the King. Such an event may inspire amibitious nobles such as the Grande Condé, Duke of Burgundy, and cause them to set their sights upon the Kingship itself! Perhaps it is out of this chaos we'll make a name for ourselves... and to entertain our own ambitions for the throne?", 0, ["To Glory!", "Summon the Advisors (Tutorial)"])
 
+// Intrigue
+player_sees = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+
 // Army Quality
 army_quality = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 

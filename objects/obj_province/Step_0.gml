@@ -15,7 +15,7 @@ if colliding_unit != noone {
 	unit_in_prov = noone
 }
 
-if unit_in_prov != noone {
+if unit_in_prov != noone && instance_exists(unit_in_prov) {
 	if tag_is_enemy(global.tags[unit_in_prov.tag_id][0], map_province_owner(prov_id)) {
 		prov_occupied_by = global.tags[unit_in_prov.tag_id][0]
 	}
@@ -23,6 +23,11 @@ if unit_in_prov != noone {
 		prov_occupied_by = noone
 	}
 }
+
+if !instance_exists(unit_in_prov) {
+	unit_in_prov = noone
+}
+
 if prov_occupied_by == noone {
 	image_colour = tag_fetch_colour(global.provinces[prov_id][6])
 } else {
@@ -135,19 +140,21 @@ if position_meeting(mouse_x, mouse_y, id) {
 				}
 			}
 		} else {
-			if obj_control.selected_army.moves_remaining > 0 {
-				if tag_is_enemy(global.tags[unit_in_prov.tag_id][0], obj_control.player_tag) {
-					if unit_in_prov.total_mp > obj_control.selected_army.total_mp {
-						// If your army is weaker than the enemy
-						global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] -= global.army[unit_in_prov.tag_id][unit_in_prov.army_id] - global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] 
-						global.army[unit_in_prov.tag_id][unit_in_prov.army_id] -= ((global.army[unit_in_prov.tag_id][unit_in_prov.army_id] - global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id]) / 2) * (1 + (obj_control.army_quality[obj_control.selected_army.tag_id]/10))
-					} else {
-						// If your army is stronger than theirs
-						global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] -= (global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] - global.army[unit_in_prov.tag_id][unit_in_prov.army_id]) / 2
-						global.army[unit_in_prov.tag_id][unit_in_prov.army_id] -= (global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] - global.army[unit_in_prov.tag_id][unit_in_prov.army_id]) * (1 + (obj_control.army_quality[obj_control.selected_army.tag_id]/10))
-					}
+			if unit_in_prov != noone {
+				if obj_control.selected_army.moves_remaining > 0 {
+					if tag_is_enemy(global.tags[unit_in_prov.tag_id][0], obj_control.player_tag) {
+						if unit_in_prov.total_mp > obj_control.selected_army.total_mp {
+							// If your army is weaker than the enemy
+							global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] -= global.army[unit_in_prov.tag_id][unit_in_prov.army_id] - global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] 
+							global.army[unit_in_prov.tag_id][unit_in_prov.army_id] -= ((global.army[unit_in_prov.tag_id][unit_in_prov.army_id] - global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id]) / 2) * (1 + (obj_control.army_quality[obj_control.selected_army.tag_id]/10))
+						} else {
+							// If your army is stronger than theirs
+							global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] -= (global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] - global.army[unit_in_prov.tag_id][unit_in_prov.army_id]) / 2
+							global.army[unit_in_prov.tag_id][unit_in_prov.army_id] -= (global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] - global.army[unit_in_prov.tag_id][unit_in_prov.army_id]) * (1 + (obj_control.army_quality[obj_control.selected_army.tag_id]/10))
+						}
 					
-					obj_control.selected_army.moves_remaining = 0
+						obj_control.selected_army.moves_remaining = 0
+					}
 				}
 			}
 		}

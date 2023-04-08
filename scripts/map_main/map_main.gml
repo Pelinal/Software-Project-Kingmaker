@@ -1699,3 +1699,22 @@ function map_find_owned_list(tag) {
 	return prov_list
 	
 }
+
+function map_damage_random(tag) {
+	var owned = map_find_owned_list(tag)
+	if array_length(owned) > 1 {
+		var rand_id = owned[irandom_range(0, array_length(owned)-1)]
+	} else {
+		var rand_id = owned[0]
+	}
+	var rand_val = choose(1, 2, 3)
+	
+	print("Damaging " + global.provinces[rand_id][0] + " owned by " + tag)
+	
+	global.provinces[rand_id][rand_val] -= 2
+	if global.provinces[rand_id][rand_val] <= 0 {
+		global.provinces[rand_id][rand_val] = 1
+	}
+	
+	return string("province of " + global.provinces[rand_id][0] + " owned by " + global.tags[tag_fetch_id(tag)][1])
+}

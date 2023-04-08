@@ -36,6 +36,7 @@
     {"resourceType":"GMSpriteFrame","resourceVersion":"1.1","name":"0bbcc37c-f6a9-45bc-be84-f2547ac76ba7",},
     {"resourceType":"GMSpriteFrame","resourceVersion":"1.1","name":"59751e95-6aed-44d9-8841-75613132f941",},
     {"resourceType":"GMSpriteFrame","resourceVersion":"1.1","name":"219b5554-ee32-4e93-a6b3-32b2a2338538",},
+    {"resourceType":"GMSpriteFrame","resourceVersion":"1.1","name":"15696eb4-4074-4c37-8118-462c2ed22018",},
   ],
   "sequence": {
     "resourceType": "GMSequence",
@@ -47,7 +48,7 @@
     "playbackSpeedType": 0,
     "autoRecord": true,
     "volume": 1.0,
-    "length": 9.0,
+    "length": 10.0,
     "events": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MessageEventKeyframe>",},
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
@@ -61,6 +62,7 @@
             {"id":"44008c7a-771d-4c01-873b-7496bbdd8e84","Key":6.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"0bbcc37c-f6a9-45bc-be84-f2547ac76ba7","path":"sprites/spr_army/spr_army.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
             {"id":"ced7edfd-8429-4c69-985b-8bf651140b97","Key":7.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"59751e95-6aed-44d9-8841-75613132f941","path":"sprites/spr_army/spr_army.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
             {"id":"2502eaa1-9e91-41ae-9216-be63b49b7fd9","Key":8.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"219b5554-ee32-4e93-a6b3-32b2a2338538","path":"sprites/spr_army/spr_army.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"0de195e2-c74a-4a79-a1ae-f629b86482f2","Key":9.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"15696eb4-4074-4c37-8118-462c2ed22018","path":"sprites/spr_army/spr_army.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"modifiers":[],},
     ],
     "visibleRange": null,

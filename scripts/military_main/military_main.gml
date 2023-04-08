@@ -124,7 +124,9 @@ function find_my_armies(tag_id) {
 	return my_armies
 }
 
-function find_target_army(enemy_armies, army) {
+
+
+function find_target_for_army(enemy_armies, army) {
 	// Takes a list of army objects and determines the best one to follow in war
 	var target = noone
 	if array_length(enemy_armies) > 0 {
@@ -141,7 +143,7 @@ function find_target_army(enemy_armies, army) {
 			// If no ideal target is found, just pick anything
 			return enemy_armies[irandom_range(0, array_length(enemy_armies)-1)]
 		}
-	} else {
+	} else if array_length(enemy_armies) == 0 {
 		var enemy_prov = find_random_enemy_province(global.tags[army.tag_id][0])
 		if enemy_prov != noone {
 			return enemy_prov
@@ -200,7 +202,7 @@ function find_path_to_target(target, subject) {
 			}
 		}
 			
-		print("shortest_dist_province: " + string(shortest_dist_province))
+		//print("shortest_dist_province: " + string(shortest_dist_province))
 		// Get neighbouring provinces
 		var neighbours = map_province_get_adjacent_list(shortest_dist_province)
 		// Filter out neighbours that have been visited
@@ -226,7 +228,7 @@ function find_path_to_target(target, subject) {
             variable_struct_remove(unvisited, string(shortest_dist_province))
         }
 		
-		print("Neighbours: " + string(neighbours))
+		//print("Neighbours: " + string(neighbours))
 		// Iterate through neighbouring provinces
 		for (var j = 0; j < array_length(neighbours); j ++) {
 			// Check if distance between current province and neighbour is shorter than
@@ -236,7 +238,7 @@ function find_path_to_target(target, subject) {
 				distance[$ string(neighbours[j])] = distance[$ string(shortest_dist_province)] + 1
 			}
 			
-			print("Previous[shortest_dist_province]"+ string(previous[$ string(shortest_dist_province)]))
+			//print("Previous[shortest_dist_province]"+ string(previous[$ string(shortest_dist_province)]))
 			// Build list of previous provinces visited
 			var temp_path = []
 			for (var k = 0; k < array_length(previous[$ string(shortest_dist_province)]); k ++) {
@@ -249,7 +251,7 @@ function find_path_to_target(target, subject) {
 				previous[$ string(neighbours[j])] = temp_path
 			}
 			
-			print("Previous[" + string(neighbours[j]) + "]" + string(previous[$ string(neighbours[j])]))
+			//print("Previous[" + string(neighbours[j]) + "]" + string(previous[$ string(neighbours[j])]))
 			// Mark current province as visited so we don't backtrack
 			variable_struct_remove(unvisited, string(shortest_dist_province))
 
@@ -283,7 +285,10 @@ function check_for_adjacent_enemy(army) {
 
 function check_for_potential_battle(your_army) {
 	var battle_enemy = check_for_adjacent_enemy(your_army)
-	show_debug_message("Battle Enemy: " + string(battle_enemy))
+	if battle_enemy != noone {
+		var enemy_tag = global.tags[battle_enemy.tag_id][0]
+		show_debug_message("Battle Enemy: " + string(enemy_tag) + " " + string(battle_enemy.army_id))
+	}
 	if your_army.moves_remaining > 0 && battle_enemy != noone {
 		if battle_enemy.total_mp > your_army.total_mp {
 			// If their army is stronger than yours
@@ -326,3 +331,82 @@ function refresh_armies() {
 		}
 	}	
 }
+
+//function military_move_armies(){
+//	// Check each of my armies
+//	for (var army = 0; army < array_length(armies); army ++) {
+//		var enemy_armies = []
+//		var target_army = noone
+//		if array_length(armies[army].path) == 0 {
+//			// If army has no path
+//			enemy_armies = find_enemy_armies(tag)								  // Fetches all enemy army object ids
+//			target_army = find_target_for_army(enemy_armies, armies[army])			  // Chooses an enemy army to chase
+//			//if target_army == noone { continue }
+//			show_debug_message("Target Army: " + string(target_army))
+//			//show_debug_message(armies[army].location)
+//			//if target_army != noone { show_debug_message(target_army.location) }
+						
+//			armies[army].path = find_path_to_target(target_army, armies[army])
+//			show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path: " + string(armies[army].path))
+						
+//		} else {
+//			if target_army != noone {
+//				if typeof(target_army) == "ref" {
+//					// If the target is another army
+//					var fi = array_length(armies[army].path) - 1
+//					if check_for_adjacent_enemy(armies[army].path[fi]) == noone {
+//						// If enemy army is no longer adjacent to that target province
+//						show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path no longer valid, recalculating...")
+//						armies[army].path = find_path_to_target(target_army, armies[army])
+//					}
+//				} else {
+//					// If the target is a province id
+//					if global.provinces[target_army][9].prov_occupied_by != noone {
+//						// If the province is already occupied by someone
+//						show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path no longer valid, recalculating...")
+//						enemy_armies = find_enemy_armies(tag)									  // Fetches all enemy army object ids
+//						var target_army = find_target_for_army(enemy_armies, armies[army])			  // Chooses an enemy army to chase
+								
+//						armies[army].path = find_path_to_target(target_army, armies[army])
+//					}
+//				}
+//			}
+//			// If army has a path
+//			show_debug_message("[" + tag + ": " + string(armies[army].army_id) + "] Path = " + string(armies[army].path))
+//			armies[army].location = armies[army].path[0]
+//			armies[army].x = global.provinces[armies[army].path[0]][7]
+//			armies[army].y = global.provinces[armies[army].path[0]][8]
+//			array_delete(armies[army].path, 0, 1)
+//		}
+					
+//		if array_length(enemy_armies) > 0 { check_for_potential_battle(armies[army]) }
+//		if array_length(armies[army].path) > 10 { military_move_armies() }
+//	}
+//}
+
+
+
+function army_damage_random(tag) {
+	var owned = global.army[tag_fetch_id(tag)]
+	if array_length(owned) > 1 {
+		var rand_id = irandom_range(0, array_length(owned)-1)
+	} else if array_length(owned) == 1 {
+		rand_id = 0
+	} else {
+		return "but they have no armies!"
+	}
+	//var rand_val = choose(250, 2, 3)
+	
+	print("Damaging Armeé de " + global.tags[tag_fetch_id(tag)][1] + " " + string(rand_id) + " owned by " + tag)
+	
+	// Damage by 25%
+	var dmg_amount = global.army[tag_fetch_id(tag)][rand_id] - (global.army[tag_fetch_id(tag)][rand_id] * 0.75)
+	global.army[tag_fetch_id(tag)][rand_id] *= 0.75
+	
+	return string("Armeé de " + global.tags[tag_fetch_id(tag)][1] + " " + string(rand_id+1) + " owned by " + global.tags[tag_fetch_id(tag)][1] + " has been damaged by " + string(dmg_amount) + "(25%).")
+}
+
+//function player_can_see_check(tag) {
+//	var tag_id = tag_fetch_id(tag)
+//	return obj_control.player_sees[tag_id]
+//}

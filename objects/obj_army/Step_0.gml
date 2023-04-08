@@ -38,16 +38,27 @@ if tag_id = tag_fetch_id(obj_control.player_tag) {
 		image_index = 2
 	} else if tag_is_ally(obj_control.player_tag, global.tags[tag_id][0]) {
 		image_index = 3
+	} else {
+		image_index = 9
 	}
 }
 
-if tag_id == tag_fetch_id(obj_control.player_tag) || tag_is_ally(obj_control.player_tag, global.tags[tag_id][0]) || tag_is_enemy(obj_control.player_tag, global.tags[tag_id][0]) {
+if tag_id == tag_fetch_id(obj_control.player_tag) || tag_is_ally(obj_control.player_tag, global.tags[tag_id][0]) || tag_is_enemy(obj_control.player_tag, global.tags[tag_id][0]) || obj_control.player_sees[tag_id] {
 	// If the unit should be visible
 	visible = true
 } else {
 	visible = false
 	
 	
+}
+
+var other_army = instance_place(x, y, obj_army)
+if (other_army != noone && other_army != id) && other_army.tag_id == id.tag_id {
+	// if colliding with another army of the same tag, merge them
+	var other_id = other_army.army_id
+	global.army[tag_id][army_id] += other_army.total_mp
+	instance_destroy(other_army)
+	array_delete(global.army[tag_id], other_id, 1)
 }
 
 if position_meeting(device_mouse_x(0), device_mouse_y(0), id) && image_alpha > 0 {

@@ -307,37 +307,50 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					show_event("Tutorial: Diplomacy", "In addition to the obvious interaction of warfare, you can perform certain beneficial diplomacy with other nations. This includes forming alliances, improving relations and forming political marriages. It is also on this interface that you are able to engage in intrigue, claim fabrication and war declaration.", 5, ["That's Enough (Exit Tutorial)"])
 				} else if e_option == "A shame" {
 					global.economy[tag_fetch_id(obj_control.player_tag)][8] -= 5
+					refresh_events()
 				} else if e_option == "Now we strike!" {
-					
+					global.economy[tag_fetch_id(obj_control.player_tag)][8] += 5
+					refresh_events()
 				} else if e_option == "Let their cities burn!" {
-					
+					global.economy[tag_fetch_id(obj_control.player_tag)][8] += 5
+					refresh_events()
 				} else if e_option == "Their secrets laid bare" {
-					
+					global.economy[tag_fetch_id(obj_control.player_tag)][8] += 5
+					refresh_events()
 				}
 			// Intrigue
-			} else if type == "Sabotage Armies" {
+			} else if type == "Sabotage Armies" && !tag_has_flag(obj_control.player_tag, "RecentIntrigue") {
 				var chance = random(1)
 				if chance <= 0.4 {
 					// 40 % chance
-					show_event("Sabotage: Success!", "One of the enemy's armies has been successfully sabotaged, losing 25 percent of their active forces to poisoning at our hands.", 3, ["Now we strike!"])
+					var flavstring = army_damage_random(obj_control.tag_overview_id)
+					show_event("Sabotage: Success!", "The poisioning was a success. The " + flavstring, 3, ["Now we strike!"])
+					flag_add(obj_control.player_tag, "RecentIntrigue", 3)	
 				} else {
 					show_event("Sabotage: Failure!", "Our agent in charge of sabotaging the enemy's armies has been captured. It seems our efforts were in vain, maybe we'll get them next time?", 3, ["A shame"])
+					flag_add(obj_control.player_tag, "RecentIntrigue", 3)	
 				}
-			} else if type == "Raid Province" {
+			} else if type == "Raid Province" && !tag_has_flag(obj_control.player_tag, "RecentIntrigue") {
 				var chance = random(1)
 				if chance <= 0.3 {
 					// 30 % chance
-					show_event("Raid: Success!", "Our raiding party has returned in triump! The enemy province targeted has lost 1 point of Tax, Production and Manpower.", 3, ["Let their cities burn!"])
+					var flavstring = map_damage_random(obj_control.tag_overview_id)
+					show_event("Raid: Success!", "Our raiding party has returned in triump! The " + flavstring +  " has been damaged by 2 points of development.", 3, ["Let their cities burn!"])
+					flag_add(obj_control.player_tag, "RecentIntrigue", 3)	
 				} else {
 					show_event("Raid: Failure!", "A disaster! Our raiding party was captured and executed by the enemy, we have had to deny all involvement. This will be a major setback in our efforts.", 3, ["A shame"])
+					flag_add(obj_control.player_tag, "RecentIntrigue", 3)	
 				}
-			} else if type == "Infiltrate Court" {
+			} else if type == "Infiltrate Court" && !tag_has_flag(obj_control.player_tag, "RecentIntrigue") {
 				var chance = random(1)
 				if chance <= 0.6 {
 					// 60 % chance
+					obj_control.player_sees[tag_fetch_id(obj_control.tag_overview_id)] = true
 					show_event("Infiltration: Success!", "Our agent reports they have successfully infilrated themselves into the enemy's court, earning trust among the courtiers there.", 3, ["Their secrets laid bare"])
+					flag_add(obj_control.player_tag, "RecentIntrigue", 3)			
 				} else {
 					show_event("Infiltration: Failure!", "Efforts to infiltrate our enemy's court have turned sour. Our agents have been captured and forced to retreat.", 3, ["A shame"])
+					flag_add(obj_control.player_tag, "RecentIntrigue", 3)	
 				}
 			} else if type == "TagListButton" && visible {
 					//show_debug_message("tagid::: " + string(tag_id))

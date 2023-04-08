@@ -268,6 +268,23 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 		draw_tooltip(x+ sprite_width, y-64, 256, 96, "Reveal Enemy Armies",	"Costs 300 wealth to expose all\n" + 
 																			"enemy army positions. Base\n" +
 																			"success rate of 60%.")
+	} else if type == "EVT_Option" {
+		switch e_option {
+			case "Now we strike!":
+				draw_tooltip(x, y + 64, 256, 32, "Success!", "Gain 5 prestige")
+				break
+			case "Let their cities burn!":
+				draw_tooltip(x, y + 64, 256, 32, "Success!", "Gain 5 prestige")
+				break
+			case "Their secrets laid bare":
+				draw_tooltip(x, y + 64, 256, 32, "Success!", "Gain 5 prestige")
+				break
+			case "A shame":
+				draw_tooltip(x, y + 64, 256, 32, "Failure!", "Lose 5 prestige")
+				break
+			default:
+				break
+		}
 	}
 	
 }
