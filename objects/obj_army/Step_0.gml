@@ -16,6 +16,11 @@ if army_id < array_length(global.army[tag_id]) {
 	total_mp = 0	
 }
 
+if military_get_tag_total(global.tags[tag_id][0]) == 0 {
+	global.army[tag_id][army_id] = 0
+	total_mp = 0
+}
+
 if total_mp <= 0 {
 	array_delete(global.army[tag_id], army_id, 1)
 	instance_destroy()

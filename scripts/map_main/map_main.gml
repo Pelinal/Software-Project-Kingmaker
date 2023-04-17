@@ -1718,3 +1718,50 @@ function map_damage_random(tag) {
 	
 	return string("province of " + global.provinces[rand_id][0] + " owned by " + global.tags[tag_fetch_id(tag)][1])
 }
+
+function map_tag_is_adjacent(tag1, tag2) {
+	// Takes two tags as an input and detemines if they are adjacent to one another
+	//var tag1_id = tag_fetch_id(tag1)
+	//var tag2_id = tag_fetch_id(tag2)
+	
+	var tag1_provs = map_find_owned_list(tag1)
+	var tag2_provs = map_find_owned_list(tag2)
+	
+	// Go through every province and compare to see if at least one is adjacent
+	var adjacent = false
+	for (var i = 0; i < array_length(tag1_provs); i ++) {
+		for (var j = 0; j < array_length(tag2_provs); j ++) {
+			var adjs = map_province_get_adjacent_list(tag2_provs[j])
+			for (var k = 0; k < array_length(adjs); k ++) {
+				if adjs[k] == tag1_provs[i] {
+					adjacent = true 
+					break
+				}
+			}
+		}
+	}
+	
+	return adjacent
+}
+
+function map_tag_prov_is_adjacent(prov, tag) {
+	// Takes a prov and tag as input and detemines if they are adjacent to one another
+	//var tag1_id = tag_fetch_id(tag1)
+	//var tag2_id = tag_fetch_id(tag2)
+	
+	var tag_provs = map_find_owned_list(tag)
+	
+	// Go through every province and compare to see if at least one is adjacent
+	var adjacent = false
+	for (var i = 0; i < array_length(tag_provs); i ++) {
+		var adjs = map_province_get_adjacent_list(tag_provs[i]) 
+		for (var j = 0; j < array_length(adjs); j ++) {
+			if adjs[j] == prov {
+				adjacent = true
+				break
+			}
+		}
+	}
+	
+	return adjacent
+}

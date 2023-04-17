@@ -196,6 +196,10 @@ function tag_init() {
 	global.flags[27] = []
 	global.flags[28] = []
 	global.flags[29] = []
+	
+	// List of active wars
+	// 0 - Attacker, 1 - Defender, 2 - Attacker Allies, 3 - Defender Allies
+	global.a_wars = [] 
 }
 
 function tag_fetch_colour(tag) {
@@ -524,9 +528,11 @@ function tag_declare_peace(tag1, tag2) {
 			array_delete(global.wars[tag2_id], ii, 1)
 		}
 		
-		if tag_is_ally(global.wars[tag2_id][ii], tag1) {
-			array_delete(global.wars[tag2_id], ii, 1)
-		}
+		//if array_length(global.allies[tag2_id]) > 0 {
+		//	if tag_is_ally(global.wars[tag2_id][ii], tag2) {
+		//		array_delete(global.wars[tag2_id], ii, 1)
+		//	}
+		//}
 	}
 	
 	if array_length(global.allies[tag1_id]) > 0 {
@@ -595,9 +601,24 @@ function tag_declare_war(tag1, tag2) {
 		// Adds Allies to the war
 		for (var i = 0; i < array_length(global.allies[tag1_id]); i ++) {
 			var ally_tag_id = tag_fetch_id(global.allies[tag1_id][i])
-			array_push(global.wars[ally_tag_id], tag2)
-			array_push(global.wars[tag2_id], global.allies[tag1_id][i])
+			if global.allies[tag1_id] != "FRA" || global.allies[tag1_id] != "SPA" || global.allies[tag1_id] != "PAP" {
+				array_push(global.wars[ally_tag_id], tag2)
+				array_push(global.wars[tag2_id], global.allies[tag1_id][i])
+			}
 		}
+	}
+	
+	if array_length(global.allies[tag2_id]) > 0 {
+		// Adds Enemy Allies to the war
+		for (var i = 0; i < array_length(global.allies[tag2_id]); i ++) {
+			var ally_tag_id = tag_fetch_id(global.allies[tag2_id][i])
+			array_push(global.wars[ally_tag_id], tag1)
+			array_push(global.wars[tag1_id], global.allies[tag2_id][i])
+		}
+	}
+	
+	if tag_has_claim(tag1, tag2) {
+		tag_remove_claim(tag1, tag2)
 	}
 }
 

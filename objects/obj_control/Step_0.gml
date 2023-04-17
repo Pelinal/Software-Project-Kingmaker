@@ -147,29 +147,164 @@ if turn_stage == "AI" {
 	repeat(1) {
 		for (var i = 0; i < array_length(global.tags); i ++) {
 			// Goes through every tag and checks what they are capable of doing on their turn
-			var tag, tag_id, ruler, armies
+			var tag, tag_id, ruler, armies, diplo_pts, local_flags
 			tag_id = i
 			tag = global.tags[i][0]
 			ruler = global.tags[i][6]
 			armies = find_my_armies(tag_id)
+			diplo_pts = 3
+			local_flags = [false, false, false, false] // 0 - Alliance Action, 1 - Marriage/Break Action, 2 - Insult/Claim Action
 			
+			// Ignores dead tags
+			if tag_total_provinces(tag) == 0 { continue }
+		
 			// Gimme money says Mr AI
 			economy_update(tag)
 			
 			// Update flags
 			flags_update(tag_id)
-			print(tag + ": " + string(global.flags[tag_id]))
-			
+			if array_length(global.flags[tag_id]) > 0 { print("[" + tag + " | " + string(turn_no) + "] Flags: " + string(global.flags[tag_id])) }
+	
 			// Ingores the player, skips to next iteration
-			if tag == obj_control.player_tag { continue }
+			if tag == obj_control.player_tag || tag == "SPA" || tag == "PAP" { continue }
 			
 			// 1: Do I have an Alliance?
+			if diplo_pts > 0 && !local_flags[0] && tag != "FRA" {
+				var a_chance = 0
+				if array_length(global.allies[tag_id]) == 0 { a_chance = 30 }
+				else if array_length(global.allies[tag_id]) == 1 { a_chance = 1 }
+				else if array_length(global.allies[tag_id]) >= 2 { a_chance = 0 }
 			
-			// 2: Do I have a marriage with my allies?
+				// Random chance to find an ally
+				if irandom(100) <= a_chance {
+					// Search through tags to find one who likes me
+					var new_ally = noone
+					for (var a_tag = 0; a_tag < array_length(global.tags); a_tag ++) {
+						var this_tag = global.tags[a_tag][0]
+						if tag_total_provinces(this_tag) > 0 && tag_opinion_of(this_tag, tag) >= 25 {
+							// If tag has at least one province and has good opinion
+							if !tag_is_ally(tag, this_tag) && !tag_is_enemy(tag, this_tag) && this_tag != tag && this_tag != "FRA" && this_tag != obj_control.player_tag && this_tag != "SPA" && this_tag != "PAP" {
+								// Can't already be an ally, or an enemy in a war, or yourself
+								new_ally = this_tag
+								break
+							}
+						}
+					}
+					
+					// Add the ally
+					if new_ally != noone && array_length(global.allies[tag_id]) <= 2 {
+						tag_add_ally(tag, new_ally)
+						tag_add_opinion(tag, new_ally, 25)
+						tag_add_opinion(new_ally, tag, 25)
+						print("[" + tag + " | " + string(turn_no) + "] Allied with " + new_ally)
+						diplo_pts -= 1
+						new_ally = noone
+						local_flags[0] = true
+					} else {
+						// No valid alliance, improve relation with random country
+						var rand_tag = global.tags[irandom_range(0, array_length(global.tags)-1)][0]
+						tag_add_opinion(tag, rand_tag, 10)
+						tag_add_opinion(rand_tag, tag, 10)
+						print("[" + tag + " | " + string(turn_no) + "] No Valid Ally, Improved Opinion w/ " + rand_tag)
+						diplo_pts -= 1
+						local_flags[0] = true
+					}
+				}
+			}
 			
-			// 3a: Are any un-allied neighbours weaker than me?
-			// 3b: Do I have a claim on them?
-			// 3c: Are we already at War?
+			// 2: Do ally have a marriage with my allies? Should ally break an alliance?
+			if diplo_pts > 0 && !local_flags[1] && array_length(global.allies[tag_id]) != 0 {
+				if array_length(global.allies[tag_id]) == 0 { a_chance = 0 }
+				else if array_length(global.allies[tag_id]) == 1 { a_chance = 30 }
+				else if array_length(global.allies[tag_id]) >= 2 { a_chance = 50 }
+				
+				// Random chance to arrange marriage with an ally or break alliance
+				if irandom(100) <= a_chance {
+					var m_ally = noone
+					var b_ally = noone
+					for (var ally = 0; ally < array_length(global.allies[tag_id]); ally ++) {
+						// Cycle through allies
+						if tag_opinion_of(global.allies[tag_id][ally], tag) <= 50 {
+							// Check for friendly ally (for marriage)
+							m_ally = global.allies[tag_id][ally]
+							break
+						}
+						
+						if tag_opinion_of(global.allies[tag_id][ally], tag) < 0 {
+							// Check for unfriendly ally (for breaking alliances)
+							b_ally = global.allies[tag_id][ally]
+							break
+						}
+					}
+					
+					// If there is a valid marriage target
+					if m_ally != noone {
+						var m_ally_id = tag_fetch_id(m_ally)
+						//global.economy[m_ally_id][8] += 10
+						global.economy[tag_id][8] += 10
+						//tag_add_opinion(tag, m_ally_id, 25)
+						tag_add_opinion(m_ally_id, tag, 25)
+						diplo_pts -= 1
+						print("[" + tag + " | " + string(turn_no) + "] Arranged marriage with " + m_ally)
+						m_ally = noone
+					}
+					
+					// If there is a valid alliance-break target
+					if b_ally != noone {
+						tag_remove_ally(tag, b_ally)
+						tag_add_opinion(tag, b_ally, -50)
+						tag_add_opinion(b_ally, tag, -50)
+						diplo_pts -= 1
+						print("[" + tag + " | " + string(turn_no) + "] Broke alliance with " + b_ally)
+						b_ally = noone
+					}
+			
+					local_flags[1] = true
+				}
+			}
+			
+			// 3a: Are any neighbours weaker than me?
+			if diplo_pts > 0 && !local_flags[2] && tag != "FRA" && tag != "SPA" && tag != "PAP" {
+				if irandom(100) <= 10 {
+					// Cycle through potential foes
+					var new_enemy = noone
+					for(var e_tags = 0; e_tags < array_length(global.tags); e_tags ++) {
+						// Check for excluded tags, dead ones and allies
+						var e_tag = global.tags[e_tags][0]
+						if e_tag != "FRA" && e_tag != "SPA" && e_tag != "PAP" && tag_total_provinces(e_tag) > 0 && !tag_is_ally(e_tag, tag) && !tag_is_enemy(e_tag, tag) {
+							if military_get_tag_total(tag) && military_get_tag_total(e_tag) && map_tag_is_adjacent(tag, e_tag) {
+								// If my army is larger than theirs and we are adjacent to each other
+								new_enemy = e_tag
+								break
+							}
+						}
+					}
+				
+					if new_enemy != noone && tag_has_claim(tag, new_enemy) && array_length(global.wars[tag_id]) == 0 && (tag_opinion_of(tag, new_enemy) <= 0 || tag_opinion_of(new_enemy, tag) <= 0) {
+						// If you have a claim, Declare War!!!
+						tag_declare_war(tag, new_enemy)
+						tag_add_opinion(new_enemy, tag, -50)
+						diplo_pts -= 1
+						print("[" + tag + " | " + string(turn_no) + "] Declared war on " + new_enemy)
+						new_enemy = noone
+					} else if new_enemy != noone && !tag_has_claim(tag, new_enemy) && (tag_opinion_of(tag, new_enemy) <= 0 || tag_opinion_of(new_enemy, tag) <= 0) {
+						// If we have bad relations and havent got a claim
+						global.economy[tag_id][8] -= 10
+						tag_add_claim(tag, new_enemy)
+						print("[" + tag + " | " + string(turn_no) + "] Fabricated claim on " + new_enemy)
+						new_enemy = noone
+					}
+				
+					if new_enemy != noone && tag_opinion_of(new_enemy, tag) > 0 {
+						tag_remove_opinion(new_enemy, tag, 25)
+						tag_remove_opinion(tag, new_enemy, 25)
+						diplo_pts = -1
+						print("[" + tag + " | " + string(turn_no) + "] Sent an insult to " + new_enemy)
+						new_enemy = noone
+					}
+				}
+				local_flags[2] = true
+			}
 			
 			// 4a: Can I afford to build more armies?
 			// 4b: Am I already at my force limit? (10 * Manpower from Development)
@@ -177,9 +312,10 @@ if turn_stage == "AI" {
 			// 5: Buildings
 			if !tag_has_flag(tag, "BuiltRecently") && global.economy[tag_id][1] >= 125 {
 				// 5a: check all owned provinces
+				var a_chance = 25
 				var owned_provs = map_find_owned_list(tag)
 				//show_debug_message("Owned Provs (" + tag + "): " + string(owned_provs))
-				if array_length(owned_provs) > 0 {
+				if array_length(owned_provs) > 0 && irandom(100) <= a_chance {
 					for (var prov = 0; prov < array_length(owned_provs); prov ++) {
 						// Check all slots in province
 						if tag_has_flag(tag, "BuiltRecently") { break }
@@ -216,36 +352,35 @@ if turn_stage == "AI" {
 								// IF slot is empty
 								//show_debug_message("("+tag+") slot is empty ")
 								var wealth = global.economy[tag_id][1]
-								for (i = 0; i < array_length(global.buildings); i ++) {
+								var affordables = []
+								for (var p_building = 0; p_building < array_length(global.buildings); p_building ++) {
 									// Check potential buildings
-									var affordables = []
-									if global.buildings[i][4] == -1 && (wealth >= global.buildings[i][3]) {
+									if global.buildings[p_building][4] == -1 && (wealth >= global.buildings[p_building][3]) {
 										// If building has no prerequisites and is affordable
-										array_push(affordables, i)
+										array_push(affordables, p_building)
 									}
-									
+								}
 									// If there is an affordable building
-									if array_length(affordables) > 0 {
-										//show_debug_message("("+tag+") is building a new one ")
-										// Choose random affordable building
-										var chosen_building = affordables[irandom_range(0, array_length(affordables)-1)]
+								if array_length(affordables) > 0 {
+									//show_debug_message("("+tag+") is building a new one ")
+									// Choose random affordable building
+									var chosen_building = affordables[irandom_range(0, array_length(affordables)-1)]
 									
-										global.buildslots[owned_provs[prov]][slot] = chosen_building
-										add_wealth(tag, -global.buildings[chosen_building][3])
+									global.buildslots[owned_provs[prov]][slot] = chosen_building
+									add_wealth(tag, -global.buildings[chosen_building][3])
 									
-										// apply building effect
-										if global.buildings[chosen_building][1] == "Tax" {
-											global.provinces[owned_provs[prov]][1] += global.buildings[chosen_building][2]
-										} else if global.buildings[chosen_building][1] == "Production" {
-											global.provinces[owned_provs[prov]][3] += global.buildings[chosen_building][2]
-										} else if global.buildings[chosen_building][1] == "Manpower" {
-											global.provinces[owned_provs[prov]][2] += global.buildings[chosen_building][2]
-										} else if global.buildings[chosen_building][1] == "Threat" {
-											// Placeholder for Threat Impact	
-										}
-									
-										flag_add(tag, "BuiltRecently", 3) // Add three turn cooldown for building
+									// apply building effect
+									if global.buildings[chosen_building][1] == "Tax" {
+										global.provinces[owned_provs[prov]][1] += global.buildings[chosen_building][2]
+									} else if global.buildings[chosen_building][1] == "Production" {
+										global.provinces[owned_provs[prov]][3] += global.buildings[chosen_building][2]
+									} else if global.buildings[chosen_building][1] == "Manpower" {
+										global.provinces[owned_provs[prov]][2] += global.buildings[chosen_building][2]
+									} else if global.buildings[chosen_building][1] == "Threat" {
+										// Placeholder for Threat Impact	
 									}
+									
+									flag_add(tag, "BuiltRecently", 3) // Add three turn cooldown for building
 								}
 							} else {
 								continue
@@ -263,9 +398,6 @@ if turn_stage == "AI" {
 			// 6b: Do I like the King? (If so, improve relations. If not, plot)
 			
 			// 7: Am I at war?
-			// TRIED TO FIX PATHFINDING, DIDNT WORK SO CHANGE HOW TARGETS ARE SELECTED
-			// PREVENT SUPER-LONG PATHS, FORCE THEM TO PICK A NEW ONE
-			// MAYBE STAGGER THEIR PATH CHANGES, MAKE IT LOOK LIKE THEY ARE THINKING ABOUT IT
 			if array_length(global.wars[tag_id]) > 0 {
 				// Check each of my armies
 				for (var army = 0; army < array_length(armies); army ++) {
@@ -327,6 +459,91 @@ if turn_stage == "AI" {
 					
 					if array_length(enemy_armies) > 0 { check_for_potential_battle(armies[army]) }
 					
+				}
+				
+				// Check if you are the main enemy of your main enemy
+				var e_first = tag_fetch_id(global.wars[tag_id][0])
+				if array_length(global.wars[e_first]) > 0 {
+					if global.wars[e_first][0] == tag {
+						// Check if war is able to end
+						// If you win absolutely: Take all occupations, enemy relinquishes theirs
+						if military_get_tag_total(global.wars[tag_id][0]) == 0 && array_length(global.wars[tag_id]) > 0  {
+							// Take land, declare peace
+							//with obj_province {
+							//	if map_province_owner(prov_id) == global.wars[tag_id][0] && prov_occupied_by == noone {
+							//		// Occupy remaining enemy provs
+							//		prov_occupied_by = tag
+							//	}
+							//}
+						
+							with obj_province {
+								// If you've occupied it, take it
+								if prov_occupied_by == tag {
+									map_province_own(prov_id, tag)
+									id.tag = tag
+									prov_occupied_by = noone
+								// If enemy has occupied something, release it
+								}
+								if prov_occupied_by == global.wars[tag_id][0] {
+									prov_occupied_by = noone
+								}
+								// If ally has occupied something, take it, if adjacent, otherwise you take it
+								if tag_is_ally(tag, prov_occupied_by) && map_tag_prov_is_adjacent(prov_id, prov_occupied_by) {
+									// ally takes it
+									map_province_own(prov_id, prov_occupied_by)
+									id.tag = prov_occupied_by
+									prov_occupied_by = noone
+								}
+							
+								if tag_is_ally(tag, prov_occupied_by) && !map_tag_prov_is_adjacent(prov_id, prov_occupied_by) {
+									map_province_own(prov_id, tag)
+									id.tag = tag
+									prov_occupied_by = noone
+								}
+							}
+						
+							print("[" + tag + " | " + string(turn_no) + "] Won war against " + global.wars[tag_id][0])
+							tag_declare_peace(tag, global.wars[tag_id][0])
+						}
+					
+						if military_get_tag_total(tag) == 0 && array_length(global.wars[tag_id]) > 0 {
+							// If you have no army left, decisively loose war
+						
+							//with obj_province {
+							//	if map_province_owner(prov_id) == global.wars[tag_id][0] && prov_occupied_by == noone {
+							//		// Occupy remaining enemy provs
+							//		prov_occupied_by = global.wars[tag_id][0]
+							//	}
+							//}
+						
+							with obj_province {
+								// If you've occupied it, take it
+								if prov_occupied_by == tag {
+									prov_occupied_by = noone
+								// If enemy has occupied something, they take it
+								} else if prov_occupied_by == global.wars[tag_id][0] {
+									map_province_own(prov_id, global.wars[tag_id][0])
+									id.tag = global.wars[tag_id][0]
+									prov_occupied_by = noone
+								// If enemy ally has occupied something, take it, if adjacent, otherwise you take it
+								} else if tag_is_ally(prov_occupied_by, global.wars[tag_id][0]) {
+									if map_tag_prov_is_adjacent(prov_id, prov_occupied_by) {
+										// ally takes it
+										map_province_own(prov_id, prov_occupied_by)
+										id.tag = prov_occupied_by
+										prov_occupied_by = noone
+									} else {
+										map_province_own(prov_id, global.wars[tag_id][0])
+										id.tag = tag
+										prov_occupied_by = noone
+									}
+								}
+							}
+						
+							print("[" + tag + " | " + string(turn_no) + "] Lost war against " + global.wars[tag_id][0])
+							tag_declare_peace(tag, global.wars[tag_id][0])
+						}
+					}
 				}
 			}
 			
