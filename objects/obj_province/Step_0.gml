@@ -19,6 +19,10 @@ if unit_in_prov != noone && instance_exists(unit_in_prov) {
 	if tag_is_enemy(global.tags[unit_in_prov.tag_id][0], map_province_owner(prov_id)) {
 		prov_occupied_by = global.tags[unit_in_prov.tag_id][0]
 	}
+	if prov_occupied_by != noone && tag_is_ally(tag, map_province_owner(prov_id)) {
+		// Allies reoccupy your land for you?
+		prov_occupied_by = noone
+	}
 	if prov_occupied_by != noone && tag == global.tags[unit_in_prov.tag_id][0] {
 		prov_occupied_by = noone
 	}
@@ -63,13 +67,6 @@ if position_meeting(mouse_x, mouse_y, id) {
 					instance_destroy(self)
 				}
 			}
-			//if map_province_owner(prov_id) == obj_control.player_tag {
-			//	with instance_create_depth(320, 824, -103, obj_button) {
-			//		sprite_index = spr_tall_button
-			//		image_index = 0
-			//		type = "Build Units"
-			//	}
-			//}
 			
 			if map_province_owner(prov_id) == obj_control.player_tag {
 				var new_button = instance_create_depth(336, 840, -103, obj_button)

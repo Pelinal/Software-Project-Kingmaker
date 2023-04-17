@@ -118,14 +118,20 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 				tag_declare_war(obj_control.player_tag, obj_control.tag_overview_id)
 				obj_control.threat_level += 5
 			} else if type == "Declare War" && tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
-				tag_declare_peace(obj_control.player_tag, obj_control.tag_overview_id)
 				with obj_province {
 					if prov_occupied_by == obj_control.player_tag {
 						map_province_own(prov_id, obj_control.player_tag)
 						tag = obj_control.player_tag
 						prov_occupied_by = noone
+					} else if tag_is_enemy(prov_occupied_by, obj_control.player_tag) {
+						map_province_own(prov_id, prov_occupied_by)
+						tag = prov_occupied_by
+						prov_occupied_by = noone
+					} else if tag_is_ally(prov_occupied_by, obj_control.player_tag) {
+						prov_occupied_by = noone
 					}
 				}
+				tag_declare_peace(obj_control.player_tag, obj_control.tag_overview_id)
 			} else if type == "Improve Relations" && obj_control.diplo_moves > 0 {
 				obj_control.diplo_moves -= 1
 				tag_add_opinion(obj_control.tag_overview_id, obj_control.player_tag, 10)

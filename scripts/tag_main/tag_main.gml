@@ -523,6 +523,10 @@ function tag_declare_peace(tag1, tag2) {
 		if global.wars[tag2_id][ii] == tag1 {
 			array_delete(global.wars[tag2_id], ii, 1)
 		}
+		
+		if tag_is_ally(global.wars[tag2_id][ii], tag1) {
+			array_delete(global.wars[tag2_id], ii, 1)
+		}
 	}
 	
 	if array_length(global.allies[tag1_id]) > 0 {
@@ -531,6 +535,15 @@ function tag_declare_peace(tag1, tag2) {
 			var ally_tag_id = tag_fetch_id(global.allies[tag1_id][iii])
 			for (var jjj = 0; jjj < array_length(global.wars[ally_tag_id]); jjj ++) {
 				array_delete(global.wars[ally_tag_id], jjj, 1)
+			}
+		}
+	}
+	if array_length(global.allies[tag2_id]) > 0 {
+		// Peaces out enemy allies too
+		for (var iv = 0; iv < array_length(global.allies[tag2_id]); iv ++) {
+			var ally_tag_id = tag_fetch_id(global.allies[tag2_id][iv])
+			for (var jv = 0; jv < array_length(global.wars[ally_tag_id]); jv ++) {
+				array_delete(global.wars[ally_tag_id], jv, 1)
 			}
 		}
 	}
