@@ -142,12 +142,12 @@ if position_meeting(mouse_x, mouse_y, id) {
 					if tag_is_enemy(global.tags[unit_in_prov.tag_id][0], obj_control.player_tag) {
 						if unit_in_prov.total_mp > obj_control.selected_army.total_mp {
 							// If your army is weaker than the enemy
-							global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] -= global.army[unit_in_prov.tag_id][unit_in_prov.army_id] - global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] 
-							global.army[unit_in_prov.tag_id][unit_in_prov.army_id] -= ((global.army[unit_in_prov.tag_id][unit_in_prov.army_id] - global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id]) / 2) * (1 + (obj_control.army_quality[obj_control.selected_army.tag_id]/10))
+							global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] -= unit_in_prov.total_mp
+							global.army[unit_in_prov.tag_id][unit_in_prov.army_id] -= obj_control.selected_army.total_mp * (1 + (obj_control.army_quality[obj_control.selected_army.tag_id]/10))
 						} else {
 							// If your army is stronger than theirs
-							global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] -= (global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] - global.army[unit_in_prov.tag_id][unit_in_prov.army_id]) / 2
-							global.army[unit_in_prov.tag_id][unit_in_prov.army_id] -= (global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] - global.army[unit_in_prov.tag_id][unit_in_prov.army_id]) * (1 + (obj_control.army_quality[obj_control.selected_army.tag_id]/10))
+							global.army[obj_control.selected_army.tag_id][obj_control.selected_army.army_id] -= (unit_in_prov.total_mp / 2)
+							global.army[unit_in_prov.tag_id][unit_in_prov.army_id] -= obj_control.selected_army.total_mp * (1 + (obj_control.army_quality[obj_control.selected_army.tag_id]/10))
 						}
 					
 						obj_control.selected_army.moves_remaining = 0

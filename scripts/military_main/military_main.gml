@@ -292,17 +292,19 @@ function check_for_potential_battle(your_army) {
 	if your_army.moves_remaining > 0 && battle_enemy != noone {
 		if battle_enemy.total_mp > your_army.total_mp {
 			// If their army is stronger than yours
-			global.army[your_army.tag_id][your_army.army_id] -= global.army[battle_enemy.tag_id][battle_enemy.army_id] - global.army[your_army.tag_id][your_army.army_id]
-			global.army[battle_enemy.tag_id][battle_enemy.army_id] -= ((global.army[battle_enemy.tag_id][battle_enemy.army_id] - global.army[your_army.tag_id][your_army.army_id]) / 2) * (1 + (obj_control.army_quality[your_army.tag_id]/10))
+			global.army[your_army.tag_id][your_army.army_id] -= battle_enemy.total_mp
+			global.army[battle_enemy.tag_id][battle_enemy.army_id] -= your_army.total_mp
 		} else {
 			// If their army is weaker or equal to yours
-			global.army[your_army.tag_id][your_army.army_id] -= (global.army[your_army.tag_id][your_army.army_id] - global.army[battle_enemy.tag_id][battle_enemy.army_id]) / 2
-			global.army[battle_enemy.tag_id][battle_enemy.army_id] -= (global.army[your_army.tag_id][your_army.army_id] - global.army[battle_enemy.tag_id][battle_enemy.army_id]) * (1 + (obj_control.army_quality[your_army.tag_id]/10))
+			global.army[your_army.tag_id][your_army.army_id] -= (battle_enemy.total_mp / 2)
+			global.army[battle_enemy.tag_id][battle_enemy.army_id] -= (your_army.total_mp / 2)
 		}
 		
 		if battle_enemy.total_mp <= 0 { instance_destroy(battle_enemy) }
 					
 		your_army.moves_remaining = 0
+	} else {
+		return
 	}
 }
 
