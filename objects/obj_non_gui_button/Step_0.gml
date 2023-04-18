@@ -66,9 +66,9 @@ if position_meeting(mouse_x, mouse_y, id) {
 				}
 			}
 		} else if type == "ArmyBuild" {
-			if global.economy[tag_fetch_id(obj_control.player_tag)][5] >= 1 && global.economy[tag_fetch_id(obj_control.player_tag)][1] >= 100 {
+			if global.economy[tag_fetch_id(obj_control.player_tag)][5] >= 1 && global.economy[tag_fetch_id(obj_control.player_tag)][1] >= 25 {
 				global.economy[tag_fetch_id(obj_control.player_tag)][5] -= 1
-				global.economy[tag_fetch_id(obj_control.player_tag)][1] -= 100
+				global.economy[tag_fetch_id(obj_control.player_tag)][1] -= 25
 				
 				global.army[tag_fetch_id(obj_control.player_tag)][obj_control.selected_army.army_id] += 100
 			}

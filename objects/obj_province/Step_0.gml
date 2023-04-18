@@ -141,7 +141,7 @@ if position_meeting(mouse_x, mouse_y, id) {
 				}
 			}
 		} else {
-			if unit_in_prov != noone {
+			if unit_in_prov != noone && selected_army != noone {
 				if obj_control.selected_army.moves_remaining > 0 {
 					if tag_is_enemy(global.tags[unit_in_prov.tag_id][0], obj_control.player_tag) {
 						if unit_in_prov.total_mp > obj_control.selected_army.total_mp {

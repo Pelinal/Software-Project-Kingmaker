@@ -240,14 +240,14 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 																			"of global Threat Level.")
 	} else if type == "ArmyUpButton" {
 		draw_tooltip(x + sprite_width, y, 256, 72, "Recruit 100",			"Increase army size by 100,\n" + 
-																			"costs 100 manpower & 100\n"   +
+																			"costs 100 manpower & 25\n"   +
 																		    "wealth.")
 	} else if type == "ArmyDownButton" {
 		draw_tooltip(x + sprite_width, y, 256, 72, "Disband 100",			"Decrease army size by 100,\n" + 
-																			"refunds 100 manpower & 100\n"   +
+																			"refunds 100 manpower & 25\n"   +
 																		    "wealth.")
 	} else if type == "ArmyNewButton" {
-		draw_tooltip(x, y + sprite_height, 256, 72, "Create New Army",		"Spend 100 manpower and 100\n" + 
+		draw_tooltip(x, y + sprite_height, 256, 72, "Create New Army",		"Spend 100 manpower and 25\n" + 
 																			"wealth to create a new army\n"   +
 																		    "in a chosen province.")
 	} else if type == "Intrigue" {

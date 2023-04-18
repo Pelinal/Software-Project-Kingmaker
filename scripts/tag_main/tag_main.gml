@@ -661,3 +661,51 @@ function flags_update(tag_id) {
 		return	
 	}
 }
+
+function allies_update(tag_id) {
+	// removes dead allies or allies who are also enemies
+	var allies = global.allies[tag_id]
+	var enemies = global.wars[tag_id]
+	
+	if array_length(allies) > 0 {
+		for (var i = 0; i < array_length(allies); i ++) {
+			// Cycle through allies
+			if tag_total_provinces(allies[i]) == 0 {
+				array_delete(global.allies[tag_id], i, 1)
+				continue
+			}
+			
+			if array_length(enemies) > 0 {
+				// Cycle through enemies
+				for (var j = 0; j < array_length(enemies); j ++) {
+					if enemies[j] == allies[i] {
+						array_delete(global.allies[tag_id], i, 1)
+						continue
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+function wars_update(tag_id) {
+	// Removes enemies that aren't mutual
+	var enemies = global.wars[tag_id]
+	
+	for (var i = 0; i < array_length(enemies); i ++) {
+		// Cycle thorugh enemies
+		var enemy_enemies = global.wars[tag_fetch_id(enemies[i])]
+		var found = false
+		for (var j = 0; j < array_length(enemy_enemies); j ++) {
+			// Cycle through enemy's enemies
+			if enemy_enemies[j] == enemies[i] {
+				found = true
+			}
+		}
+		
+		if !found {
+			array_delete(global.wars[tag_id], i, 1)
+		}
+	}
+}

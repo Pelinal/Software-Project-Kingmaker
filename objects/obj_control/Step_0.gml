@@ -169,6 +169,8 @@ if turn_stage == "AI" {
 			if tag == obj_control.player_tag || tag == "SPA" || tag == "PAP" { continue }
 			
 			// 1: Do I have an Alliance?
+			allies_update(tag_id) // Removes invalid allies
+			//wars_update(tag_id) // Removes non-mutual conflicts
 			if diplo_pts > 0 && !local_flags[0] && tag != "FRA" {
 				var a_chance = 0
 				if array_length(global.allies[tag_id]) == 0 { a_chance = 15 }

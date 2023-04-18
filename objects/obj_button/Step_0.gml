@@ -274,20 +274,20 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 			} else if type == "TagTo" {
 				obj_control.player_tag = obj_control.tag_overview_id
 			} else if type == "ArmyUpButton" {
-				if global.economy[tag_id][1] >= 100 && global.economy[tag_id][5] > 1 {
-					global.economy[tag_id][1] -= 100
+				if global.economy[tag_id][1] >= 25 && global.economy[tag_id][5] > 1 {
+					global.economy[tag_id][1] -= 25
 					global.economy[tag_id][5] -= 1
 					global.army[tag_id][army_id] += 100
 				}
 			} else if type == "ArmyDownButton" {
 				if global.army[tag_id][army_id] > 100 {
-					global.economy[tag_id][1] += 100
+					global.economy[tag_id][1] += 25
 					global.economy[tag_id][5] += 1
 					global.army[tag_id][army_id] -= 100
 				}
 			} else if type == "ArmyNewButton" {
-				if global.economy[tag_id][1] >= 100 && global.economy[tag_id][5] > 1 {
-					global.economy[tag_id][1] -= 100
+				if global.economy[tag_id][1] >= 25 && global.economy[tag_id][5] > 1 {
+					global.economy[tag_id][1] -= 25
 					global.economy[tag_id][5] -= 1
 					
 					
