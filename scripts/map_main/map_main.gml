@@ -1765,3 +1765,45 @@ function map_tag_prov_is_adjacent(prov, tag) {
 	
 	return adjacent
 }
+
+function all_provs_occupied(tag) {
+	// Checks if all of of tag's provinces are occupied by someone else
+	
+	var provs = map_find_owned_list(tag)
+	var count = 0
+	for (var prov = 0; prov < array_length(provs); prov ++) {
+		// Cycle through all provinces
+		with obj_province {
+			if prov_id == provs[prov] && prov_occupied_by != noone {
+				count ++
+			}
+			
+			if prov_id == provs[prov] && prov_occupied_by == noone {
+				return false
+			}
+		}
+	}
+	
+	if count >= array_length(provs)-1 {
+		// If all provs are occupied
+		return true
+	}
+}
+
+function has_provs_occupied(tag) {
+	// Checks if at least one of a tag's provinces are occupied by someone else
+	
+	var provs = map_find_owned_list(tag)
+	//var count = 0
+	for (var prov = 0; prov < array_length(provs); prov ++) {
+		// Cycle through all provinces
+		with obj_province {
+			if prov_id == provs[prov] && prov_occupied_by != noone {
+				return true
+			}
+		}
+	}
+
+	return false
+
+}

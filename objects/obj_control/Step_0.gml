@@ -171,7 +171,7 @@ if turn_stage == "AI" {
 			// 1: Do I have an Alliance?
 			if diplo_pts > 0 && !local_flags[0] && tag != "FRA" {
 				var a_chance = 0
-				if array_length(global.allies[tag_id]) == 0 { a_chance = 30 }
+				if array_length(global.allies[tag_id]) == 0 { a_chance = 15 }
 				else if array_length(global.allies[tag_id]) == 1 { a_chance = 1 }
 				else if array_length(global.allies[tag_id]) >= 2 { a_chance = 0 }
 			
@@ -192,7 +192,7 @@ if turn_stage == "AI" {
 					}
 					
 					// Add the ally
-					if new_ally != noone && array_length(global.allies[tag_id]) <= 2 {
+					if new_ally != noone && array_length(global.allies[tag_id]) <= 2 && array_length(global.allies[tag_fetch_id(new_ally)]) <= 2 {
 						tag_add_ally(tag, new_ally)
 						tag_add_opinion(tag, new_ally, 25)
 						tag_add_opinion(new_ally, tag, 25)
@@ -272,7 +272,7 @@ if turn_stage == "AI" {
 						// Check for excluded tags, dead ones and allies
 						var e_tag = global.tags[e_tags][0]
 						if e_tag != "FRA" && e_tag != "SPA" && e_tag != "PAP" && tag_total_provinces(e_tag) > 0 && !tag_is_ally(e_tag, tag) && !tag_is_enemy(e_tag, tag) {
-							if military_get_tag_total(tag) && military_get_tag_total(e_tag) && map_tag_is_adjacent(tag, e_tag) {
+							if military_get_tag_total(tag) > military_get_tag_total(e_tag) && map_tag_is_adjacent(tag, e_tag) {
 								// If my army is larger than theirs and we are adjacent to each other
 								new_enemy = e_tag
 								break
@@ -398,7 +398,7 @@ if turn_stage == "AI" {
 			// 6b: Do I like the King? (If so, improve relations. If not, plot)
 			
 			// 7: Am I at war?
-			if array_length(global.wars[tag_id]) > 0 {
+			if array_length(global.wars[tag_id]) > 0 && tag_total_provinces(tag) > 0 {
 				// Check each of my armies
 				for (var army = 0; army < array_length(armies); army ++) {
 					var enemy_armies = []
@@ -463,18 +463,20 @@ if turn_stage == "AI" {
 				
 				// Check if you are the main enemy of your main enemy
 				var e_first = tag_fetch_id(global.wars[tag_id][0])
-				if array_length(global.wars[e_first]) > 0 {
+				print("[" + tag + " | " + string(turn_no) + "] e_first = " + string(e_first))
+				print("[" + tag + " | " + string(turn_no) + "] wars (enemies) = " + string(global.wars[tag_id]))
+				if array_length(global.wars[tag_id]) > 0 && array_length(global.wars[e_first]) > 0 && e_first != tag_id {
 					if global.wars[e_first][0] == tag {
 						// Check if war is able to end
 						// If you win absolutely: Take all occupations, enemy relinquishes theirs
-						if military_get_tag_total(global.wars[tag_id][0]) == 0 && array_length(global.wars[tag_id]) > 0  {
+						if military_get_tag_total(global.wars[tag_id][0]) == 0 && array_length(global.wars[tag_id]) > 0 && (has_provs_occupied(tag) || has_provs_occupied(global.wars[tag_id][0])) {
 							// Take land, declare peace
-							//with obj_province {
-							//	if map_province_owner(prov_id) == global.wars[tag_id][0] && prov_occupied_by == noone {
-							//		// Occupy remaining enemy provs
-							//		prov_occupied_by = tag
-							//	}
-							//}
+							with obj_province {
+								if map_province_owner(prov_id) == global.wars[tag_id][0] && prov_occupied_by == noone {
+									// Occupy remaining enemy provs
+									prov_occupied_by = tag
+								}
+							}
 						
 							with obj_province {
 								// If you've occupied it, take it
@@ -488,61 +490,62 @@ if turn_stage == "AI" {
 									prov_occupied_by = noone
 								}
 								// If ally has occupied something, take it, if adjacent, otherwise you take it
-								if tag_is_ally(tag, prov_occupied_by) && map_tag_prov_is_adjacent(prov_id, prov_occupied_by) {
+								if tag_is_ally(tag, prov_occupied_by) {
 									// ally takes it
 									map_province_own(prov_id, prov_occupied_by)
 									id.tag = prov_occupied_by
-									prov_occupied_by = noone
-								}
-							
-								if tag_is_ally(tag, prov_occupied_by) && !map_tag_prov_is_adjacent(prov_id, prov_occupied_by) {
-									map_province_own(prov_id, tag)
-									id.tag = tag
 									prov_occupied_by = noone
 								}
 							}
 						
 							print("[" + tag + " | " + string(turn_no) + "] Won war against " + global.wars[tag_id][0])
 							tag_declare_peace(tag, global.wars[tag_id][0])
-						}
-					
-						if military_get_tag_total(tag) == 0 && array_length(global.wars[tag_id]) > 0 {
-							// If you have no army left, decisively loose war
-						
-							//with obj_province {
-							//	if map_province_owner(prov_id) == global.wars[tag_id][0] && prov_occupied_by == noone {
-							//		// Occupy remaining enemy provs
-							//		prov_occupied_by = global.wars[tag_id][0]
-							//	}
-							//}
-						
+						} else if all_provs_occupied(tag) {
+							// if all of your provinces are occupied
 							with obj_province {
-								// If you've occupied it, take it
-								if prov_occupied_by == tag {
+								if id.tag == tag && prov_occupied_by != noone {
+									map_province_own(prov_id, prov_occupied_by)
+									id.tag = prov_occupied_by
 									prov_occupied_by = noone
-								// If enemy has occupied something, they take it
-								} else if prov_occupied_by == global.wars[tag_id][0] {
-									map_province_own(prov_id, global.wars[tag_id][0])
-									id.tag = global.wars[tag_id][0]
-									prov_occupied_by = noone
-								// If enemy ally has occupied something, take it, if adjacent, otherwise you take it
-								} else if tag_is_ally(prov_occupied_by, global.wars[tag_id][0]) {
-									if map_tag_prov_is_adjacent(prov_id, prov_occupied_by) {
-										// ally takes it
-										map_province_own(prov_id, prov_occupied_by)
-										id.tag = prov_occupied_by
-										prov_occupied_by = noone
-									} else {
-										map_province_own(prov_id, global.wars[tag_id][0])
-										id.tag = tag
-										prov_occupied_by = noone
-									}
 								}
+								
+								//if tag_is_enemy(prov_occupied_by, tag) {
+								//	prov_occupied_by = noone
+								//}
+								//if tag_is_ally(prov_occupied_by, tag) {
+								//	prov_occupied_by = noone
+								//}
 							}
-						
+							
 							print("[" + tag + " | " + string(turn_no) + "] Lost war against " + global.wars[tag_id][0])
 							tag_declare_peace(tag, global.wars[tag_id][0])
+						} // If the war is indecisive
+						else if military_get_tag_total(global.wars[tag_id][0]) == 0 && military_get_tag_total(tag) == 0 {
+							// Release all occupations
+							
+							with obj_province {
+								if tag_is_enemy(prov_occupied_by, tag) {
+									// Release enemy occupations
+									prov_occupied_by = noone
+								}
+								
+								if prov_occupied_by == tag {
+									// Release your occupations
+									prov_occupied_by = noone
+								}
+								
+								if tag_is_ally(prov_occupied_by, tag) {
+									prov_occupied_by = noone
+								}
+							}
+							
+							print("[" + tag + " | " + string(turn_no) + "] Ended war against " + global.wars[tag_id][0])
+							tag_declare_peace(tag, global.wars[tag_id][0])
 						}
+					} // If country no longer exists, annul war
+					else if tag_total_provinces(global.wars[tag_id][0]) {
+						print("[" + tag + " | " + string(turn_no) + "] Ended war against " + global.wars[tag_id][0])
+						tag_declare_peace(tag, global.wars[tag_id][0])
 					}
 				}
 			}

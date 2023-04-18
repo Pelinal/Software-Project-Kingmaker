@@ -81,10 +81,13 @@ function military_init() {
 
 function military_get_tag_total(tag) {
 	var total_troops = 0
-	for (var i = 0; i < array_length(global.army); i ++) {
-		if i == tag_fetch_id(tag) {
-			for (var j = 0; j < array_length(global.army[i]); j ++) {
-				total_troops += global.army[i][j]
+	
+	if array_length(global.army[tag_fetch_id(tag)]) > 0 {
+		for (var i = 0; i < array_length(global.army); i ++) {
+			if i == tag_fetch_id(tag) {
+				for (var j = 0; j < array_length(global.army[i]); j ++) {
+					total_troops += global.army[i][j]
+				}
 			}
 		}
 	}

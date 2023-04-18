@@ -36,6 +36,10 @@ if prov_occupied_by == noone {
 	image_colour = tag_fetch_colour(global.provinces[prov_id][6])
 } else {
 	image_colour = tag_fetch_colour(prov_occupied_by) - make_color_rgb(20, 20, 20)
+	
+	if !tag_is_enemy(prov_occupied_by, tag) || tag_is_ally(prov_occupied_by, tag) {
+		prov_occupied_by = noone
+	}
 }
 
 if position_meeting(mouse_x, mouse_y, id) {
