@@ -307,12 +307,45 @@ if turn_stage == "AI" {
 			}
 			
 			// 4a: Can I afford to build more armies?
+			if global.economy[tag_id][1] >= 20 && global.economy[tag_id][5] >= 1 && military_get_tag_total(tag) < (tag_total_development(tag)*100) {
+				// If I am below force limit and can afford it, build to army
+				// If I have an existing army, build to it
+				var my_armies = find_my_armies(tag_id)
+				if array_length(my_armies) > 0 {
+					var rand_army = irandom_range(0, array_length(my_armies)-1)
+					global.army[tag_id][my_armies[rand_army].army_id] += 100
+					global.economy[tag_id][5] -= 1
+					global.economy[tag_id][1] -= 20
+					
+					print("[" + tag + " | " + string(turn_no) + "] Added to existing army.")
+				} else {
+					// if not, build a new army
+					var rand_provs = map_find_owned_list(tag)
+					var rand_prov = rand_provs[irandom_range(0, array_length(rand_provs)-1)]
+					array_push(global.army[tag_id], 100)
+					
+					print("[" + tag + " | " + string(turn_no) + "] Wants to raise new army in PROV " + string(rand_prov))
+					
+					with instance_create_depth(global.provinces[rand_prov][7], global.provinces[rand_prov][8], depth, obj_army) {
+				
+						id.tag_id = tag_id									// The Owner
+						army_id   = array_length(global.army[id.tag_id])-1	// The Army id
+						total_mp  = global.army[id.tag_id][army_id]			// The Army size
+						location  = rand_prov								// The Province ID of its current location
+					}
+					
+					global.economy[tag_id][5] -= 1
+					global.economy[tag_id][1] -= 20
+					
+					print("[" + tag + " | " + string(turn_no) + "] Raised new army.")
+				}
+			}
 			// 4b: Am I already at my force limit? (10 * Manpower from Development)
 			
 			// 5: Buildings
 			if !tag_has_flag(tag, "BuiltRecently") && global.economy[tag_id][1] >= 125 {
 				// 5a: check all owned provinces
-				var a_chance = 25
+				var a_chance = 15
 				var owned_provs = map_find_owned_list(tag)
 				//show_debug_message("Owned Provs (" + tag + "): " + string(owned_provs))
 				if array_length(owned_provs) > 0 && irandom(100) <= a_chance {
