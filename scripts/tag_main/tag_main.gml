@@ -919,8 +919,9 @@ function fronde_end(type) {
 		show_event("Louis XIV Crushes the Fronde", "The period of civil unrest and anarchy across France is fianlly at an end. The leaders of the the Fronde and their allies have been arrested, and the Kingdom is united under the absolute rule of Louis XIV. (The Game is Over, you have LOST)", 7, ["We are resigned to history's pages..."])
 	} else if type == "conde" {
 		// Conde Wins
-		global.tags[19] = ["BUR", "Condé's France", "French", "Condé's France", "Emperor", "Empire", 1]
-		show_event("The House of Bourbon-Condé", "And so it was, on this day in 1653, a new French dynasty was born. The Great Condé has seized Paris and forced the King into a full surrender, thus swearing his crown over to him. Long live King Louis XV! (The Game is Over, Burgundy has WON)", 0, ["Long may he reign."])
+		global.chars[19] = ["Louis XV 'Grand Condé'", "de Bourbon", "Bourbon-Condé", 6, 3, 5]
+		global.tags[19] = ["BUR", "Empire Français", "French", "French Empire", "Empire", "Emperor", 19]
+		show_event("The House of Bourbon-Condé", "And so it was, on this day in 1653, a new French dynasty was born. The Great Condé has seized Paris and forced the King into a full surrender, thus swearing his crown over to him. Long live Emperor Louis XV! (The Game is Over, Burgundy has WON)", 0, ["Long may he reign."])
 	} else if type == "player" {
 		// Player Wins
 		var player_id = tag_fetch_id(obj_control.player_tag)
