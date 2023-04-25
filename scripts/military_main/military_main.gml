@@ -77,6 +77,7 @@ function military_init() {
 	global.army[27] = [500]
 	global.army[28] = [3000, 2000]
 	global.army[29] = [1000]
+	global.army[30] = []
 }
 
 function military_get_tag_total(tag) {
@@ -409,6 +410,103 @@ function army_damage_random(tag) {
 	global.army[tag_fetch_id(tag)][rand_id] *= 0.75
 	
 	return string("Armeé de " + global.tags[tag_fetch_id(tag)][1] + " " + string(rand_id+1) + " owned by " + global.tags[tag_fetch_id(tag)][1] + " has been damaged by " + string(dmg_amount) + "(25%).")
+}
+
+function end_all_wars() {
+	// Deletes all armies, ends all wars
+	for (var i = 0; i < array_length(global.army); i ++) {
+		// Cycle through armies
+		if i != tag_fetch_id(obj_control.player_tag) {
+			global.army[i] = []	
+		}
+	}
+	
+	for (var j = 0; j < array_length(global.wars); j ++) {
+		// cycle through wars
+		global.wars[j] = [] // End THEM ALL
+	}
+}
+
+function fronde_outbreak(type) {
+	// type: conde or player
+	
+	// remove all allies
+	for (var i = 0; i < array_length(global.allies); i ++) {
+		global.allies[i] = []
+	}
+	
+	if type == "conde" {	
+		// Historical Fronde
+		for (var i = 0; i < instance_number(obj_province); i ++) {
+			var prov = instance_find(obj_province, i)
+			prov.prov_occupied_by = noone
+			if prov.tag != obj_control.player_tag && prov.tag != "PAP" && prov.tag != "SPA" {
+				if prov.tag == "CHA" || prov.tag == "NOR" || prov.tag == "PIC" || prov.tag == "PRO" || prov.tag == "ORL" || prov.tag == "LYO" || prov.tag == "AUV" || prov.tag == "GUY" || prov.tag == "DAU" || prov.tag == "LAN" || prov.tag == "GAS" {
+					// Unite the Frondeurs
+					map_province_own(prov.prov_id, "BUR")
+					prov.tag = "BUR"
+				}
+			} else {
+				continue
+			}
+		}
+		
+		// Royalistes
+		for (var i = 0; i < instance_number(obj_province); i ++) {
+			var prov = instance_find(obj_province, i)
+			prov.prov_occupied_by = noone
+			if prov.tag != obj_control.player_tag && prov.tag != "PAP" && prov.tag != "SPA" && prov.tag != "BUR" {
+				// Unite the Royalistes
+				map_province_own(prov.prov_id, "FRA")
+				prov.tag = "FRA"
+			} else {
+				continue
+			}
+		}
+	} else if type == "player" {
+		// Historical Fronde
+		
+		for (var i = 0; i < instance_number(obj_province); i ++) {
+			var prov = instance_find(obj_province, i)
+			prov.prov_occupied_by = noone
+			if prov.tag != obj_control.player_tag && prov.tag != "PAP" && prov.tag != "SPA" {
+				if tag_is_ally(obj_control.player_tag, prov.tag) {
+					// Player annexes allies in bid for throne
+					map_province_own(prov.prov_id, obj_control.player_tag)
+					prov.tag = obj_control.player_tag
+				}
+			} else {
+				continue
+			}
+		}
+		
+		for (var i = 0; i < instance_number(obj_province); i ++) {
+			var prov = instance_find(obj_province, i)
+			prov.prov_occupied_by = noone
+			if prov.tag != obj_control.player_tag && prov.tag != "PAP" && prov.tag != "SPA" {
+				if prov.tag == "CHA" || prov.tag == "NOR" || prov.tag == "PIC" || prov.tag == "PRO" || prov.tag == "ORL" || prov.tag == "LYO" || prov.tag == "AUV" || prov.tag == "GUY" || prov.tag == "DAU" || prov.tag == "LAN" || prov.tag == "GAS" {
+					// Unite the Frondeurs
+					map_province_own(prov.prov_id, "BUR")
+					prov.tag = "BUR"
+				}
+			} else {
+				continue
+			}
+		}
+		
+		// Royalistes
+		for (var i = 0; i < instance_number(obj_province); i ++) {
+			var prov = instance_find(obj_province, i)
+			prov.prov_occupied_by = noone
+			if prov.tag != obj_control.player_tag && prov.tag != "PAP" && prov.tag != "SPA" && prov.tag != "BUR" {
+				// Unite the Royalistes
+				map_province_own(prov.prov_id, "FRA")
+				prov.tag = "FRA"
+			} else {
+				continue
+			}
+		}
+	}
 }
 
 //function player_can_see_check(tag) {

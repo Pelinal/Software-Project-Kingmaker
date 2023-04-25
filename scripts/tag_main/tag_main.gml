@@ -34,6 +34,7 @@ function tag_init() {
 	global.tags[27] = ["FOI", "Foix", "Fuxéen", "Foix", "County", "Count", 27]
 	global.tags[28] = ["GAS", "Gascogne", "Gascon", "Gascony", "Duchy", "Duchess", 28]
 	global.tags[29] = ["BEA", "Béarn", "Béarnais", "Béarn", "County", "Count", 29]
+	global.tags[30] = ["PAR", "Paris", "Parisian", "Paris", "Parlement", "Le", 30]
 	
 	// List of Alliances
 	global.allies[0] = ["FRA"]
@@ -66,6 +67,7 @@ function tag_init() {
 	global.allies[27] = ["BEA"]
 	global.allies[28] = ["ORL"]
 	global.allies[29] = ["FOI"]
+	global.allies[30] = []
 	
 	// List of Wars
 	global.wars[0] = []
@@ -98,6 +100,7 @@ function tag_init() {
 	global.wars[27] = []
 	global.wars[28] = []
 	global.wars[29] = []
+	global.wars[30] = []
 	
 	// List of Claims
 	global.claims[0] = []
@@ -130,39 +133,41 @@ function tag_init() {
 	global.claims[27] = []
 	global.claims[28] = []
 	global.claims[29] = []
+	global.claims[30] = []
 	
 	// List of Opinions
 	// Each index corresponds to a countries opinion of the corresponding Tag Index
-	global.opinions[0] = [100, 0, 25, -25, -25, 0, 50, 50, 0, 0, -50, -100, 0, 0, 0, 0, 0, 0, 0, 25, -50, 0, 0, 0, 100, 0, 0, 0, 50, 0]
-	global.opinions[1] = [0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[2] = [0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[3] = [0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[4] = [0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[5] = [0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[6] = [0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[7] = [100, -50, 0, 0, 0, 0, -25, 100, -25, 25, 50, 100, 0, 0, 0, 0, 0, 0, 0, -75, -100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[8] = [0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[10] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[12] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[13] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[14] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[15] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[16] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[17] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[18] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[19] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[20] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[21] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[22] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0]
-	global.opinions[23] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0]
-	global.opinions[24] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0]
-	global.opinions[25] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0]
-	global.opinions[26] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0]
-	global.opinions[27] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0]
-	global.opinions[28] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0]
-	global.opinions[29] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100]
+	global.opinions[0] = [100, 0, 25, -25, -25, 0, 50, 50, 0, 0, -50, -100, 0, 0, 0, 0, 0, 0, 0, 25, -50, 0, 0, 0, 100, 0, 0, 0, 50, 0, 0]
+	global.opinions[1] = [0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[2] = [0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[3] = [0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[4] = [0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[5] = [0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[6] = [0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[7] = [100, -50, 0, 0, 0, 0, -25, 100, -25, 25, 50, 100, 0, 0, 0, 0, 0, 0, 0, -75, -100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[8] = [0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[10] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[11] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[12] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[13] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[14] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[15] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[16] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[17] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[18] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[19] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[20] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[21] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[22] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[23] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0]
+	global.opinions[24] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0]
+	global.opinions[25] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0]
+	global.opinions[26] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0]
+	global.opinions[27] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0]
+	global.opinions[28] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0]
+	global.opinions[29] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0]
+	global.opinions[30] = [0, 0, 0, 0, 0, 0, -100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100]
 	
 	// List of Flags
 	// Index corresponds to Tag_ID, each value is a list formatted: ["FlagName", TurnsRemaining (Integer)]
@@ -196,10 +201,11 @@ function tag_init() {
 	global.flags[27] = []
 	global.flags[28] = []
 	global.flags[29] = []
+	global.flags[30] = []
 	
 	// List of active wars
 	// 0 - Attacker, 1 - Defender, 2 - Attacker Allies, 3 - Defender Allies
-	global.a_wars = [] 
+	//global.a_wars = [] 
 }
 
 function tag_fetch_colour(tag) {
@@ -293,6 +299,9 @@ function tag_fetch_colour(tag) {
 			return new_colour
 		case "BEA":
 			new_colour = make_colour_rgb(70, 185, 20)
+			return new_colour
+		case "PAR":
+			new_colour = make_colour_rgb(150, 25, 215)
 			return new_colour
 		
 		default:
@@ -512,43 +521,197 @@ function tag_remove_ally(tag1, tag2) {
 	}
 }
 
+function tag_remove_dead_enemy(tag1, tag2) {
+	// Removes Tag2 from Tag2's global.wars
+	var tag1_id = tag_fetch_id(tag1)
+	var tag2_id = tag_fetch_id(tag2)
+	
+	global.wars[tag2_id] = []
+	
+	for (var i = 0; i < array_length(global.wars[tag1_id]); i++ ) {
+		// Search enemies list
+		if global.wars[tag1_id][i] == tag2_id {
+			// Remove
+			array_delete(global.wars[tag1_id], i, 1)
+		}
+	}
+}
+
 function tag_declare_peace(tag1, tag2) {
 	// Removes Tag1 + Tag2 as enemies
 	var tag1_id = tag_fetch_id(tag1)
 	var tag2_id = tag_fetch_id(tag2)
 	
-	if array_length(global.wars[tag1_id]) > 0 && array_length(global.wars[tag2_id]) > 0 {
-		for (var i = 0; i < array_length(global.wars[tag1_id]); i ++) {
-			if global.wars[tag1_id][i] == tag2 || tag_is_ally(global.wars[tag1_id][i], tag2) {
-				array_delete(global.wars[tag1_id], i, 1)
-			}
-		}
+	/// CORE BELLIGERENTS
+	//array_delete(global.wars[tag1_id], 0, 1)
+	//array_delete(global.wars[tag2_id], 0, 1)
 	
-		for (var ii = 0; ii < array_length(global.wars[tag2_id]); ii ++) {
-			if global.wars[tag2_id][ii] == tag1 || tag_is_ally(global.wars[tag2_id][ii], tag1) {
-				array_delete(global.wars[tag2_id], ii, 1)
-			}
-		}
+	//// Stop core belligerents from being at war with each other's allies
+	//for (var a1 = 0; a1 < array_length(global.allies[tag1_id]); a1 ++) {
+	//	for (var w2 = 0; w2 < array_length(global.wars[tag2_id]); w2 ++) {
+	//		if global.wars[tag2_id][w2] == global.allies[tag1_id][a1] {
+	//			array_delete(global.wars[tag2_id], w2, 1)
+	//		}
+	//	}
+	//}
 	
-		if array_length(global.allies[tag1_id]) > 0 {
-			// Peaces out allies too
-			for (var iii = 0; iii < array_length(global.allies[tag1_id]); iii ++) {
-				var ally_tag_id = tag_fetch_id(global.allies[tag1_id][iii])
-				for (var jjj = 0; jjj < array_length(global.wars[ally_tag_id]); jjj ++) {
-					array_delete(global.wars[ally_tag_id], jjj, 1)
-				}
-			}
+	//for (var a2 = 0; a2 < array_length(global.allies[tag2_id]); a2 ++) {
+	//	for (var w1 = 0; w1 < array_length(global.wars[tag1_id]); w1 ++) {
+	//		if global.wars[tag1_id][w1] == global.allies[tag2_id][a2] {
+	//			array_delete(global.wars[tag1_id], w1, 1)
+	//		}
+	//	}
+	//}
+	
+	//// Stop Tag 1's allies from being at war with Tag 2's allies
+	//for (var a1 = 0; a1 < array_length(global.allies[tag1_id]); a1 ++) {
+	//	var ally_id = tag_fetch_id(global.allies[tag1_id][a1])
+	//	for (var wa1 = 0; wa1 < array_length(global.wars[ally_id]); wa1 ++) {
+	//		// Go through ally's wars, remove main belligerent
+	//		if global.wars[ally_id][wa1] == tag2 {
+	//			array_delete(global.wars[ally_id], wa1, 1)
+	//		}
+	//	}
+		
+	//	for (var aw1 = 0; aw1 < array_length(global.allies[tag2_id]); aw1 ++) {
+	//		// Go through enemy allies and remove them from wars
+	//		for (var ww1 = 0; ww1 < array_length(global.wars[ally_id]); ww1 ++) {
+	//			if global.wars[ally_id][ww1] == global.allies[tag2_id][aw1] {
+	//				array_delete(global.wars[ally_id], ww1, 1)
+	//			}
+	//		}
+	//	}
+	//}
+	
+	//// Stop Tag 2's allies from being at war with Tag 1's allies
+	//for (var a2 = 0; a2 < array_length(global.allies[tag2_id]); a2 ++) {
+	//	var elly_id = tag_fetch_id(global.allies[tag2_id][a2])
+	//	for (var wa2 = 0; wa2 < array_length(global.wars[elly_id]); wa2 ++) {
+	//		// Go through ally's wars, remove main belligerent
+	//		if global.wars[elly_id][wa2] == tag1 {
+	//			array_delete(global.wars[elly_id], wa2, 1)
+	//		}
+	//	}
+		
+	//	for (var aw2 = 0; aw2 < array_length(global.allies[tag1_id]); aw2 ++) {
+	//		// Go through enemy allies and remove them from wars
+	//		for (var ww2 = 0; ww2 < array_length(global.wars[elly_id]); ww2 ++) {
+	//			if global.wars[elly_id][ww2] == global.allies[tag1_id][aw2]
+	//				array_delete(global.wars[elly_id], ww2, 1)
+	//		}
+	//	}
+	//}
+	
+	for (var i = 0; i < array_length(global.wars[tag1_id]); i ++) {
+		// Clear Player Enemies
+		if tag_is_ally(global.wars[tag1_id][i], tag2) {
+			// If they're an enemy ally
+			array_delete(global.wars[tag1_id], i, 1)
+			continue
 		}
-		if array_length(global.allies[tag2_id]) > 0 {
-			// Peaces out enemy allies too
-			for (var iv = 0; iv < array_length(global.allies[tag2_id]); iv ++) {
-				var ally_tag_id = tag_fetch_id(global.allies[tag2_id][iv])
-				for (var jv = 0; jv < array_length(global.wars[ally_tag_id]); jv ++) {
-					array_delete(global.wars[ally_tag_id], jv, 1)
+		
+		if global.wars[tag1_id][i] == tag2 {
+			// If they're the enemy
+			array_delete(global.wars[tag1_id], i, 1)
+			continue
+		}
+	}
+	
+	for (var j = 0; j < array_length(global.wars[tag2_id]); j ++) {
+		// Clear Enemy Enemies
+		if tag_is_ally(global.wars[tag2_id][j], tag1) {
+			// If they're a player ally
+			array_delete(global.wars[tag2_id], j, 1)
+			continue
+		}
+		
+		if global.wars[tag2_id][j] == tag2 {
+			// If they're the enemy
+			array_delete(global.wars[tag2_id], j, 1)
+			continue
+		}	
+	}
+	
+	/// ALLIES OF BELIGERENTS
+	
+	if array_length(global.allies[tag1_id]) > 0 {
+		for (var k = 0; k < array_length(global.allies[tag1_id]); k ++) {
+			// Clear Enemies from Player Allies
+			var ally_id = tag_fetch_id(global.allies[tag1_id][k])
+			if array_length(global.wars[ally_id]) > 0 {
+				for (var k2 = 0; k2 < array_length(global.wars[ally_id]); k2 ++) {
+					if tag_is_ally(global.wars[ally_id][k2], tag2) {
+						// If they're an enemy ally
+						array_delete(global.wars[ally_id], k2, 1)
+						continue
+					}
+			
+					if global.wars[ally_id][k2] == tag2 {
+						// If they're the enemy
+						array_delete(global.wars[ally_id], k2, 1)
+						continue
+					}
 				}
 			}
 		}
 	}
+	
+	if array_length(global.allies[tag2_id]) > 0 {
+		for (var l = 0; l < array_length(global.allies[tag2_id]); l ++) {
+			// Clear Enemies from Enemy Allies
+			var elly_id = tag_fetch_id(global.allies[tag2_id][l])
+			
+			if array_length(global.wars[elly_id]) > 0 {
+				for (var l2 = 0; l2 < array_length(global.wars[elly_id]); l2 ++) {
+					if tag_is_ally(global.wars[elly_id][l2], tag1) {
+						// If they're a player ally
+						array_delete(global.wars[elly_id], l2, 1)
+						continue
+					}
+			
+					if global.wars[elly_id][l2] == tag1 {
+						// If they're the player
+						array_delete(global.wars[elly_id], l2, 1)
+						continue
+					}
+				}
+			}
+		}
+	}
+	wars_update(tag1_id)
+	
+	//if array_length(global.wars[tag1_id]) > 0 && array_length(global.wars[tag2_id]) > 0 {
+	//	for (var i = 0; i < array_length(global.wars[tag1_id]); i ++) {
+	//		if global.wars[tag1_id][i] == tag2 || tag_is_ally(global.wars[tag1_id][i], tag2) {
+	//			array_delete(global.wars[tag1_id], i, 1)
+	//		}
+	//	}
+	
+	//	for (var ii = 0; ii < array_length(global.wars[tag2_id]); ii ++) {
+	//		if global.wars[tag2_id][ii] == tag1 || tag_is_ally(global.wars[tag2_id][ii], tag1) {
+	//			array_delete(global.wars[tag2_id], ii, 1)
+	//		}
+	//	}
+	
+	//	if array_length(global.allies[tag1_id]) > 0 {
+	//		// Peaces out allies too
+	//		for (var iii = 0; iii < array_length(global.allies[tag1_id]); iii ++) {
+	//			var ally_tag_id = tag_fetch_id(global.allies[tag1_id][iii])
+	//			for (var jjj = 0; jjj < array_length(global.wars[ally_tag_id]); jjj ++) {
+	//				array_delete(global.wars[ally_tag_id], jjj, 1)
+	//			}
+	//		}
+	//	}
+	//	if array_length(global.allies[tag2_id]) > 0 {
+	//		// Peaces out enemy allies too
+	//		for (var iv = 0; iv < array_length(global.allies[tag2_id]); iv ++) {
+	//			var ally_tag_id = tag_fetch_id(global.allies[tag2_id][iv])
+	//			for (var jv = 0; jv < array_length(global.wars[ally_tag_id]); jv ++) {
+	//				array_delete(global.wars[ally_tag_id], jv, 1)
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 
@@ -586,32 +749,67 @@ function tag_has_claim(tag1, tag2) {
 }
 
 function tag_declare_war(tag1, tag2) {
-	// Tag 1 Declares war on Tag2
+	// Tag 1 Declares war on Tag 2
 	var tag1_id = tag_fetch_id(tag1)
 	var tag2_id = tag_fetch_id(tag2)
 	
+	// Add main enemies to each belligerent
 	array_push(global.wars[tag1_id], tag2)
 	array_push(global.wars[tag2_id], tag1)
 	
-	if array_length(global.allies[tag1_id]) > 0 {
-		// Adds Allies to the war
-		for (var i = 0; i < array_length(global.allies[tag1_id]); i ++) {
-			var ally_tag_id = tag_fetch_id(global.allies[tag1_id][i])
-			if global.allies[ally_tag_id] != "FRA" || global.allies[ally_tag_id] != "SPA" || global.allies[ally_tag_id] != "PAP" {
-				array_push(global.wars[ally_tag_id], tag2)
-				array_push(global.wars[tag2_id], global.allies[tag1_id][i])
-			}
+	// Set Tag 2's allies as enemies of Tag 1
+	for (var e_allies = 0; e_allies < array_length(global.allies[tag2_id]); e_allies ++) {
+		array_push(global.wars[tag1_id], global.allies[tag2_id][e_allies])
+	}
+	
+	// Set Tag 1's allies as enemies of Tag 2
+	for (var allies = 0; allies < array_length(global.allies[tag1_id]); allies ++) {
+		array_push(global.wars[tag2_id], global.allies[tag1_id][allies])
+	}
+	
+	// Make all allies of both parties at war with each other's allies
+	// Allies of Tag 1:
+	for (var allies = 0; allies < array_length(global.allies[tag1_id]); allies ++) {
+		var ally = tag_fetch_id(global.allies[tag1_id][allies])
+		// Set Tag 2 as enemy of ally
+		array_push(global.wars[ally], tag2)
+		// Set Tag 2's allies as enemies of ally
+		for (var e_allies = 0; e_allies < array_length(global.allies[tag2_id]); e_allies ++) {
+			array_push(global.wars[ally], global.allies[tag2_id][e_allies])
+		}
+	}
+	// Allies of Tag 2:
+	for (var e_allies = 0; e_allies < array_length(global.allies[tag2_id]); e_allies ++) {
+		var e_ally = tag_fetch_id(global.allies[tag2_id][e_allies])
+		// Set Tag 1 as enemy of ally
+		array_push(global.wars[e_ally], tag1)
+		// Set Tag 1's allies as enemies of enemy ally
+		for (var allies = 0; allies < array_length(global.allies[tag1_id]); allies ++) {
+			array_push(global.wars[e_ally], global.allies[tag1_id][allies])
 		}
 	}
 	
-	if array_length(global.allies[tag2_id]) > 0 {
-		// Adds Enemy Allies to the war
-		for (var i = 0; i < array_length(global.allies[tag2_id]); i ++) {
-			var ally_tag_id = tag_fetch_id(global.allies[tag2_id][i])
-			array_push(global.wars[ally_tag_id], tag1)
-			array_push(global.wars[tag1_id], global.allies[tag2_id][i])
-		}
-	}
+	//if array_length(global.allies[tag1_id]) > 0 {
+	//	// Adds Allies to the war
+	//	for (var i = 0; i < array_length(global.allies[tag1_id]); i ++) {
+	//		var ally_tag_id = tag_fetch_id(global.allies[tag1_id][i])
+	//		if global.allies[ally_tag_id] != "FRA" || global.allies[ally_tag_id] != "SPA" || global.allies[ally_tag_id] != "PAP" {
+	//			array_push(global.wars[ally_tag_id], tag2)
+	//			array_push(global.wars[tag2_id], global.allies[tag1_id][i])
+	//		}
+	//	}
+	//}
+	
+	//if array_length(global.allies[tag2_id]) > 0 {
+	//	// Adds Enemy Allies to the war
+	//	for (var i = 0; i < array_length(global.allies[tag2_id]); i ++) {
+	//		var ally_tag_id = tag_fetch_id(global.allies[tag2_id][i])
+	//		array_push(global.wars[ally_tag_id], tag1)
+	//		array_push(global.wars[tag1_id], global.allies[tag2_id][i])
+	//	}
+	//}
+	
+	
 	
 	if tag_has_claim(tag1, tag2) {
 		tag_remove_claim(tag1, tag2)
@@ -680,12 +878,11 @@ function allies_update(tag_id) {
 				for (var j = 0; j < array_length(enemies); j ++) {
 					if enemies[j] == allies[i] {
 						array_delete(global.allies[tag_id], i, 1)
-						continue
+						break
 					}
 				}
 			}
 		}
-		
 	}
 }
 
@@ -708,4 +905,34 @@ function wars_update(tag_id) {
 			array_delete(global.wars[tag_id], i, 1)
 		}
 	}
+}
+
+function fronde_end(type) {
+	// End the Fronde
+	
+	//end_all_wars() // End all conflict
+	
+	
+	if type == "france" {
+		// France Wins
+		global.tags[7] = ["FRA", "France", "Royal", "France", "Kingdom", "King", 1]
+		show_event("Louis XIV Crushes the Fronde", "The period of civil unrest and anarchy across France is fianlly at an end. The leaders of the the Fronde and their allies have been arrested, and the Kingdom is united under the absolute rule of Louis XIV. (The Game is Over, you have LOST)", 7, ["We are resigned to history's pages..."])
+	} else if type == "conde" {
+		// Conde Wins
+		global.tags[19] = ["BUR", "Condé's France", "French", "Condé's France", "Emperor", "Empire", 1]
+		show_event("The House of Bourbon-Condé", "And so it was, on this day in 1653, a new French dynasty was born. The Great Condé has seized Paris and forced the King into a full surrender, thus swearing his crown over to him. Long live King Louis XV! (The Game is Over, Burgundy has WON)", 0, ["Long may he reign."])
+	} else if type == "player" {
+		// Player Wins
+		var player_id = tag_fetch_id(obj_control.player_tag)
+		
+		if obj_control.player_tag != "AUN" {
+			global.tags[player_id] = [obj_control.player_tag, "Nouvelle France", "French", "New France", "Kingdom", "King", global.tags[player_id][6]]
+		}
+		
+		show_event("A New France", "It was an outcome that none of the belligerent parties of the war had expected, but it was neither the Royalists nor the Frondeurs who prevailed. We have declare ourselves as the new rulers of france, long live King " + global.chars[global.tags[player_id][6]][0] + "! Vive la France! (The Game is Over, you have WON)", 10, ["Vive le Roi, pour la victoire!"])
+	}
+	
+	obj_province.prov_occupied_by = noone // End all occupations
+	tag_declare_peace("FRA", "BUR")
+	tag_declare_peace("FRA", obj_control.player_tag)
 }

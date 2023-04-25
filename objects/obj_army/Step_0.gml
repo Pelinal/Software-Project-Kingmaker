@@ -22,7 +22,9 @@ if military_get_tag_total(global.tags[tag_id][0]) == 0 {
 }
 
 if total_mp <= 0 {
-	array_delete(global.army[tag_id], army_id, 1)
+	if array_length(global.army[tag_id]) < army_id {
+		array_delete(global.army[tag_id], army_id, 1)
+	}
 	instance_destroy()
 }
 

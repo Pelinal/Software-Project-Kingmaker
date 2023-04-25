@@ -57,6 +57,7 @@
     {"resourceType":"GMSpriteFrame","resourceVersion":"1.1","name":"a3cb63b2-5332-4abe-89c0-963165e170b8",},
     {"resourceType":"GMSpriteFrame","resourceVersion":"1.1","name":"d1d84f16-7678-43ba-80d4-10dff80b4cb6",},
     {"resourceType":"GMSpriteFrame","resourceVersion":"1.1","name":"3ef95688-5a23-4d66-809f-58b9fd2f6620",},
+    {"resourceType":"GMSpriteFrame","resourceVersion":"1.1","name":"8ab9cd28-7677-4c1b-bffb-f8ce750807e5",},
   ],
   "sequence": {
     "resourceType": "GMSequence",
@@ -68,7 +69,7 @@
     "playbackSpeedType": 0,
     "autoRecord": true,
     "volume": 1.0,
-    "length": 30.0,
+    "length": 31.0,
     "events": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MessageEventKeyframe>",},
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
@@ -103,6 +104,7 @@
             {"id":"c826cf19-ec3f-4126-b5a0-e35d9211223a","Key":27.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"a3cb63b2-5332-4abe-89c0-963165e170b8","path":"sprites/spr_portraits/spr_portraits.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
             {"id":"5e45126c-8c85-4681-9c1e-95027c475d72","Key":28.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"d1d84f16-7678-43ba-80d4-10dff80b4cb6","path":"sprites/spr_portraits/spr_portraits.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
             {"id":"1e94fb4f-7e05-4992-8f7e-e5445478af1b","Key":29.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"3ef95688-5a23-4d66-809f-58b9fd2f6620","path":"sprites/spr_portraits/spr_portraits.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"66a7f077-7f0e-4a8e-bd80-f18212a2d462","Key":30.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"8ab9cd28-7677-4c1b-bffb-f8ce750807e5","path":"sprites/spr_portraits/spr_portraits.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"modifiers":[],},
     ],
     "visibleRange": null,

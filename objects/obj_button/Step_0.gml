@@ -3,9 +3,11 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 	// Check for Mouse Enter
 	if mouse_check_button_pressed(mb_left){
 		// Check for Left Pressed
+			audio_play_sound(se_click, 50, 0)
 			instance_destroy(obj_prevent_clickthrough)
 			if type == "Liege" {
 				// open the kings court
+				
 				menu_pop("Liege")
 			} else if type == "Military" {
 				// open the military tab
@@ -95,7 +97,12 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					tag_add_opinion(obj_control.player_tag, obj_control.tag_overview_id, 50)
 					tag_add_ally(obj_control.tag_overview_id, obj_control.player_tag)
 					obj_control.threat_level -= 1
+				} else if tag_is_ally(obj_control.tag_overview_id, obj_control.player_tag) {
+					tag_add_opinion(obj_control.tag_overview_id, obj_control.player_tag, -50)
+					tag_remove_ally(obj_control.tag_overview_id, obj_control.player_tag)
+					obj_control.threat_level += 1
 				}
+				
 			} else if type == "Arrange Marriage" && obj_control.diplo_moves > 0 {
 				obj_control.diplo_moves -= 1
 				if tag_opinion_of(obj_control.tag_overview_id, obj_control.player_tag) >= 0 {
@@ -113,11 +120,11 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					obj_control.player_fabricating = 1
 					obj_control.player_fabricate_target = obj_control.tag_overview_id
 				}
-			} else if type == "Declare War" && tag_has_claim(obj_control.player_tag, obj_control.tag_overview_id) && !tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
+			} else if type == "Declare War" && tag_has_claim(obj_control.player_tag, obj_control.tag_overview_id) && !tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) && !tag_is_ally(obj_control.player_tag, obj_control.tag_overview_id) {
 				tag_add_opinion(obj_control.tag_overview_id, obj_control.player_tag, -50)
 				tag_declare_war(obj_control.player_tag, obj_control.tag_overview_id)
 				obj_control.threat_level += 5
-			} else if type == "Declare War" && tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) {
+			} else if type == "Declare War" && tag_is_enemy(obj_control.player_tag, obj_control.tag_overview_id) && obj_control.fronde < 2 {
 				with obj_province {
 					if prov_occupied_by == obj_control.player_tag {
 						map_province_own(prov_id, obj_control.player_tag)
@@ -136,6 +143,23 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 				obj_control.diplo_moves -= 1
 				tag_add_opinion(obj_control.tag_overview_id, obj_control.player_tag, 10)
 			} else if type == "End Turn" {
+				// The first fronde - Parlements
+				if obj_control.date[0] == "July" && obj_control.date[1] == 1648 && obj_control.fronde == 0 {
+					//refresh_events()
+					show_event("The Parlementary Fronde", "After an unfair tax levied on judicial officers of the Parlement of Paris caused them to demand constitutional reforms that favoured the committee of the parlement. On the 20th August 1648, Cardinal Mazarin suddenly arrested the leaders of the parlement. This has now sparked widespread unrest throughout Paris, escalating into full-blown insurrection!", 1, ["We stand with the king!", "The end begins..."])
+					obj_control.fronde = 1
+				}
+				if obj_control.date[0] == "April" && obj_control.date[1] == 1650 && obj_control.fronde == 1 {
+					//refresh_events()
+					show_event("The Fronde of the Princes", "It seems the Peace of Rueil is over, Cardinal Mazarin in league with Gondi and Madame de Chevreuse, has arrested Condé and his allies! Duke Turenne and Condé's loyal supporters have responded with a full revolt against Mazarin and the Kingdom of France. We must choose a side, will we help Condé become king, or claim the throne ourselves? (CIVIL WAR: Whomever occupies Paris in 1653 is the winner!)", 2, ["I support Condé!", "I will be king!"])
+					obj_control.fronde = 2
+				}
+				if obj_control.date[0] == "January" && obj_control.date[1] == 1651 && obj_control.fronde == 2 {
+					//refresh_events()
+					show_event("The Tide Turns?", "Condé has been rescued from captivity along with his fellows, and has taken the reins of leadership once again. Does his guidance guarantee victory for the Frondeurs? Only time will tell.", 2, ["Decent people dying for a scoundrel."])
+					global.tags[19][6] = 19
+					obj_control.fronde = 2
+				}
 				obj_control.turn_stage = "AI"
 			} else if type == "Demonstrate Fealty (-5)" {
 				if global.economy[tag_fetch_id(obj_control.player_tag)][8] >= 10 && obj_control.court_actions > 0 {
@@ -299,6 +323,12 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					
 					menu_pop("Military")
 				}
+			} else if type == "Credits" {
+				// Show Credits
+				show_event("Kingmaker: Credits", "Potraits: Historic, public domain CC0\nSFX: By KADOKAWA, Non-RM license.\nMusic:\n-CC-BY 4.0: Zhelanov - 'Baroque Opusendo'\n- CC0: Dowland - 'If my complaints could passions move'\n- CC-BY 4.0: Yubatake - 'Fugue in B Minor'\n- CC-BY 3.0: Matthew Lagoe - 'Lovelace'\n- CC0: Pyotr Ilyich Tchaikovsky - 'Marche Henri IV'", 0)
+			} else if type == "Exit Game" {
+				// Exit
+				game_end()
 			} else if type == "EVT_Option" {
 				if e_option == "To Glory!" || e_option == "That's Enough (Exit Tutorial)" {
 					refresh_events()
@@ -322,6 +352,200 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 					refresh_events()
 				} else if e_option == "Their secrets laid bare" {
 					global.economy[tag_fetch_id(obj_control.player_tag)][8] += 5
+					refresh_events()
+				} else if e_option == "To the victor, go the spoils" {
+					
+					refresh_events()
+				} else if e_option == "We stand with the king!" {
+					// First Fronde - Paris Revolts Against the King!
+					with obj_province {
+						if prov_id == 24 {
+							// Releases Paris
+							map_province_own(24, "PAR")
+							id.tag = "PAR"
+							prov_occupied_by = noone
+						}
+					}
+					
+					obj_control.min_threat = 20
+					obj_control.threat_level += 5
+					tag_declare_war("FRA", "PAR")
+					refresh_events()
+				} else if e_option == "The end begins..." {
+					// First Fronde - Paris Revolts Against the King!
+					with obj_province {
+						if prov_id == 24 {
+							// Releases Paris
+							map_province_own(24, "PAR")
+							id.tag = "PAR"
+							prov_occupied_by = noone
+						}
+					}
+					
+					obj_control.min_threat = 20
+					obj_control.threat_level += 10
+					tag_declare_war("FRA", "PAR")
+					refresh_events()
+				} else if e_option == "Peace in our time?" {
+					obj_control.threat_level += 5
+					obj_control.min_threat = 30
+					refresh_events()
+				} else if e_option == "Mazarin must fall." {
+					obj_control.threat_level += 10
+					obj_control.min_threat = 30
+					refresh_events()
+				} else if e_option == "I support Condé!" {
+					// Become allied to Conde Faction
+					end_all_wars()
+					fronde_outbreak("conde")
+					// Rename factions
+					// Index 0: Tag, Index 1: Name, Index 2: Adjective, Index 3: English Name, Index 4: Rank, Index 5: Rank Adjective, Index 6: Ruler
+					global.tags[19] = ["BUR", "Frondeurs", "Frondeur", "Frondeurs", "Alliance", "Duke", 18]
+					global.tags[7] = ["FRA", "Royalistes", "Royalist", "Royalists", "Alliance", "King", 1]
+					
+					// Fronde Armies
+					repeat(3) {
+						var fprovs = map_find_owned_list("BUR")
+						var fprov = fprovs[irandom_range(0, array_length(fprovs)-1)]
+						array_push(global.army[19], 10000)
+						with instance_create_depth(global.provinces[fprov][7], global.provinces[fprov][8], depth, obj_army) {
+				
+							id.tag_id = 19										// The Owner
+							army_id = array_length(global.army[id.tag_id])-1	// The Army id
+							total_mp =  global.army[id.tag_id][army_id]			// The Army size
+							location = fprov									// The Province ID of its current location
+						}
+					}
+					
+					
+					obj_control.threat_level += 15
+					obj_control.min_threat = 50
+					tag_add_ally(obj_control.player_tag, "BUR")
+					tag_declare_war("FRA", "BUR")
+					
+					// France Armies
+					repeat(3) {
+						var fprovs = map_find_owned_list("FRA")
+						var fprov = fprovs[irandom_range(0, array_length(fprovs)-1)]
+						array_push(global.army[7], 10000)
+						with instance_create_depth(global.provinces[fprov][7], global.provinces[fprov][8], depth, obj_army) {
+				
+							id.tag_id = 7										// The Owner
+							army_id = array_length(global.army[id.tag_id])-1	// The Army id
+							total_mp =  global.army[id.tag_id][army_id]			// The Army size
+							location = fprov									// The Province ID of its current location
+						}
+					}
+					refresh_events()
+				} else if e_option == "I will be king!" {
+					// Form your own faction, annex your allies
+					// Rename to '[HouseName] Faction'
+					
+					
+					// Become allied to Conde Faction
+					end_all_wars()
+					fronde_outbreak("player")
+					// Rename factions
+					// Index 0: Tag, Index 1: Name, Index 2: Adjective, Index 3: English Name, Index 4: Rank, Index 5: Rank Adjective, Index 6: Ruler
+					global.tags[19] = ["BUR", "Frondeurs", "Frondeur", "Frondeurs", "Alliance", "Duke", 18]
+					global.tags[7] = ["FRA", "Royalistes", "Royalist", "Royalists", "Alliance", "King", 1]
+					
+					// Fronde Armies
+					repeat(3) {
+						var fprovs = map_find_owned_list("BUR")
+						var fprov = fprovs[irandom_range(0, array_length(fprovs)-1)]
+						array_push(global.army[19], 10000)
+						with instance_create_depth(global.provinces[fprov][7], global.provinces[fprov][8], depth, obj_army) {
+				
+							id.tag_id = 19										// The Owner
+							army_id = array_length(global.army[id.tag_id])-1	// The Army id
+							total_mp =  global.army[id.tag_id][army_id]			// The Army size
+							location = fprov									// The Province ID of its current location
+						}
+					}
+					
+					tag_declare_war("FRA", "BUR")
+					tag_declare_war(obj_control.player_tag, "BUR")
+					tag_declare_war(obj_control.player_tag, "FRA")
+					
+					// Player armies
+					var player_id = tag_fetch_id(obj_control.player_tag)
+					repeat(3) {
+						var fprovs = map_find_owned_list(obj_control.player_tag)
+						var fprov = fprovs[irandom_range(0, array_length(fprovs)-1)]
+						array_push(global.army[player_id], 5000)
+						with instance_create_depth(global.provinces[fprov][7], global.provinces[fprov][8], depth, obj_army) {
+							
+							id.tag_id = player_id								// The Owner
+							army_id = array_length(global.army[id.tag_id])-1	// The Army id
+							total_mp =  global.army[id.tag_id][army_id]			// The Army size
+							location = fprov									// The Province ID of its current location
+						}
+					}
+					
+					// France Armies
+					repeat(3) {
+						var fprovs = map_find_owned_list("FRA")
+						var fprov = fprovs[irandom_range(0, array_length(fprovs)-1)]
+						array_push(global.army[7], 10000)
+						with instance_create_depth(global.provinces[fprov][7], global.provinces[fprov][8], depth, obj_army) {
+				
+							id.tag_id = 7										// The Owner
+							army_id = array_length(global.army[id.tag_id])-1	// The Army id
+							total_mp =  global.army[id.tag_id][army_id]			// The Army size
+							location = fprov									// The Province ID of its current location
+						}
+					}
+					
+					
+					
+					var player_char = global.tags[player_id][6]
+					if obj_control.player_tag == "ORL" {
+						global.tags[player_id] = ["ORL", "Orléanistes", "Orléaniste", "Orléanists", "Alliance", "Duke", player_char]
+					} else if obj_control.player_tag == "GAS" {
+						global.tags[player_id] = ["GAS", "Belle-Orléanistes", "Belle-Orléaniste", "Belle-Orléanists", "Alliance", "Duchess", player_char]
+					} else if obj_control.player_tag == "ANJ" {
+						global.tags[player_id] = ["ANJ", "Angevins", "Angevin", "Angevins", "Alliance", "Grand Duke", player_char]
+					} else if obj_control.player_tag == "AUV" {
+						global.tags[player_id] = ["AUV", "Faction de Turenne", "Turenne's", "Turenne's Faction", "Alliance", "Duke", player_char]
+					} else if obj_control.player_tag == "AUN" {
+						global.tags[player_id] = ["AUN", "Empire Perdrix", "Perdrixian", "Partidge Empire", "Empire", "Emperor", player_char]
+					} else if obj_control.player_tag == "GUY" {
+						global.tags[player_id] = ["GUY", "Aquitaine", "Aquitanian", "Aquitaine", "Kingdom", "King", player_char]
+					} else {
+						global.tags[player_id] = [obj_control.player_tag, "Séparatistes", "Séparatiste", "Separatists", "Alliance", "General", player_char]
+					}
+					
+					obj_control.threat_level += 20
+					obj_control.min_threat = 60
+					refresh_events()
+				} else if e_option == "We are resigned to history's pages..." {
+					for (var prov = 0; prov < array_length(global.provinces); prov ++) {
+						// Annex all of france
+						map_province_own(prov, "FRA")
+					}
+					refresh_events()
+				} else if e_option == "Long may he reign." {
+					for (var prov = 0; prov < array_length(global.provinces); prov ++) {
+						// Annex all of france
+						if map_province_owner(prov) == "FRA" {
+							map_province_own(prov, "BUR")
+						} else if map_province_owner(prov) == obj_control.player_tag {
+							map_province_own(prov, "BUR")
+						}
+					}
+					refresh_events()
+				} else if e_option == "Vive le Roi, pour la victoire!" {
+					for (var prov = 0; prov < array_length(global.provinces); prov ++) {
+						// Annex all of france
+						if map_province_owner(prov) == "FRA" {
+							map_province_own(prov, obj_control.player_tag)
+						} else if map_province_owner(prov) == "BUR" {
+							map_province_own(prov, obj_control.player_tag)
+						}
+					}
+					refresh_events()
+				} else {
 					refresh_events()
 				}
 			// Intrigue

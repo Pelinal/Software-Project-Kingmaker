@@ -28,6 +28,10 @@ if unit_in_prov != noone && instance_exists(unit_in_prov) {
 	}
 }
 
+if prov_occupied_by != noone && !tag_is_enemy(tag, prov_occupied_by) {
+	prov_occupied_by = noone
+}
+
 if !instance_exists(unit_in_prov) {
 	unit_in_prov = noone
 }
@@ -123,8 +127,7 @@ if position_meeting(mouse_x, mouse_y, id) {
 		}
 	} else if mouse_check_button_pressed(mb_right) && obj_control.army_overview_id != -1 {
 		if unit_in_prov == noone {
-			if obj_control.selected_army != noone && map_province_is_adjacent(prov_id, obj_control.selected_army.location) 
-			&& (map_province_owner(prov_id) == obj_control.player_tag || tag_is_ally(obj_control.player_tag, map_province_owner(prov_id)) || tag_is_enemy(obj_control.player_tag, map_province_owner(prov_id))) {
+			if obj_control.selected_army != noone && map_province_is_adjacent(prov_id, obj_control.selected_army.location) {
 				if obj_control.selected_army.moves_remaining > 0 {	
 					obj_control.selected_army.x = x
 					obj_control.selected_army.y = y
@@ -141,7 +144,7 @@ if position_meeting(mouse_x, mouse_y, id) {
 				}
 			}
 		} else {
-			if unit_in_prov != noone && selected_army != noone {
+			if unit_in_prov != noone && obj_control.selected_army != noone {
 				if obj_control.selected_army.moves_remaining > 0 {
 					if tag_is_enemy(global.tags[unit_in_prov.tag_id][0], obj_control.player_tag) {
 						if unit_in_prov.total_mp > obj_control.selected_army.total_mp {

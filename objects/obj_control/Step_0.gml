@@ -4,6 +4,20 @@
 army_quality = mil_budget
 ///////
 
+
+if !audio_is_playing(ms_track_1) && !audio_is_playing(ms_track_2) && !audio_is_playing(ms_track_3) && !audio_is_playing(ms_track_4) && !audio_is_playing(ms_track_5) {
+	// If no music is playing, play music
+	var rand_track = choose(ms_track_1, ms_track_2, ms_track_3, ms_track_4, ms_track_5)
+	audio_play_sound(rand_track, 100, 0)
+}
+
+if keyboard_check_pressed(ord("M")) {
+	// Reshuffle music
+	audio_stop_all()
+	var rand_track = choose(ms_track_1, ms_track_2, ms_track_3, ms_track_4, ms_track_5)
+	audio_play_sound(rand_track, 100, 0)
+}
+
 if !instance_exists(selected_army) {
 	selected_army = noone
 }
@@ -202,11 +216,13 @@ if turn_stage == "AI" {
 						diplo_pts -= 1
 						new_ally = noone
 						local_flags[0] = true
+						threat_level -= 5
 					} else {
 						// No valid alliance, improve relation with random country
 						var rand_tag = global.tags[irandom_range(0, array_length(global.tags)-1)][0]
 						tag_add_opinion(tag, rand_tag, 10)
 						tag_add_opinion(rand_tag, tag, 10)
+						//threat_level -=1
 						print("[" + tag + " | " + string(turn_no) + "] No Valid Ally, Improved Opinion w/ " + rand_tag)
 						diplo_pts -= 1
 						local_flags[0] = true
@@ -247,6 +263,7 @@ if turn_stage == "AI" {
 						//tag_add_opinion(tag, m_ally_id, 25)
 						tag_add_opinion(m_ally_id, tag, 25)
 						diplo_pts -= 1
+						//threat_level -= 2
 						print("[" + tag + " | " + string(turn_no) + "] Arranged marriage with " + m_ally)
 						m_ally = noone
 					}
@@ -257,6 +274,10 @@ if turn_stage == "AI" {
 						tag_add_opinion(tag, b_ally, -50)
 						tag_add_opinion(b_ally, tag, -50)
 						diplo_pts -= 1
+						threat_level += 1
+						if b_ally == player_tag {
+							show_event(global.tags[tag_id][1] + " Breaks Ties!", "Diplomacy has evidently failled, and the fools from " + global.tags[tag_id][1] + "have broken their alliance with us!", 8, ["We don't need them!"])
+						}
 						print("[" + tag + " | " + string(turn_no) + "] Broke alliance with " + b_ally)
 						b_ally = noone
 					}
@@ -287,12 +308,17 @@ if turn_stage == "AI" {
 						tag_declare_war(tag, new_enemy)
 						tag_add_opinion(new_enemy, tag, -50)
 						diplo_pts -= 1
+						threat_level += 1
 						print("[" + tag + " | " + string(turn_no) + "] Declared war on " + new_enemy)
+						if new_enemy == player_tag {
+							show_event(global.tags[tag_id][1] + " Declares War!", "Diplomacy has evidently failed, and the fools from " + global.tags[tag_id][1] + " have declared war upon us! We must fight these sinners!", 8, ["We won't go easily!"])
+						}
 						new_enemy = noone
 					} else if new_enemy != noone && !tag_has_claim(tag, new_enemy) && (tag_opinion_of(tag, new_enemy) <= 0 || tag_opinion_of(new_enemy, tag) <= 0) {
 						// If we have bad relations and havent got a claim
 						global.economy[tag_id][8] -= 10
 						tag_add_claim(tag, new_enemy)
+						threat_level += 1
 						print("[" + tag + " | " + string(turn_no) + "] Fabricated claim on " + new_enemy)
 						new_enemy = noone
 					}
@@ -301,6 +327,7 @@ if turn_stage == "AI" {
 						tag_remove_opinion(new_enemy, tag, 25)
 						tag_remove_opinion(tag, new_enemy, 25)
 						diplo_pts = -1
+						threat_level += 1
 						print("[" + tag + " | " + string(turn_no) + "] Sent an insult to " + new_enemy)
 						new_enemy = noone
 					}
@@ -432,6 +459,27 @@ if turn_stage == "AI" {
 			// 6a: Does the King like me?
 			// 6b: Do I like the King? (If so, improve relations. If not, plot)
 			
+			// Simulate threat change effect from KC
+			if random(1) <= 0.10 && threat_level > min_threat {
+				// 10% chance
+				threat_level -= choose(1, 1, 1, 1, 2, 2, 3)
+				print("[" + tag + " | " + string(turn_no) + "] Made Concession to the King.")
+			} else {
+				if random(1) <= 0.05 {
+					threat_level += choose(1, 1, 1, 1, 2)
+					
+					if random(1) < 0.5 {
+						global.economy[tag_id][1] += 250
+						print("[" + tag + " | " + string(turn_no) + "] Demanded Wealth from the King.")
+					} else {
+						global.economy[tag_id][5] += 2.5
+						print("[" + tag + " | " + string(turn_no) + "] Demanded Levies from the King.")
+					}
+					
+					
+				}
+			}
+			
 			// 7: Am I at war?
 			if array_length(global.wars[tag_id]) > 0 && tag_total_provinces(tag) > 0 {
 				// Check each of my armies
@@ -496,95 +544,150 @@ if turn_stage == "AI" {
 					
 				}
 				
-				// Check if you are the main enemy of your main enemy
-				var e_first = tag_fetch_id(global.wars[tag_id][0])
-				print("[" + tag + " | " + string(turn_no) + "] e_first = " + string(e_first))
-				print("[" + tag + " | " + string(turn_no) + "] wars (enemies) = " + string(global.wars[tag_id]))
-				if array_length(global.wars[tag_id]) > 0 && array_length(global.wars[e_first]) > 0 && e_first != tag_id {
-					if global.wars[e_first][0] == tag {
-						// Check if war is able to end
-						// If you win absolutely: Take all occupations, enemy relinquishes theirs
-						if military_get_tag_total(global.wars[tag_id][0]) == 0 && array_length(global.wars[tag_id]) > 0 && (has_provs_occupied(tag) || has_provs_occupied(global.wars[tag_id][0])) {
-							// Take land, declare peace
-							with obj_province {
-								if map_province_owner(prov_id) == global.wars[tag_id][0] && prov_occupied_by == noone {
-									// Occupy remaining enemy provs
-									prov_occupied_by = tag
-								}
-							}
+				if fronde < 2 {
+					// Check if you are the main enemy of your main enemy
+					var e_first = tag_fetch_id(global.wars[tag_id][0])
+					print("[" + tag + " | " + string(turn_no) + "] e_first = " + string(e_first))
+					print("[" + tag + " | " + string(turn_no) + "] wars (enemies) = " + string(global.wars[tag_id]))
+					if array_length(global.wars[tag_id]) > 0 && array_length(global.wars[e_first]) > 0 && e_first != tag_id {
+						if global.wars[e_first][0] == tag {
+							// Check if war is able to end
+							// If you win absolutely: Take all occupations, enemy relinquishes theirs
+							if military_get_tag_total(global.wars[tag_id][0]) == 0 && array_length(global.wars[tag_id]) > 0 && (has_provs_occupied(tag) || has_provs_occupied(global.wars[tag_id][0])) {
+								// Take land, declare peace
+								if global.wars[tag_id][0] != player_tag {
+									with obj_province {
+										if map_province_owner(prov_id) == global.wars[tag_id][0] && prov_occupied_by == noone {
+											// Occupy remaining enemy provs
+											prov_occupied_by = tag
+										}
+									}
 						
-							with obj_province {
-								// If you've occupied it, take it
-								if prov_occupied_by == tag {
-									map_province_own(prov_id, tag)
-									id.tag = tag
-									prov_occupied_by = noone
-								// If enemy has occupied something, release it
+									with obj_province {
+										// If you've occupied it, take it
+										if prov_occupied_by == tag {
+											map_province_own(prov_id, tag)
+											id.tag = tag
+											prov_occupied_by = noone
+										// If enemy has occupied something, release it
+										}
+										if prov_occupied_by == global.wars[tag_id][0] {
+											prov_occupied_by = noone
+										}
+										// If ally has occupied something, take it, if adjacent, otherwise you take it
+										if tag_is_ally(tag, prov_occupied_by) {
+											// ally takes it
+											map_province_own(prov_id, prov_occupied_by)
+											id.tag = prov_occupied_by
+											prov_occupied_by = noone
+										}
+									}
 								}
-								if prov_occupied_by == global.wars[tag_id][0] {
-									prov_occupied_by = noone
+								print("[" + tag + " | " + string(turn_no) + "] Won war against " + global.wars[tag_id][0])
+							
+								if global.wars[tag_id][0] == player_tag {
+									show_event(global.tags[tag_id][1] + " Has Won!", "Despite our best efforts our armies have fallen to the might of " + global.tags[tag_id][1] + " and they have declare an absolute victory.", 8, ["A sad day.", "Yet we fight on!"])
 								}
-								// If ally has occupied something, take it, if adjacent, otherwise you take it
-								if tag_is_ally(tag, prov_occupied_by) {
-									// ally takes it
-									map_province_own(prov_id, prov_occupied_by)
-									id.tag = prov_occupied_by
-									prov_occupied_by = noone
+							
+								tag_declare_peace(tag, global.wars[tag_id][0])
+							} else if all_provs_occupied(tag) || tag_is_ally(player_tag, tag) && tag != "PAR" {
+								// if all of your provinces are occupied
+								if global.wars[tag_id][0] == player_tag {
+									with obj_province {
+										if id.tag == tag {
+											map_province_own(prov_id, obj_control.player_tag)
+											id.tag = obj_control.player_tag
+											prov_occupied_by = noone
+										}
+									}
+									tag_declare_peace(player_tag, global.wars[tag_id][0])
+									show_event(global.tags[tag_id][1] + " Has Surrendered!", "We have triumphed over the enemy and the remaining forces of " + global.tags[tag_id][1] + " have surrendered. We are victorious.", 8, ["To the victor, go the spoils.", "Not just yet."])
+								} else {
+									with obj_province {
+										if id.tag == tag && prov_occupied_by != noone {
+											map_province_own(prov_id, prov_occupied_by)
+											id.tag = prov_occupied_by
+											prov_occupied_by = noone
+										}
+								
+										//if tag_is_enemy(prov_occupied_by, tag) {
+										//	prov_occupied_by = noone
+										//}
+										//if tag_is_ally(prov_occupied_by, tag) {
+										//	prov_occupied_by = noone
+										//}
+									}
+								
+									print("[" + tag + " | " + string(turn_no) + "] Lost war against " + global.wars[tag_id][0])
+									tag_declare_peace(global.wars[tag_id][0], tag)
+								}
+							
+							} // If the war is indecisive
+							else if military_get_tag_total(global.wars[tag_id][0]) == 0 && military_get_tag_total(tag) == 0 {
+								// Release all occupations
+							
+								if global.wars[tag_id][0] == player_tag || tag_is_ally(player_tag, tag) {
+									// Do Nothing
+								} else {
+									with obj_province {
+										if tag_is_enemy(prov_occupied_by, tag) {
+											// Release enemy occupations
+											prov_occupied_by = noone
+										}
+								
+										if prov_occupied_by == tag {
+											// Release your occupations
+											prov_occupied_by = noone
+										}
+								
+										if tag_is_ally(prov_occupied_by, tag) {
+											prov_occupied_by = noone
+										}
+									}
+							
+									print("[" + tag + " | " + string(turn_no) + "] Ended war against (Indecisive) " + global.wars[tag_id][0])
+									tag_declare_peace(tag, global.wars[tag_id][0])
 								}
 							}
-						
-							print("[" + tag + " | " + string(turn_no) + "] Won war against " + global.wars[tag_id][0])
-							tag_declare_peace(tag, global.wars[tag_id][0])
-						} else if all_provs_occupied(tag) {
-							// if all of your provinces are occupied
-							with obj_province {
-								if id.tag == tag && prov_occupied_by != noone {
-									map_province_own(prov_id, prov_occupied_by)
-									id.tag = prov_occupied_by
-									prov_occupied_by = noone
-								}
-								
-								//if tag_is_enemy(prov_occupied_by, tag) {
-								//	prov_occupied_by = noone
-								//}
-								//if tag_is_ally(prov_occupied_by, tag) {
-								//	prov_occupied_by = noone
-								//}
+						} // If country no longer exists, annul war
+						else if tag_total_provinces(global.wars[tag_id][0]) == 0 {
+							if global.wars[tag_id][0] != player_tag && !tag_is_ally(player_tag, tag) {
+								print("[" + tag + " | " + string(turn_no) + "] Ended war against " + global.wars[tag_id][0])
+								tag_remove_dead_enemy(tag, global.wars[tag_id][0])
 							}
-							
-							print("[" + tag + " | " + string(turn_no) + "] Lost war against " + global.wars[tag_id][0])
-							tag_declare_peace(tag, global.wars[tag_id][0])
-						} // If the war is indecisive
-						else if military_get_tag_total(global.wars[tag_id][0]) == 0 && military_get_tag_total(tag) == 0 {
-							// Release all occupations
-							
-							with obj_province {
-								if tag_is_enemy(prov_occupied_by, tag) {
-									// Release enemy occupations
-									prov_occupied_by = noone
-								}
-								
-								if prov_occupied_by == tag {
-									// Release your occupations
-									prov_occupied_by = noone
-								}
-								
-								if tag_is_ally(prov_occupied_by, tag) {
-									prov_occupied_by = noone
-								}
-							}
-							
-							print("[" + tag + " | " + string(turn_no) + "] Ended war against " + global.wars[tag_id][0])
-							tag_declare_peace(tag, global.wars[tag_id][0])
 						}
-					} // If country no longer exists, annul war
-					else if tag_total_provinces(global.wars[tag_id][0]) {
-						print("[" + tag + " | " + string(turn_no) + "] Ended war against " + global.wars[tag_id][0])
-						tag_declare_peace(tag, global.wars[tag_id][0])
+					}
+				
+					if tag_is_enemy("FRA","PAR") && tag == "FRA" && date[1] >= 1649 {
+						if military_get_tag_total("PAR") == 0 || has_provs_occupied("PAR") {
+							// Re-take paris, ends the first fronde
+							with obj_province {
+								map_province_own(24, "FRA")
+								id.tag = "FRA"
+								prov_occupied_by = noone
+							}
+							show_event("Peace of Rueil", "The uprising in the city of Paris has been quelled by royal forces after a long siege. Many bystanders were killed in the chaos, but some sliver of order is returning to the city. A lit de justice was held between the warring parties and all frondeur edicts were declared null and void.", 1, ["Peace in our time?", "Mazarin must fall."])
+							tag_declare_peace("FRA", "PAR")
+						}
+					}
+				} 
+				
+				if fronde == 2 && date[0] == "January" && date[1] == 1653 {
+					// Whoever holds Paris at the start of 1653 is the winner
+					with obj_province {
+						if prov_id == 24 {
+							if prov_occupied_by == noone {
+								// if France owns it
+								fronde_end("france") // France wins the Fronde
+							} else if prov_occupied_by == obj_control.player_tag {
+								fronde_end("player") // Player wins the Fronde
+							} else if prov_occupied_by == "BUR" {
+								fronde_end("conde") // Conde wins the Fronde
+							}
+						}
 					}
 				}
 			}
-			
 			// 7b: Return home if not at war
 		}
 	}
@@ -606,6 +709,8 @@ if turn_stage == "AI" {
 	else if obj_control.date[0] == "October"	{ obj_control.date[0] = "November"	}
 	else if obj_control.date[0] == "November"	{ obj_control.date[0] = "December"	}
 	else if obj_control.date[0] == "December"	{ obj_control.date[0] = "January" 		season = 3			obj_control.date[1] += 1 }
+
+	print("[**Current Date**]: " + string(date))
 	
 	if player_fabricating > 0 && player_fabricating < 3 { player_fabricating += 1 }
 	if player_fabricating >= 3 { tag_add_claim(player_tag, player_fabricate_target) player_fabricate_target = noone player_fabricating = 0 }

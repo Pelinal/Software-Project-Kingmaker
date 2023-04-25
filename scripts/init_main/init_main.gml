@@ -37,6 +37,7 @@ function economy_init() {
 	global.economy[27] = ["FOI", 30, 0, 0, 0, 3, 1, 1, 3]
 	global.economy[28] = ["GAS", 100, 0, 0, 0, 12, 1, 1, 5]
 	global.economy[29] = ["BEA", 40, 0, 0, 0, 3, 1, 1, 6]
+	global.economy[30] = ["PAR", 500, 0, 0, 0, 10, 1, 1, 50]
 	
 	// List of Trade Goods
 	// Index 0: Name, Index 1: Base Value, Index 3: Manufactory Building
@@ -208,6 +209,7 @@ function char_init() {
 	global.chars[27] = ["Jean", "de Foix", "Foix", 5, 8, 10]								// Foix
 	global.chars[28] = ["Anne Marie 'Grande Mademoiselle'", "d'Orléans", "Bourbon", 3, 5, 6]// Gascony - Daughter of Gaston
 	global.chars[29] = ["Antoine", "de Gramont", "Gramont", 0, 3, 8]						// Beárn
+	global.chars[30] = ["Parlement", "de Paris", "Parlement", 0, 5, 10]					// Paris Parlement
 }
 
 function building_check_prov(prov, building) {

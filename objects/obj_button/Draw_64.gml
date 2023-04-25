@@ -133,6 +133,14 @@ if type == "Build Units" {
 	draw_set_color(c_white)
 	//draw_text(x + 128+32, y + 24, get_opinion_name(tag_opinion_of(global.tags[tag_id][0], obj_control.player_tag))) // Opinon of Player
 	 
+} else if type == "Exit Game" {
+	draw_set_colour(c_white)
+	draw_set_font(fnt_header_3)
+	draw_text(x + 6, y + 12, "Exit Game")
+} else if type == "Credits" {
+	draw_set_colour(c_white)
+	draw_set_font(fnt_header_3)
+	draw_text(x + 6, y + 12, "Credits")
 }
 
 
@@ -256,16 +264,15 @@ if position_meeting(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), id) {
 																"raiding their lands. Costs wealth\n" +
 																"and has a variable success chance.")
 	} else if type == "Sabotage Armies" {
-		draw_tooltip(x + sprite_width, y, 256, 96, "Damage Enemy Army",	"Costs 150 wealth to randomly\n" + 
+		draw_tooltip(x + sprite_width, y, 256, 96, "Damage Enemy Army",	"Cooldown of 3 turns. Randomly\n" + 
 																		"damage an enemy army by 25%.\n" +
 																		"Has default success rate of 40%.")
 	} else if type == "Raid Province" {
 		draw_tooltip(x+ sprite_width, y, 256, 96, "Lower Development",	"Lower development in an enemy \n" + 
 																		"province to damage their local\n" +
-																		"economy. Costs 200 wealth with\n" +
-																		"success rate of 30%.")
+																		"economy. Cooldown of 3 turns.")
 	} else if type == "Infiltrate Court" {
-		draw_tooltip(x+ sprite_width, y-64, 256, 96, "Reveal Enemy Armies",	"Costs 300 wealth to expose all\n" + 
+		draw_tooltip(x+ sprite_width, y-64, 256, 96, "Reveal Enemy Armies",	"3 turn cooldown. Expose all\n" + 
 																			"enemy army positions. Base\n" +
 																			"success rate of 60%.")
 	} else if type == "EVT_Option" {

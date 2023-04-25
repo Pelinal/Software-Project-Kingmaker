@@ -6,20 +6,21 @@ global.pause = false
 show_event("The Fronde", "The upcoming years are forecast to be turmultous for France. Grumblings among the Paris parelment and like-minded individuals seem poised to enter revolt against the King. Such an event may inspire amibitious nobles such as the Grande Condé, Duke of Burgundy, and cause them to set their sights upon the Kingship itself! Perhaps it is out of this chaos we'll make a name for ourselves... and to entertain our own ambitions for the throne?", 0, ["To Glory!", "Summon the Advisors (Tutorial)"])
 
 // Intrigue
-player_sees = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+player_sees = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
 
 // Army Quality
-army_quality = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+army_quality = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
 // Budget
-mil_budget = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+mil_budget = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 //adm_budget = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
 province_overview_id = -1
 province_popup_id = -1
 zoom = 0
-player_tag = "ORL"
+player_tag = "GUY"
 
+fronde = 0
 date = ["January", 1648]
 season = 3
 turn_no = 1
@@ -48,6 +49,7 @@ intrigue_open = false
 // for moving armies
 selected_army = noone
 
+min_threat = 10 // Used for ai escalation of hostility
 threat_level = 0 // 10 - Trivial, 25 - Low, 35 - Medium, 50 - High, 70+ Severe, 100 - Paranoid
 threat_level_name = "None"
 
@@ -72,6 +74,8 @@ pre_profit  = 0
 diplo_scroll = 0
 diplo_count = 0
 
+music_list = [ms_track_1, ms_track_2, ms_track_3, ms_track_4, ms_track_5]
+
 depth = -100
 
 tag_init()
@@ -80,3 +84,5 @@ map_init()
 char_init()
 military_init()
 economy_update(player_tag)
+
+
